@@ -1,0 +1,90 @@
+.bg-regent-opacity-15 {
+  background-color: rgb(175 175 175 / 15%);
+  padding: 4px 8px;
+}
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+.font-size-6 {
+  font-size: 1.3125rem;
+  line-height: 1.62;
+  letter-spacing: -0.21px;
+  color: var(--h3);
+  font-family: "Gordita";
+}
+.rounded2 {
+  border-radius: 30px;
+  border: 1px solid rgba(155, 154, 150, 0.5);
+  padding: 20px;
+}
+.text-black-2 {
+  color: var(--toast);
+  font-size: 18px;
+  font-weight: 400;
+}
+.featured__card{
+  display: flex;
+  flex-direction: column;
+  border-radius: 30px;
+  border: 1px solid rgba(155, 154, 150, 0.5);
+  padding: 40px 30px !important;
+  gap: 20px;
+}
+.featured_tags{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.featuredCard__logo{
+  width: 120px;
+  height: 30px;
+}
+.featuredCard__header{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.featuredCard__content{
+  display: flex;
+  align-items: center;
+}
+.featuredCard__tag{
+  width: 65%;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background-color: rgb(175 175 175 / 20%);
+  font: 14px 'Gordita', sans-serif;
+  font-weight: 400;
+}
+.featureCard__details{
+  font: 13px 'Gordita', sans-serif;
+  font-weight: 400;
+  color: #2b3940;
+  width: 65%;
+  padding: 5px 10px;
+}
+.featureCard__detailIcon{
+  width: 16px;
+  height: 16px;
+  margin-top: -5px;
+  margin-right: 5px;
+}
+.featureCard__detailIcons{
+  width: 20px;
+  height: 20px;
+  margin-top: -2px;
+  margin-right: 2px;
+}
+.companyLogo__featuredCards{
+  max-width: 130px;
+  max-height: 80px;
+}
+.featuredCards__stipend{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

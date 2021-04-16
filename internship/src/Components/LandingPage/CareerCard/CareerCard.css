@@ -1,0 +1,35 @@
+.card-img-top {
+  border-top-left-radius: 34px;
+  border-top-right-radius: 34px;
+}
+.circle-54 {
+  max-width: 54px;
+  min-width: 54px;
+  max-height: 54px;
+  min-height: 54px;
+  border-radius: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-text-landing {
+  font-size: 16px;
+  color: var(--h3);
+}
+.card-title-landing {
+  font-size: 16px;
+}
+.careerCard {
+  display: flex;
+}
+@media (max-width: 768px) {
+  .card-title-landing {
+    font-size: 14px;
+  }
+  .card-text-landing {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 540px) {
+}

@@ -1,0 +1,36 @@
+:root {
+  --needhelp: #2f80ed;
+  --success2: #27ae60;
+  --error2: #eb5757;
+  --warning2: #f2c94c;
+}
+
+.toastbox {
+  display: flex;
+  align-items: center;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+}
+
+/* "toasts-needhelp",
+    "toasts-success",
+    "toasts-error",
+    "toasts-warning", */
+.toasts-needhelp {
+  border: 2px solid var(--needhelp);
+}
+
+.toasts-success {
+  border: 2px solid var(--success2);
+}
+
+.toasts-error {
+  border: 2px solid var(--error2);
+}
+
+.toasts-warning {
+  border: 2px solid var(--warning2);
+}

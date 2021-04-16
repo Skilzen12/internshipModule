@@ -1,0 +1,15 @@
+.company__title {
+  font-size: 18px;
+  color: var(--toast);
+  font-family: "Gordita";
+}
+.gr-opacity-5 {
+  opacity: 0.5;
+  display: flex;
+  justify-content: center;
+  column-gap: 16px;
+  row-gap: 16px;
+}
+.single-brand-logo{
+  margin: 0 10px
+}

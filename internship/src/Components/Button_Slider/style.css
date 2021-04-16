@@ -1,0 +1,120 @@
+.slide-container {
+  display: flex;
+  align-items: center;
+  /* max-width: 57rem; */
+  overflow-y: auto;
+  margin: auto;
+}
+
+.single-item-container {
+  padding: 10px 4px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* min-width: 10rem; */
+  justify-content: center;
+}
+
+/* <<<<<<< HEAD */
+@media (min-width: 500px) and (max-width: 900px) {
+  .single-item-container {
+    padding: 0 4px;
+    min-width: initial;
+    font-size: 15px;
+  }
+}
+@media (min-width: 900px) and (max-width: 1024px) {
+  .single-item-container {
+    padding: 0 4px;
+    min-width: initial;
+    font-size: 15px;
+  }
+}
+@media (min-width: 1024px) {
+  .single-item-container {
+    padding: 0 4px;
+    min-width: initial;
+    font-size: 15px;
+  }
+}
+@media (min-width: 370px) and (max-width: 500px) {
+  .single-item-container {
+    padding: 0 1px;
+    font-size: 14px;
+    min-width: initial;
+  }
+}
+@media (max-width: 370px) {
+  .single-item-container {
+    padding: 0 5px;
+    font-size: 12px;
+    min-width: initial;
+  }
+}
+.card__contactus .slide-container {
+  max-width: 67rem;
+}
+/* ======= */
+.items-container {
+  display: flex;
+  overflow-y: hidden;
+  justify-content: left;
+  /* margin: 0px 4px 15px; */
+}
+
+.items-container::-webkit-scrollbar {
+  display: none;
+}
+.global-class-name {
+  font-size: 30px;
+  cursor: pointer;
+}
+.global-class-name path {
+  stroke: red;
+}
+.left-icon {
+  margin-right: 20px;
+}
+.right-icon {
+  margin-left: 20px;
+}
+
+@media (min-width: 500px) and (max-width: 900px) {
+  .single-item-container {
+    padding: 0 10px;
+    min-width: initial;
+    font-size: 15px;
+  }
+}
+@media (min-width: 370px) and (max-width: 500px) {
+  .single-item-container {
+    padding: 0 5px;
+    font-size: 14px;
+    min-width: initial;
+  }
+  .left-icon {
+    font-size: 25px;
+    margin-right: 10px;
+  }
+  .right-icon {
+    font-size: 25px;
+    margin-left: 10px;
+  }
+}
+@media (max-width: 370px) {
+  .single-item-container {
+    padding: 0 5px;
+    font-size: 12px;
+    min-width: initial;
+  }
+  .left-icon {
+    font-size: 20px;
+    margin-right: 10px;
+  }
+  .right-icon {
+    font-size: 20px;
+    margin-left: 10px;
+  }
+}
+/* >>>>>>> 1d7af9a3de7031f57e9100eb57700f8f1716abe4 */

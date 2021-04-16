@@ -1,0 +1,384 @@
+
+.logo_div_card{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+    
+}
+.list__article__container {
+    width: 90%;
+    margin: 0 auto;
+}
+.logo_on_card{
+    width:25px;
+
+}
+.for_section_post{
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+.post_parts{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.profile_heading{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+.profile_head1{
+    font-family: "Gordita";
+    font-style: normal;
+    font-weight:700;
+    font-size: 19px;
+    line-height: 34px;
+    /* or 179% */
+    letter-spacing: 0.21px;    
+    color: #2B3940; 
+}
+.profile_sub{
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight:400;
+    font-size: 14px;
+    line-height: 34px;
+    /* or 179% */
+    letter-spacing: 0.21px;    
+    color: #2B3940; 
+    
+}
+.sub_text_flex{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}
+.help_link{
+    color: rgb(69, 69, 252) !important;
+    font-family: 'Gordita';
+    padding: 5px;
+    text-decoration: underline !important;
+}
+.for_card_heading_post{
+    margin-bottom:10px;
+    margin-top:5px;
+    margin-left:5px;
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight:600;
+    font-size: 19px;
+    line-height: 34px;
+    /* or 179% */
+    letter-spacing: 0.21px;    
+    color: #2B3940;
+    text-align: left;
+}
+.for_heading_name{
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight:500;
+    font-size: 18px;
+    line-height: 34px;
+    margin-bottom: 10px;
+    /* or 179% */
+    letter-spacing: 0.21px;    
+    color: #2B3940;
+}
+.for_margin_in_card{
+    margin-top: 20px;
+    margin-bottom: 35px;
+
+}
+.for_next_in_p1{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.for_next_in_p2{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.for_next_in_p3{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.card_for_students_details{
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    width: 100%;
+    text-align: left;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 10px;
+    box-shadow: 0 0 15px -4px rgb(0 0 0 / 30%);
+}
+.profile_outter{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+.profile_part1{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.profile_part2{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-left: 50px;
+}
+.city.MuiFormControl-root{
+    width:100% !important;
+}
+
+.city.MuiTextField-root
+{
+    width:100% !important;
+}
+
+.course_duration{
+    
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+    margin-left: 0px;
+  }
+  .course_duration_num {
+    margin-top: 14px;
+    margin-right: 10px;
+    width: 30%;
+}
+  .course_duration_num .dropDown-container {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    width: 100%;
+    height: 2.2em;
+    cursor: pointer;
+}
+  .course_duration_period {
+    margin-top: 14px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 30%;
+}
+  .course_duration_period .dropDown-container{
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    width: 100%;
+    height: 2.2em;
+    cursor: pointer;
+}
+.textarea_response{
+    margin-top: 15px;
+    width: 100%;
+    resize: none;
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight:400;
+    font-size: 14px;
+    line-height: 34px;
+    /* or 179% */
+    letter-spacing: 0.21px; 
+    border-radius: 10px;   
+    color: #2B3940; 
+    
+}
+
+
+.stipendOptions{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.perks{
+    display: flex;
+    flex-direction: row;
+}
+/* .for_next_in_p1 .card_btn{
+    width:15%;
+} */
+.for_next_in_p1 .card_btn,.for_next_in_p2 .card_btn,.for_next_in_p3 .card_btn{
+    min-width: 15%;
+}
+.for_date{
+    margin:20px;
+}
+@media only screen and (min-width:0px) and (max-width:429px)
+{
+    .profile_part2 {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        margin-left: 0px;
+    }
+    .for_next_in_p1 .card_btn,.for_next_in_p2 .card_btn,.for_next_in_p3 .card_btn{
+        min-width: 30%;
+    }   
+    .course_duration_num {
+        margin-top: 14px;
+        margin-right: 10px;
+        width: 100%;
+    }
+    .course_duration_num .dropDown-container {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+        width: 100%;
+        height: 2.2em;
+        cursor: pointer;
+    }
+    .course_duration_period {
+        margin-top: 14px;
+        margin-left: 0px;
+        margin-right: 10px;
+        width: 100%;
+    }
+    .course_duration_period .dropDown-container {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+        width: 100%;
+        height: 2.2em;
+        cursor: pointer;
+    }
+}
+@media only screen and (min-width:429px) and (max-width:768px)
+{
+    .course_duration_num .dropDown-container {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+        width: 350px;
+        height: 2.2em;
+        cursor: pointer;
+    }
+    .course_duration_period .dropDown-container {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+        width: 200px;
+        height: 2.2em;
+        cursor: pointer;
+    }
+}
+/* @media(max-width:428px)
+{
+    .course_duration_num .dropDown-container {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+        width: 165px;
+        height: 2.2em;
+        cursor: pointer;
+    }
+    .course_duration_period .dropDown-container {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+        width: 135px;
+        height: 2.2em;
+        cursor: pointer;
+    }
+    .profile_part2 {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        margin-left: 0px;
+    }
+} */
+@media only screen and (min-width:1025px) 
+{
+    .profile_heading {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .card_for_students_details {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        justify-content: center;
+        text-align: left;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: 10px;
+        box-shadow: 0 0 15px -4px rgb(0 0 0 / 30%);
+    }
+    .for_next_in_p1 {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        text-align: center;
+        width: 80%;
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .for_next_in_p2 {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: center;
+        width: 80%;
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .for_next_in_p3 {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        text-align: center;
+        width: 80%;
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

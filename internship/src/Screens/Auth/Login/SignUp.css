@@ -1,0 +1,27 @@
+.signup__container{
+    width:30%;
+}
+.card_btn {
+    min-width: 30%;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    padding: 5px ;
+    transition: all .2s;
+    margin-top: 20px;
+    border-radius: 20px;
+}
+#signup__credentials .card_btn{
+    margin-left: 35%;
+}
+.apply_btn{
+    border: 1px solid var(--cherry);
+    background-color: var(--cherry);
+    color: white;
+}
+
+.apply_btn:hover{
+    border: 1px solid var(--cherry);
+    background-color: white;
+    color: var(--cherry);
+}

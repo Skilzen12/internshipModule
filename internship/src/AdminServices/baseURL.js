@@ -1,0 +1,1 @@
+export const API_ENDPOINT = 'https://skilzen-app.herokuapp.com/api';

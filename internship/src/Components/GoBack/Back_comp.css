@@ -1,0 +1,34 @@
+.for_circle{
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow:2px 2px 6px 0px rgb(0 0 0 / 25%);
+
+}
+.for_circle:hover{
+    box-shadow:4px 4px 8px 0px rgb(0 0 0 / 28%);
+}
+.for_back_icon {
+    border: none;
+    background: transparent;
+    /* padding-top: 0px; */
+    margin-bottom: 6px;
+}
+.for_back_text{
+    padding-top: 0.5rem!important;
+    margin-left: 10px;
+}
+
+.backIcon_name {
+    display: flex;
+    justify-content: left;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    width: 93%;
+}

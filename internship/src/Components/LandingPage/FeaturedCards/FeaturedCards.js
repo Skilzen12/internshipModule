@@ -62,7 +62,7 @@ function FeaturedCards({data}) {
                   className="text-black-2"
                   style={{ fontFamily: "Gordita" }}
                 >
-                  {featured.min_stipend}-{featured.max_stipend}
+                  {featured.min_stipend}-{featured.max_stipend} INR
                 </span>
               </p>
             </div>

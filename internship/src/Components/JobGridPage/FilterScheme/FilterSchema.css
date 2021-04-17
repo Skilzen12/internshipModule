@@ -1,0 +1,25 @@
+/* editing the show more items link */
+.read-more-link{
+  cursor: pointer;
+  color:black;
+  font-size: 14px;
+  font-family: 'Inter';
+  margin-bottom: 10px;
+}
+.underline{
+  cursor: pointer;
+  text-decoration: underline;
+}
+.filterScheme.act{
+  background:white;
+}
+/* animating the #########show more items###########  */
+.animate{
+  animation: bounce;
+  animation-duration: 1s;
+}
+@keyframes bounce{
+  0% {opacity: 0%;}
+  50%{opacity:50%}
+  100%{opacity: 100%;}
+}

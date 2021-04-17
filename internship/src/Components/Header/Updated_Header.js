@@ -19,9 +19,9 @@ function Updated_Header() {
                     <a href="#" className="nav-item nav-link active">Internships</a>
                 </div>
                 <div className="navbar-nav ml-auto">
-                    <a href="" className="nav-item nav-link signIn">Sign In</a>
+                    <a href="/login" className="nav-item nav-link signIn">Sign In</a>
                     <div className="form-inline" style={{marginRight:'14px'}} >
-                        <button className="btn btn-sm btn-dark header__signup">Sign Up</button>
+                        <a href="/signUp" className="btn btn-sm btn-dark header__signup">Sign Up</a>
                     </div>
                     <div classname="icons_header">
                         <IconButton  aria-label="Show cart items">

@@ -1,0 +1,1029 @@
+
+.for_margin_top_bottom{
+    /* margin: 0px 0px; */
+    margin-bottom: 100px;
+}
+.backIcon{
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: left;
+    /* background: white; */
+}
+.adj_icon{
+    padding-top: 8px;
+}
+.box1{
+    /* border: red 1px solid; */
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    width: 100%;
+}
+.box2{
+    /* border: blue 1px solid; */
+    width: 100%;
+}
+.box3{
+    /* border: green 1px solid; */
+    width: 30%;
+
+}
+.for_margin_inside{
+    margin:5%; 
+}
+.company_card{
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    width: 100%;
+    text-align: left;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 10px;
+    box-shadow: 0 0 15px -4px rgb(0 0 0 / 30%);
+}
+/* .company_card:hover{
+    box-shadow: 0px 1px 43px -8px rgba(0, 0, 0, 0.25);
+} */
+.cmp_main_img{
+    height: 72px;
+    left: 5.45%;
+    right: 85.82%;
+    top: 0px;
+    border-radius: 6px;
+}
+.img_n_name{
+    display: flex;
+    flex-direction: row;
+}
+.company_main_name{
+
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 19px;
+    line-height: 34px;
+    /* or 179% */
+    
+    letter-spacing: 0.21px;
+    
+    color: #2B3940; 
+}
+.company_cat_type{
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 35px;
+    /* identical to box height, or 173% */
+
+    letter-spacing: 0.08px;
+
+    color: #6B6E6F;
+}
+.short_details{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+.each_short_detail{
+    width: 30%;
+    height:100px
+}
+.specification{
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 26px;
+    letter-spacing: 0.08px;
+    color: #6B6E6F;
+}
+.specification_ans{
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: 0.08px;
+    color: #2B3940;
+    margin-top: 20px;
+}
+.for_media_icons{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin-top: 15px;
+}
+.mediaIcons{
+    margin-left: 6px;
+    margin-right: 6px;
+    background-color: rgb(242,242,242,1);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 10px 5px 0;
+    text-align: center;
+}
+.mediaIcons:hover
+{background-color: var(--cherry);
+color: white;}
+.company_heading{
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 21px;
+    line-height: 34px;
+    letter-spacing: 0.21px;
+    color: #2B3940;
+    margin-top: 40px;
+
+}
+.content_area
+{
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: 0.08px;
+    color: #6B6E6F;
+    margin-top: 45px;
+}
+
+.for_similar{
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 34px;
+    letter-spacing: 0.21px;
+    color: #2B3940;
+    text-align: center;
+}
+.sim_cards{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: flex-end;
+}
+
+.sim_img_n_name{
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+    padding-bottom: 40px;
+    width: 77%;
+    border-bottom: 1px black solid;
+}
+.sim_img_n_name:hover{
+    cursor: pointer;
+}
+.sim_img_n_name:first-child{
+    display: flex;
+    flex-direction: row;
+    margin-top: 0px;
+    padding-bottom: 40px;
+    width: 77%;
+    border-bottom: 1px black solid;
+}
+.sim_img_n_name:last-child{
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+    padding-bottom: 40px;
+    width: 77%;
+    border-bottom: none;
+}
+.sim_cmp_main_img{
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 19px;
+    line-height: 34px;
+    letter-spacing: 0.21px;
+    color: #2B3940; 
+}
+.sim_company_main_name
+{
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 34px;
+    /* or 179% */
+    
+    letter-spacing: 0.21px;
+    
+    color: #2B3940; 
+}
+.sim_company_cat_type{
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 20px;
+    /* identical to box height, or 173% */
+
+    letter-spacing: 0.08px;
+
+    color: #6B6E6F;
+}
+.for_sim_line{
+    height: 1px;
+
+
+
+background: #E5E5E5;
+}
+.for_profile{
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+}
+.hr_for_TM{
+    margin-top: 35px;
+}
+.team_members_heading{
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 34px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+        margin-top: 10px;
+}
+
+@media only screen and (min-width:769px) and (max-width:1050px)
+{
+    .box1 {
+        /* border: red 1px solid; */
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px;
+        width: 100%;
+    }
+    .box2 {
+        /* border: blue 1px solid; */
+        width: 100%;
+    }
+    .box3 {
+        /* border: green 1px solid; */
+        width: 40%;
+    }
+    .sim_cards {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        /* justify-content: center; */
+        align-items: center;
+    }
+    .mediaIcons {
+        margin-left: 6px;
+        margin-right: 6px;
+        background-color: rgb(242,242,242,1);
+        width: 30px;
+        height: 29px;
+        border-radius: 50%;
+        margin: 10px 3px 0;
+        text-align: center;
+    }
+}
+@media only screen and (min-width:542px) and (max-width:768px)
+{
+    .box1 {
+        /* border: red 1px solid; */
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px;
+        width: 100%;
+    }
+    .box2 {
+        /* border: blue 1px solid; */
+        width: 70%;
+    }
+    .box3 {
+        /* border: green 1px solid; */
+        width: 30%;
+    }
+    .sim_cards {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        /* justify-content: center; */
+        align-items: center;
+    }
+    .for_similar {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 34px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+        text-align: center;
+    }
+    .sim_company_cat_type {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 9px;
+        width: 100%;
+        line-height: 20px;
+        letter-spacing: 0.08px;
+        color: #6B6E6F;
+    }
+    
+    .image_size {
+        width: 50px;
+        height: 50px;
+    }
+
+    .sim_company_main_name {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 13px;
+        line-height: 34px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+    }
+    .sim_img_n_name {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 30px;
+        margin-left: 0px;
+        padding-bottom: 30px;
+        width: 83%;
+        border-bottom: 1px black solid;
+    }
+    .sim_img_n_name:first-child{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 0px;
+        margin-left: 0px;
+        padding-bottom: 30px;
+        width: 83%;
+        border-bottom: 1px black solid;
+    }
+    .sim_img_n_name:last-child{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 30px;
+        margin-left: 0px;
+        padding-bottom: 30px;
+        width: 83%;
+        border-bottom: none;
+    }
+    
+    .content_area {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 26px;
+        letter-spacing: 0.08px;
+        color: #6B6E6F;
+        margin-top: 45px;
+    }
+    
+    .sim_cmp_main_img {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 19px;
+        line-height: 34px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+    }
+    .company_main_name {
+        
+        font-size: 16px;
+        
+    }
+    .company_cat_type {
+        
+        font-size: 14px;
+        
+    }
+    .specification {
+        
+        font-size: 15px;
+        
+    }
+    
+    .mediaIcons {
+        /* margin-left: 0px; */
+        /* margin-right: 6px; */
+        background-color: rgb(242,242,242,1);
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        margin: 0px 5px 0;
+        text-align: center;
+    }
+    .adj_icon {
+        padding-top: 0px;
+        font-size: 12px !important;
+    }
+    .specification_ans {
+        
+        font-size: 15px;
+        margin-top: 12px;
+    }
+    .for_media_icons {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        margin-top: 10px;
+    }
+    .each_short_detail {
+        width: 48%;
+        height: 90px;
+        margin: 3px;
+    }
+    .company_heading {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 34px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+        margin-top: 20px;
+    }
+    .content_area {
+        font-size: 14px;
+        margin-top: 30px;
+    }
+    .for_margin_top_bottom {
+        /* margin: 0px 0px; */
+        margin-bottom: 80px;
+    }
+}
+@media only screen and (min-width: 376px) and (max-width: 542px)
+{
+    .box1 {
+        /* border: red 1px solid; */
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    .box3 {
+        /* border: green 1px solid; */
+        width: 100%;
+    }
+    .company_main_name {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 34px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+    }
+    .company_cat_type {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 25px;
+        letter-spacing: 0.08px;
+        color: #6B6E6F;
+    }
+    .each_short_detail {
+        width: 49%;
+        height: 100px;
+    }
+    .specification {
+        
+        font-size: 15px;
+        
+    }
+    .specification_ans {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 13px;
+        line-height: 10px;
+        letter-spacing: 0.08px;
+        color: #2B3940;
+        margin-top: 20px;
+    }
+    .mediaIcons {
+        margin-left: 3px;
+        margin-right: 3px;
+        width: 30px;
+        height: 30px;
+    }
+    .for_media_icons {
+        
+        margin-top: 11px;
+    }
+    .company_heading {
+        
+        font-size: 18px;
+        line-height: 34px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+        margin-top: 15px;
+    }
+    .content_area {
+       
+        font-size: 14px;
+        
+        margin-top: 25px;
+    }
+    .for_similar {
+        
+        font-size: 20px;
+        text-align: center;
+        margin-top: 40px;
+    }
+    .sim_cards {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        /* justify-content: center; */
+        align-items: center;
+    }
+    .sim_img_n_name {
+        display: flex;
+        flex-direction: row;
+        margin-top: 30px;
+        padding-bottom: 40px;
+        width: 70%;
+        border-bottom: 1px black solid;
+    }
+    .sim_img_n_name:first-child{
+        display: flex;
+        flex-direction: row;
+        margin-top: 0px;
+        padding-bottom: 40px;
+        width: 70%;
+        border-bottom: 1px black solid;
+    }
+    .sim_img_n_name:last-child {
+        display: flex;
+        flex-direction: row;
+        margin-top: 30px;
+        padding-bottom: 40px;
+        width: 70%;
+        border-bottom: none;
+    }
+
+    .sim_company_main_name {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 34px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+    }
+    .image_size {
+        width: 65px;
+        height: 65px;
+    }
+    .for_margin_top_bottom {
+        /* margin: 0px 0px; */
+        margin-bottom: 5px;
+    }
+
+}
+
+@media only screen and (min-width:322px) and (max-width:378px)
+{
+    .box1 {
+        /* border: red 1px solid; */
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    .box3 {
+        /* border: green 1px solid; */
+        width: 100%;
+    }
+    .company_main_name {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 34px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+    }
+    .company_cat_type {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 25px;
+        letter-spacing: 0.08px;
+        color: #6B6E6F;
+    }
+    .each_short_detail {
+        width: 49%;
+        height: 100px;
+    }
+    .specification {
+        
+        font-size: 13px;
+        
+    }
+    .specification_ans {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 10px;
+        letter-spacing: 0.08px;
+        color: #2B3940;
+        margin-top: 20px;
+    }
+    .for_margin_top_bottom {
+        /* margin: 0px 0px; */
+        margin-bottom: 5px;
+    }
+    .mediaIcons {
+        margin-left: 3px;
+        margin-right: 3px;
+        width: 25px;
+        height: 25px;
+    }
+    .adj_icon {
+        padding-top: 6px;
+    }
+    .for_media_icons {
+        
+        margin-top: 11px;
+    }
+    .company_heading {
+        
+        font-size: 18px;
+        line-height: 34px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+        margin-top: 15px;
+    }
+    .content_area {
+       
+        font-size: 14px;
+        
+        margin-top: 25px;
+    }
+    .for_similar {
+        
+        font-size: 20px;
+        text-align: center;
+        margin-top: 40px;
+    }
+    .sim_cards {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        /* justify-content: center; */
+        align-items: center;
+    }
+    .sim_img_n_name {
+        display: flex;
+        flex-direction: row;
+        margin-top: 30px;
+        padding-bottom: 40px;
+        width: 50%;
+        border-bottom: 1px black solid;
+    }
+    .sim_img_n_name:first-child {
+        display: flex;
+        flex-direction: row;
+        margin-top: 0px;
+        padding-bottom: 40px;
+        width: 50%;
+        border-bottom: 1px black solid;
+    }
+    .sim_img_n_name:last-child {
+        display: flex;
+        flex-direction: row;
+        margin-top: 30px;
+        padding-bottom: 40px;
+        width: 50%;
+        border-bottom: none;
+    }
+
+    .sim_company_main_name {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 25px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+    }
+    .sim_company_cat_type {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 10px;
+        line-height: 20px;
+        letter-spacing: 0.08px;
+        color: #6B6E6F;
+    }
+    .image_size {
+        width: 50px;
+        height: 50px;
+    }
+    .sim_img_n_name {
+        display: flex;
+        flex-direction: row;
+        margin-top: 30px;
+        padding-bottom: 25px;
+        width: 50%;
+        border-bottom: 1px black solid;
+    }
+    .sim_img_n_name:first-child {
+        display: flex;
+        flex-direction: row;
+        margin-top: 0px;
+        padding-bottom: 25px;
+        width: 50%;
+        border-bottom: 1px black solid;
+    }
+    .sim_img_n_name:last-child {
+        display: flex;
+        flex-direction: row;
+        margin-top: 30px;
+        padding-bottom: 25px;
+        width: 50%;
+        border-bottom: none;
+    }
+
+
+}
+
+@media  only screen and (min-width:0px) and (max-width:321px)
+{
+    .box1 {
+        /* border: red 1px solid; */
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    .box3 {
+        /* border: green 1px solid; */
+        width: 100%;
+    }
+    /* .main_img{
+        width:50px;
+        height: 50px;
+    } */
+    .company_main_name {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 34px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+    }
+    .company_cat_type {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 25px;
+        letter-spacing: 0.08px;
+        color: #6B6E6F;
+    }
+    .each_short_detail {
+        width: 100%;
+        height: 100px;
+    }
+    .specification {
+        
+        font-size: 12px;
+        
+    }
+    .specification_ans {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 10px;
+        letter-spacing: 0.08px;
+        color: #2B3940;
+        margin-top: 20px;
+    }
+    .mediaIcons {
+        margin-left: 3px;
+        margin-right: 3px;
+        width: 29px;
+        height: 29px;
+    }
+    .for_media_icons {
+        
+        margin-top: 5px;
+    }
+    .company_heading {
+        
+        font-size: 18px;
+        line-height: 34px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+        margin-top: 10px;
+    }
+    .content_area {
+       
+        font-size: 14px;
+        
+        margin-top: 25px;
+    }
+    .for_similar {
+        
+        font-size: 18px;
+        text-align: center;
+        margin-top: 30px;
+    }
+    .sim_cards {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        /* justify-content: center; */
+        align-items: center;
+    }
+    .sim_img_n_name {
+        display: flex;
+        flex-direction: row;
+        margin-top: 30px;
+        padding-bottom: 40px;
+        width: 50%;
+        border-bottom: 1px black solid;
+    }
+    .sim_img_n_name:first-child {
+        display: flex;
+        flex-direction: row;
+        margin-top: 0px;
+        padding-bottom: 40px;
+        width: 50%;
+        border-bottom: 1px black solid;
+    }
+    .sim_img_n_name:last-child {
+        display: flex;
+        flex-direction: row;
+        margin-top: 30px;
+        padding-bottom: 40px;
+        width: 50%;
+        border-bottom: none;
+    }
+    .sim_company_main_name {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 25px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+    }
+    .sim_company_cat_type {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 9px;
+        line-height: 20px;
+        letter-spacing: 0.08px;
+        color: #6B6E6F;
+    }
+    .image_size {
+        width: 50px;
+        height: 50px;
+    }
+    .sim_img_n_name {
+        display: flex;
+        flex-direction: row;
+        margin-top: 30px;
+        padding-bottom: 25px;
+        width: 60%;
+        border-bottom: 1px black solid;
+    }
+    .sim_img_n_name:first-child {
+        display: flex;
+        flex-direction: row;
+        margin-top: 0px;
+        padding-bottom: 25px;
+        width: 60%;
+        border-bottom: 1px black solid;
+    }
+    .sim_img_n_name:last-child {
+        display: flex;
+        flex-direction: row;
+        margin-top: 30px;
+        padding-bottom: 25px;
+        width: 60%;
+        border-bottom: none;
+    }
+    .for_margin_top_bottom {
+        /* margin: 0px 0px; */
+        margin-bottom: 30px;
+    }
+
+}
+/* ------------------------------------------------------------styling for team members ------------------------------------ */
+.team_members{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+    margin-top: 5px;
+
+}
+.for_pr_img_name{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px;
+
+}
+.for_pr_img{
+    width:50px;
+    height: 50px;
+    border-radius: 50px;
+}
+.for_pr_img:hover{
+    box-shadow:4px 4px 5px 0px rgb(0 0 0 / 22%);
+}
+.for_pr_name{
+    font-family: 'Gordita';
+    font-size: 14px;
+    text-align: center;margin-top: 5px;
+
+}
+/* --------------- */
+.for_add_pr{
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow:2px 2px 6px 0px rgb(0 0 0 / 25%);
+
+}
+.for_add_pr:hover{
+    box-shadow:4px 4px 8px 0px rgb(0 0 0 / 28%);
+}
+.for_add_icon {
+    border: none;
+    background: transparent;
+    /* padding-top: 0px; */
+    margin-bottom: 6px;
+}
+@media only screen and (min-width:0px) and (max-width:378px)
+{   .for_pr_img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50px;
+    }
+    .for_pr_name {
+        font-family: 'Gordita';
+        font-size: 12px;
+        text-align: center;
+        margin-top: 5px;
+    }
+    .for_add_icon {
+        border: none;
+        background: transparent;
+        /* padding-top: 0px; */
+        margin-bottom: 6px;
+    }
+    .for_add_pr {
+        width: 40px;
+        height: 40px;
+        border-radius: 50px;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 2px 2px 6px 0px rgb(0 0 0 / 25%);
+    }
+}

@@ -35,6 +35,8 @@ const Landing2 = () => {
     getCategories();
     getFeaturedJobs();
   }
+
+  console.log(internships, internCategories)
   
   return (
     <>

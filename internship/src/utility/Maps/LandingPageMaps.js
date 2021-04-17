@@ -22,3 +22,4 @@ export var LogoMap = new Map();
   LogoMap.set("Google", {url : 'http://expresswriters.com/wp-content/uploads/2015/09/google-new-logo-450x450.jpg'});
   LogoMap.set('Skilzen', {url : 'https://photos.angel.co/startups/i/8180673-d65cb946bc62dc9d37245eb180e15f52-medium_jpg.jpg?buster=1612297857'});
   LogoMap.set('Urban Company', {url : 'https://storage.googleapis.com/incind/logosC2301575977155314png.png0bVowcB'});
+  LogoMap.set('FreeCharge', {url : 'https://venturedreams.in/wp-content/uploads/2016/09/freecharge-logo-1280x720.png'});

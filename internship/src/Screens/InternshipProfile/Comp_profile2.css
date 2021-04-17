@@ -1,0 +1,761 @@
+
+.for_post_title{
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 26px;
+    letter-spacing: 0.08px;
+    color: #2B3940;
+    margin-top: 10px;
+}
+.for_margin_top_bottom2{
+    /* margin: 0px 0px; */
+    margin-bottom: 100px;
+}
+
+.for_header_side{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.adjusting_card{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.adjusting_card_back{
+    width: 97%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.box1{
+    /* border: red 1px solid; */
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    width: 100%;
+}
+.for_hr_2{
+    margin-top: 40px;
+}
+/* ------------------------------------------------------------------------------------------------------------------ */
+.btn_row{
+    display: flex;
+    flex-direction: row;
+    justify-self: start;
+}
+.btn_for_apply:hover{
+    color: #fff;
+    background-color: #ec1f28;
+    border-color: #ec1f28;
+}
+  .btn_for_apply{
+    color: #ec1f28;
+    background-color: #fff;
+   
+    height: 50px;
+    border-radius: 5px;
+    padding: 0px 20px;
+  }
+  .btn_for_card{
+    font-size: 15px;
+    font-weight: 500;
+    border: 1px solid #ec1f28 !important;
+    border-radius: 5px;
+    padding: 10px;
+    transition: all .2s;
+    width: 100%;
+    margin: 0px 17px 0px 0px;
+}
+  .adj_btn_comp{
+    margin: 10px 0;
+    display: flex;
+    justify-content: left;
+    margin-top: 0px;
+    width: 25%;
+}
+/* ------------------------------------------------------------------------------------------------------------------------ */
+
+.for_margin_inside{
+    margin:5%; 
+}
+.company_card{
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    width: 100%;
+    text-align: left;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 10px;
+    box-shadow: 0 0 15px -4px rgb(0 0 0 / 30%);
+}
+/* .company_card:hover{
+    box-shadow: 0px 1px 43px -8px rgba(0, 0, 0, 0.25);
+} */
+.main_img{
+    max-height: 80px;
+    max-width: 140px;
+}
+.cmp_main_img{
+    height: 72px;
+    left: 5.45%;
+    right: 85.82%;
+    top: 0px;
+    border-radius: 6px;
+}
+.img_n_name2{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.company_main_name{
+
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 19px;
+    line-height: 34px;
+    /* or 179% */
+    
+    letter-spacing: 0.21px;
+    
+    color: #2B3940; 
+}
+.company_cat_type2{
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 35px;
+    /* identical to box height, or 173% */
+    letter-spacing: 0.08px;
+    color: #6B6E6F;
+    margin-top: 10px;
+}
+.short_details{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+.each_short_detail2{
+    width: 33%;
+    height: 85px;
+}
+.each_short_detail2:nth-last-child(3){
+    width: 33%;
+    height: 100%;
+}
+.each_short_detail2:nth-last-child(2) {
+        width: 32%;
+        height: 100%;
+    }
+.internshipDetail__shortDetail{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.internshipProfile__icon{
+    font-size: 30px;
+}
+.specification2{
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 26px;
+    letter-spacing: 0.08px;
+    color: #6B6E6F;
+}
+.specification_ans2{
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: 0.08px;
+    color: #2B3940;
+    margin-top: 10px;
+}
+.for_media_icons{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin-top: 15px;
+}
+.mediaIcons{
+    margin-left: 6px;
+    margin-right: 6px;
+    background-color: rgb(242,242,242,1);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 10px 5px 0;
+    text-align: center;
+}
+.mediaIcons:hover
+{
+    background-color: var(--cherry);
+    color: white;
+}
+.content_area2 {
+    font-family: 'Gordita';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: 0.08px;
+    color: #6B6E6F;
+    margin-top: 20px;
+}
+.company_heading2
+{
+    font-family: 'Gordita';
+    font-style: normal;
+    font-size: 20px;
+    line-height: 34px;
+    letter-spacing: 0.21px;
+    color: #2B3940;
+    margin-top: 22px;
+}
+
+.content_area2>h3{
+    font-family: 'Gordita';
+    font-style: normal;
+    font-size: 20px;
+    line-height: 34px;
+    letter-spacing: 0.21px;
+    color: #2B3940;
+    margin-bottom: 10px;
+}
+.para_gap{
+    margin: 15px 0px;
+}
+.list_gap{
+    margin: 10px 2px;
+}
+.list_gap2{
+    font-weight: 500;
+    margin-left: 0px;
+    padding-left:0px ;
+}
+.list_gap3 {
+    font-weight: 500;
+    margin-left: 0px;
+    padding-left: 0px;
+    font-size: 11px;
+    line-height: 21px;
+}
+.list_of_ss{
+    padding-left: 20px;
+}
+.each_short_detail2.mt-3{
+    margin-top: 0px !important;
+}
+.hr_for_TM{
+    margin-top: 35px;
+}
+.team_members_heading{
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 34px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+        margin-top: 10px;
+}
+
+@media only screen and (min-width:769px) and (max-width:1050px)
+{
+    .box1 {
+        /* border: red 1px solid; */
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px;
+        width: 100%;
+    }
+    .adj_btn_comp {
+        margin: 10px 0;
+        display: flex;
+        justify-content: left;
+        margin-top: 0px;
+        width: 35%;
+    }
+   
+    .mediaIcons {
+        margin-left: 6px;
+        margin-right: 6px;
+        background-color: rgb(242,242,242,1);
+        width: 30px;
+        height: 29px;
+        border-radius: 50%;
+        margin: 10px 3px 0;
+        text-align: center;
+    }
+    .each_short_detail2:nth-last-child(3) {
+        width: 33%;
+        height: 100%;
+    }
+}
+@media only screen and (min-width:542px) and (max-width:768px)
+{   
+    .adj_btn_comp {
+        margin: 10px 0;
+        display: flex;
+        justify-content: left;
+        margin-top:0px;
+        width: 35%;
+    }
+    .box1 {
+        /* border: red 1px solid; */
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .content_area2 {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 26px;
+        letter-spacing: 0.08px;
+        color: #6B6E6F;
+        margin-top: 45px;
+    }
+    
+   
+    .company_main_name {
+        
+        font-size: 16px;
+        
+    }
+    .company_cat_type2 {
+        
+        font-size: 14px;
+        
+    }
+    .specification2 {
+        
+        font-size: 15px;
+        
+    }
+    .each_short_detail2:nth-last-child(3){
+        width: 48%;
+        height: 100%;
+    }
+    .each_short_detail2:nth-last-child(2) {
+            width: 48%;
+            height: 100%;
+        }
+    
+    .mediaIcons {
+        /* margin-left: 0px; */
+        /* margin-right: 6px; */
+        background-color: rgb(242,242,242,1);
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        margin: 0px 5px 0;
+        text-align: center;
+    }
+ 
+    .specification_ans2 {
+        
+        font-size: 15px;
+        margin-top: 10px;
+    }
+    .for_media_icons {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        margin-top: 10px;
+    }
+    .each_short_detail2 {
+        width: 48%;
+        height: 90px;
+        margin: 3px;
+    }
+  
+    .for_margin_top_bottom2 {
+        /* margin: 0px 0px; */
+        margin-bottom: 80px;
+    }
+}
+@media only screen and (min-width: 376px) and (max-width: 542px)
+{
+    .box1 {
+        /* border: red 1px solid; */
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    .btn_row {
+        display: flex;
+        flex-direction: row;
+        justify-self: start;
+        margin-top: 15px;
+    }
+    .adj_btn_comp {
+        margin: 10px 0;
+        display: flex;
+        justify-content: left;
+        margin-top: 0px;
+        width: 50%;
+    }
+    .for_hr_2{
+        margin-top: 15px;
+    }
+
+    .company_main_name {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 34px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+    }
+    .for_post_title {
+        
+        font-size: 16px;
+       
+    }
+    .company_cat_type2 {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 25px;
+        letter-spacing: 0.08px;
+        color: #6B6E6F;
+    }
+    .each_short_detail2 {
+        width: 49%;
+        height: 100px;
+    }
+    .each_short_detail2:nth-last-child(3) {
+        width: 100%;
+        height: 100%;
+    }
+    .each_short_detail2:nth-last-child(2) {
+        width: 100%;
+        height: 100%;
+    }
+    .specification2 {
+        
+        font-size: 16px;
+        
+    }
+    .specification_ans2 {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 10px;
+        letter-spacing: 0.08px;
+        color: #2B3940;
+        margin-top: 20px;
+    }
+    .mediaIcons {
+        margin-left: 3px;
+        margin-right: 3px;
+        width: 30px;
+        height: 30px;
+    }
+    .for_media_icons {
+        
+        margin-top: 11px;
+    }
+
+
+    .for_margin_top_bottom2 {
+        /* margin: 0px 0px; */
+        margin-bottom: 40px;
+    }
+
+}
+
+@media only screen and (min-width:322px) and (max-width:378px)
+{
+    .box1 {
+        /* border: red 1px solid; */
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .company_main_name {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 34px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+    }
+    .btn_row {
+        display: flex;
+        flex-direction: row;
+        justify-self: start;
+        flex-wrap: wrap;
+    }
+    .adj_btn_comp {
+        margin: 1px 0;
+        display: flex;
+        justify-content: left;
+        margin-top: 19px;
+        width: 100%;
+    }
+
+    .btn_for_card{
+        margin: 0px;
+    }
+    .for_hr_2{
+        margin-top: 15px;
+    }
+    .company_cat_type2{
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 25px;
+        letter-spacing: 0.08px;
+        color: #6B6E6F;
+    }
+    .each_short_detail2 {
+        width: 49%;
+        height: 100px;
+    }
+    .each_short_detail2:nth-last-child(3) {
+        width: 100%;
+        height: 100%;
+    }
+    .each_short_detail2:nth-last-child(2) {
+        width: 100%;
+        height: 100%;
+    }
+    .specification2 {
+        
+        font-size: 14px;
+        
+    }
+    .specification_ans2 {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 18px;
+        letter-spacing: 0.08px;
+        color: #2B3940;
+        margin-top: 20px;
+    }
+    .for_margin_top_bottom2 {
+        /* margin: 0px 0px; */
+        margin-bottom: 40px;
+    }
+    .mediaIcons {
+        margin-left: 3px;
+        margin-right: 3px;
+        width: 25px;
+        height: 25px;
+    }
+   
+    .for_media_icons {
+        
+        margin-top: 11px;
+    }
+    
+
+}
+
+@media  only screen and (min-width:0px) and (max-width:321px)
+{
+    .box1 {
+        /* border: red 1px solid; */
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    .adj_btn_comp {
+        margin: 1px 0;
+        display: flex;
+        justify-content: left;
+        margin-top: 19px;
+        width: 100%;
+    }
+    .btn_row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-self: start;
+    }
+    .btn_for_card{
+        margin: 0px;
+    }
+    .for_hr_2{
+        margin-top: 15px;
+    }
+
+
+    .company_main_name {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 34px;
+        letter-spacing: 0.21px;
+        color: #2B3940;
+    }
+    .company_cat_type2 {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 25px;
+        letter-spacing: 0.08px;
+        color: #6B6E6F;
+    }
+    .each_short_detail2 {
+        width: 100%;
+        height: 100px;
+    }
+    .each_short_detail2:nth-last-child(3) {
+        width: 100%;
+        height: 100%;
+        margin-top: 20px;
+    }
+    .each_short_detail2:nth-last-child(2) {
+        width: 100%;
+        height: 100%;
+    }
+    .specification2 {
+        
+        font-size: 15px;
+        
+    }
+    .specification_ans2 {
+        font-family: 'Gordita';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 10px;
+        letter-spacing: 0.08px;
+        color: #2B3940;
+        margin-top: 20px;
+    }
+    .mediaIcons {
+        margin-left: 3px;
+        margin-right: 3px;
+        width: 29px;
+        height: 29px;
+    }
+    .for_media_icons {
+        
+        margin-top: 5px;
+    }
+
+    .for_margin_top_bottom2 {
+        /* margin: 0px 0px; */
+        margin-bottom: 30px;
+    }
+
+}
+/* ------------------------------------------------------------styling for team members ------------------------------------ */
+.team_members{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+    margin-top: 5px;
+
+}
+.for_pr_img_name{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px;
+
+}
+.for_pr_img{
+    width:50px;
+    height: 50px;
+    border-radius: 50px;
+}
+.for_pr_img:hover{
+    box-shadow:4px 4px 5px 0px rgb(0 0 0 / 22%);
+}
+.for_pr_name{
+    font-family: 'Gordita';
+    font-size: 14px;
+    text-align: center;margin-top: 5px;
+
+}
+/* --------------- */
+.for_add_pr{
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow:2px 2px 6px 0px rgb(0 0 0 / 25%);
+
+}
+.for_add_pr:hover{
+    box-shadow:4px 4px 8px 0px rgb(0 0 0 / 28%);
+}
+.for_add_icon {
+    border: none;
+    background: transparent;
+    /* padding-top: 0px; */
+    margin-bottom: 6px;
+}
+@media only screen and (min-width:0px) and (max-width:378px)
+{   .for_pr_img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50px;
+    }
+    .for_pr_name {
+        font-family: 'Gordita';
+        font-size: 12px;
+        text-align: center;
+        margin-top: 5px;
+    }
+    .for_add_icon {
+        border: none;
+        background: transparent;
+        /* padding-top: 0px; */
+        margin-bottom: 6px;
+    }
+    .for_add_pr {
+        width: 40px;
+        height: 40px;
+        border-radius: 50px;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 2px 2px 6px 0px rgb(0 0 0 / 25%);
+    }
+}

@@ -1,0 +1,297 @@
+:root{
+  --tag-bg-color:rgb(247,30,63,.2);
+}
+
+.candidate__overview__section {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 2%;
+  margin:20px 0;
+  font-family: "Gordita",sans-serif;
+}
+.candidate__profile {
+  width: 25%;
+  min-width: min-content;
+  padding: 20px 2% !important;
+  text-align: center;
+  height: min-content;
+}
+
+.candidate__photo {
+  width: 100px;
+  height:100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.candidate__name {
+  font-weight: 400;
+  margin: 10px auto;
+}
+.candidate__role {
+  color: var(--h3s);
+}
+.icon-link a{
+  background-color:rgb(242,242,242,1);
+  width:30px;
+  height: 30px;
+  border-radius: 50%;
+  margin:10px 5px 0;
+}
+.icon-link a:first-child{
+  margin-left: 0;
+}
+.icon-link a:hover{
+  background-color: var(--cherry);
+  color:white
+}
+.icon-link a i{
+  vertical-align: sub;
+}
+.candidate__detail__heading {
+  color: var(--h3s);
+}
+.candidate__detail__value {
+  font-size: 1.07em;
+  margin-bottom: 20px;
+}
+.candidate__detail__value.link{
+  color:var(--cherry)
+}
+
+.candidate__content__container {
+  width: 75%;
+}
+.candidate__content{
+  overflow: auto;
+}
+.candidate__content > div {
+  padding-left: 30px;
+  padding-right: 20px;
+  overflow: auto;
+}
+.candidate__content >div:last-child{
+  margin-bottom: 10px;
+}
+.candidate__content> hr{
+  margin:1.5rem 0 0 0;
+}
+.candidate__navBar {
+  display: flex;
+  border-bottom: 1px solid #e5e5e5;
+  align-items:center;
+}
+.candidate__nav {
+  border: 2px solid transparent;
+  padding: 10px 0;
+  margin: 0 15px;
+  cursor:pointer;
+  /* width: fit-content; */
+}
+.candidate__nav:first-child {
+  margin-left: 0;
+}
+.candidate__nav:last-child {
+  margin-right: 0;
+}
+.candidate__nav.active-tab {
+  color: var(--cherry);
+  border-bottom: 2px solid var(--cherry);
+}
+.overview__subsection__heading {
+  font-size: 18px;
+  margin: 20px 0 25px;
+}
+.overview__subsection__subheading {
+  color: var(--content);
+}
+.candidate__skill__btns {
+  display: flex;
+  flex-wrap: wrap;
+}
+.candidate__skill__btn {
+  margin: 0px 10px 10px 0;
+  padding: 10px 15px;
+  background-color: var(--tag-bg-color);
+  border-radius: 3px;
+  border: none;
+  font-size: 13px;
+}
+.candidate__experience__card {
+  display: flex;
+  max-width: 600px;
+  margin: 40px 0;
+}
+.candidate__experience__card:last-child{
+  margin-bottom: 10px;
+}
+.experience__company__photo {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+  align-self: center;
+}
+.experience__details {
+  /* margin-top: 10px; */
+  margin-left: 20px;
+}
+.experience__role {
+}
+.experience__place {
+  align-self: flex-end;
+}
+.experience__duration__container {
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+  column-gap: 10px;
+}
+.experience__company,
+.experience__duration,
+.experience__place {
+  font-size: 13px;
+  color: var(--content);
+}
+.internship__content__card {
+  border-radius: 5px;
+  box-shadow: 0 0 15px -4px rgb(0, 0, 0, 0.3);
+}
+
+.saved__internships__cards{
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 5%;
+  margin-top: 20px;
+}
+.saved__internships__card{
+  width:40%;
+  margin:2%;
+}
+.saved__internships__card .company__img{
+  display: block;
+  width:50px;
+  height: 50px;
+  margin-bottom: 25px;
+}
+.saved__internships__card .company__name{
+  font-size: 13px;
+  color:var(--content);
+  margin:5px 0;
+}
+.saved__internships__card .internship__role{
+  font-size: 24px;
+  font-weight: 600;
+}
+.saved__internships__card .internship__tags{
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+.saved__internships__card .internship__tag{
+  padding: 5px 10px;
+  background-color: var(--tag-bg-color);
+  margin:5px 15px 0 0;
+  font-size: 12px;
+}
+.saved__internships__card .internship__tag:first-child{
+  margin-left:0;
+}
+.saved__internships__card .internship__description{
+  color:var(--content);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 15px 0;
+}
+.saved__internships__card .internship__card__footer{
+  margin:10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+.saved__internships__card .internship__card__footer .card_btn{
+  width:48%;
+  font-size: 12px;
+  font-weight: 500;
+  border:none;
+  padding: 10px;
+  transition: all .2s;
+}
+.saved__internships__card .internship__card__footer .apply_btn{
+  border: 1px solid var(--cherry);
+  background-color: white;
+  color:var(--cherry);
+}
+.saved__internships__card .internship__card__footer .apply_btn:hover{
+  border: 1px solid var(--cherry);
+  background-color:var(--cherry) ;
+  color:white;
+}
+.saved__internships__card .internship__card__footer .apply_btn.disabled{
+  border: 1px solid var(--content);
+  color:var(--content);
+  cursor:default
+}
+.saved__internships__card .internship__card__footer .apply_btn.disabled:hover{
+  border: 1px solid var(--content);
+  color:var(--content);
+  background-color: white;
+  cursor:default
+}
+.saved__internships__card .internship__card__footer .save_btn{
+  border: 1px solid var(--content);
+  background-color: white;
+}
+.saved__internships__card .internship__card__footer .save_btn:hover{
+  color:white;
+  background-color: var(--content);
+}
+
+@media (max-width:770px){
+  .saved__internships__card{
+    width:90%;
+    margin:20px 10px;
+  }
+}
+@media (max-width: 770px) and (min-width: 760px) {
+  .candidate__profile {
+    width: 35%;
+  }
+  .candidate__content__container {
+    width: 64%;
+  }
+  .experience__duration__container {
+    width: 300px;
+  }
+  .candidate__nav{
+    margin:0 10px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 760px) {
+  .candidate__overview__section {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
+  .candidate__profile {
+    width: 100%;
+    padding: 20px 5% !important;
+  }
+  .candidate__content__container {
+    width: 100%;
+  }
+  .experience__duration__container {
+    flex-direction: column;
+    width: auto;
+  }
+  .candidate__nav{
+    /* margin:0 px; */
+    font-size: 15px;
+  }
+}
+

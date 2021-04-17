@@ -9,6 +9,10 @@ import SignUp from './Screens/Auth/SignUp/SignUp';
 import {MultiStepForm} from './Screens/Auth/MultiStepForm';
 import {OrganizationMultiStep} from './Screens/Auth/OrganizationMultiStep';
 import PostInternship from './Screens/PostInternship/Post_intern';
+import CandidateProfile from './Screens/CandidateProfile/Candidate';
+import CompanyProfile from './Screens/CompanyProfile/Company_profile';
+import InternshipProfile from './Screens/InternshipProfile/Comp_profile2'; 
+
 import './index.css';
 
 ReactDOM.render(
@@ -23,6 +27,9 @@ ReactDOM.render(
             <Route exact path='/orgForm' component={OrganizationMultiStep} />
             <Route exact path='/postInternship' component={PostInternship} />
             <Route exact path='/jobGrid' component={JobGrid} />
+            <Route exact path='/candidate' component={CandidateProfile} />
+            <Route exact path='/company' component={CandidateProfile} />
+            <Route exact path='/internship' component={CandidateProfile} />
         </Switch>             
       </Router>
   </>,

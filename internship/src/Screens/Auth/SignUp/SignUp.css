@@ -33,3 +33,30 @@
   background-color: white;
   color: var(--cherry);
 }
+
+.edu__actions{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  padding-right: 20px; 
+}
+.edu__actionCheckIcon{
+  color: green;
+  font-size: 25px;
+  cursor: pointer;
+}
+.edu__actionCheckIcon:hover{
+  transform: scale(1.3);
+  transition: transform 0.3s ease-out;
+}
+.edu__actionDeleteIcon{
+  color: red;
+  font-size: 30px;
+  cursor: pointer;
+}
+.edu__actionDeleteIcon:hover{
+  transform: scale(1.3);
+  transition: transform 0.3s ease-out;
+}

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export const Otp = ({ formData, setForm, navigation }) => {
+export const Otp = ({ formData, setForm, navigation,submitForm }) => {
   const classes=useStyles();
   const [phoneVerificationHelperText,setPhoneHelperText]=useState(false);
   const [emailVerificationHelperText,setEmailHelperText]=useState(false);
@@ -58,7 +58,7 @@ export const Otp = ({ formData, setForm, navigation }) => {
               />{" "}
               Back
             </button>
-            <button className="apply_btn card_btn" onClick={(e) =>{e.preventDefault(); console.log(formData)} }>
+            <button className="apply_btn card_btn" onClick={(e) =>{e.preventDefault();submitForm();console.log(formData)}  }>
               Submit
             </button>
           </div>

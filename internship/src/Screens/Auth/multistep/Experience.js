@@ -66,6 +66,15 @@ const ExperienceFields = ({setForm,expDesignation,expOrganization,expStartDate,e
         onChange={setForm}
         value={expOrganization}
       />
+      <TextField
+        fullWidth
+        size="small"
+        name="expLocation"
+        label="Location"
+        variant="outlined"
+        onChange={setForm}
+        value={expOrganization}
+      />
       <div className={classes.rootDatePicker}>
         <TextField
           label="Start Date"

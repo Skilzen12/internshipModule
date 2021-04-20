@@ -1343,6 +1343,7 @@ const Companies = () => {
 const CompanyTableRow = ({company,action,even}) => {
   // const {status,setStatus}=internship;
   const history = useHistory()
+  const [st,setSt]=useState(false)
   
   return(
       <tr  style={{backgroundColor: even ? '#F4F5F8' : '#FFFFFF', border: '1px solid #E5E5E5'}}>
@@ -1357,7 +1358,7 @@ const CompanyTableRow = ({company,action,even}) => {
           </td>
           <td  className="jobsPosted__row">
               <h3 className="jobsPostedtable_cell m20 mv150">
-                  {company.status}
+                  {st===true?"active":"deactive"}
               </h3>
           </td>
           <td  className="jobsPosted__row">
@@ -1377,17 +1378,17 @@ const CompanyTableRow = ({company,action,even}) => {
           </td>
             {
               <>
-                  <td className="jobsPosted__row" onClick={() =>{} }>
+                  <td className="jobsPosted__row" onClick={() =>{setSt(true)} }>
                       <h3 className="jobsPostedtable_cell shortlist">
                           On Hold
                       </h3>
                   </td>
-                  <td className="jobsPosted__row" onClick={() =>{} }>
+                  <td className="jobsPosted__row" onClick={() =>{setSt(false)} }>
                       <h3 className="jobsPostedtable_cell deactivate">
                           Delete
                       </h3>
                   </td>
-                  <td className="jobsPosted__row" onClick={() =>{} }>
+                  <td className="jobsPosted__row" onClick={() =>{setSt(false)} }>
                       <h3 className="jobsPostedtable_cell spam_black ">
                           Spam
                       </h3>

@@ -5,24 +5,20 @@ import { Organization } from "./stepForm/Organization";
 import { Organization2 } from "./stepForm/Organization2";
 import { Otp } from "./stepForm/Otp";
 
-const defaultData = {
-  organization: "",
-  email: "",
-  mobile: "",
-  type: "",
-  established: "",
-  strength: "",
-  city: "",
-  country: "",
-  description:"",
-};
-
 const steps = [{ id: "organization" }, { id: "organization2" }, { id: "otp" }];
 
-export const OrganizationMultiStep = ({obj}) => {
-  defaultData.email = obj.email;
-  defaultData.mobile = obj.mobile;
-  console.log(obj,"obj");
+export const OrganizationMultiStep = (obj) => {
+  let defaultData = {
+    organization: "",
+    email: obj.user.email,
+    mobile: obj.user.mobile,
+    type: "",
+    established: "",
+    strength: "",
+    city: "",
+    country: "",
+    description:"",
+  };
   const [formData, setForm] = useForm(defaultData);
   const { step, navigation } = useStep({
     steps,

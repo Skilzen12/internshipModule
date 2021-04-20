@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./SignUp.css";
 
-import {Alert} from '@material-ui/lab'
 import validator from 'validator';
 
 import { FcGoogle } from "react-icons/fc";
@@ -9,11 +8,9 @@ import { FaFacebookSquare } from "react-icons/fa";
 import {
   TextField,
   makeStyles,
-  Snackbar,
-  Checkbox,
-  FormControlLabel,
 } from "@material-ui/core";
 
+import Notification from '../Notification.js'
 import logo from "../../../images/logo.png";
 import { OrganizationMultiStep } from "../OrganizationMultiStep";
 import { MultiStepForm } from "../MultiStepForm";
@@ -101,29 +98,10 @@ const useStyles = makeStyles((theme) => ({
 }
 }));
 
-const Notification = ({notify}) => {
-  return (
-    <Snackbar
-      open = {notify.isOpen}
-      autoHideDuration={3000}
-      anchorOrigin = {{vertical:'top',horizontal:'center'}}
-    >
-      <Alert severity={notify.type} >
-        {notify.message}
-      </Alert>
-    </Snackbar>
-    // <Snackbar open={notify.isOpen} autoHideDuration={6000} >
-    //   <Alert severity="success">
-    //     This is a success message!
-    //   </Alert>
-    // </Snackbar>
-  )
-}
-
 const SignUp_and_SetProfile = () => {
   const [section, setSection] = useState("SignUp");
   const classes = useStyles();
-  let userObj={email:"",mobile:"",password:""};
+  const [user,setUser] = useState({email:"",mobile:"",password:""});
 
   // ---------SignUp (asks credentials)
   const SignUp1 = () => {
@@ -221,10 +199,7 @@ const SignUp_and_SetProfile = () => {
                 }
                 else{
                   console.log(email,mobile,password);
-                  userObj.email = email;
-                  userObj.password = password;
-                  userObj.mobile = mobile;
-                  console.log(userObj);
+                  setUser({email:email,mobile:mobile,password:password});
                   setSection("SignUp2");
                 }
               }}
@@ -259,7 +234,7 @@ const SignUp_and_SetProfile = () => {
           {/* <h3 className="text-center mb-4">I am</h3> */}
           <div className='d-flex align-items-center'>
             <button
-              class="select__type_btn apply_btn"
+              className="select__type_btn apply_btn"
               onClick={(e) => {
                 e.preventDefault();
                 setSection("Student");
@@ -270,9 +245,10 @@ const SignUp_and_SetProfile = () => {
             </button>
             <h4 className="w-100 text-center m-0">Or</h4>
             <button
-              class="select__type_btn apply_btn"
+              className="select__type_btn apply_btn"
               onClick={(e) => {
                 e.preventDefault();
+                console.log(user,"in fn");
                 setSection("Org");
               }}
             >
@@ -292,7 +268,7 @@ const SignUp_and_SetProfile = () => {
       {section === "SignUp" && <SignUp1 />}
       {section === "SignUp2" && <SignUp2  />}
       {section === "Student" && <MultiStepForm />}
-      {section === "Org" && <OrganizationMultiStep obj={userObj} />}
+      {section === "Org" && <OrganizationMultiStep user={user} />}
     </div>
   );
 };

@@ -105,7 +105,7 @@ export const Organization = ({ formData, setForm, navigation }) => {
         </FormControl>
 
         <button
-          class="apply_btn card_btn"
+          className="apply_btn card_btn"
           onClick={(e) => {
             e.preventDefault();
             if(formData.strength==="" || formData.type==="" || formData.organization==""){

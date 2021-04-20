@@ -8,9 +8,9 @@ import { Otp } from "./stepForm/Otp";
 const defaultData = {
   organization: "",
   email: "",
-  phone: "",
+  mobile: "",
   type: "",
-  eastablished: "",
+  established: "",
   strength: "",
   city: "",
   country: "",
@@ -19,12 +19,16 @@ const defaultData = {
 
 const steps = [{ id: "organization" }, { id: "organization2" }, { id: "otp" }];
 
-export const OrganizationMultiStep = () => {
+export const OrganizationMultiStep = ({obj}) => {
+  defaultData.email = obj.email;
+  defaultData.mobile = obj.mobile;
+  console.log(obj,"obj");
   const [formData, setForm] = useForm(defaultData);
   const { step, navigation } = useStep({
     steps,
     initialStep: 0,
   });
+  console.log(formData);
 
   const props = { formData, setForm, navigation };
 

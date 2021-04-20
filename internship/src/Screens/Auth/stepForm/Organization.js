@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export const Organization = ({ formData, setForm, navigation }) => {
-  const { organization, email, phone, strength, type } = formData;
+  const { organization, email, mobile, strength, type } = formData;
   const classes = useStyles();
   return (
     <div className="d-flex justify-content-center align-items-center">
@@ -55,8 +55,8 @@ export const Organization = ({ formData, setForm, navigation }) => {
         />
         <TextField
           label="Phone"
-          name="phone"
-          value={phone}
+          name="mobile"
+          value={mobile}
           onChange={setForm}
           margin="normal"
           variant="outlined"
@@ -75,17 +75,6 @@ export const Organization = ({ formData, setForm, navigation }) => {
           fullWidth
           size="small"
         />
-        {/* <TextField
-          label="Type of Organization"
-          name="type"
-          value={type}
-          onChange={setForm}
-          margin="normal"
-          variant="outlined"
-          autoComplete="off"
-          fullWidth
-          size="small"
-        /> */}
         <FormControl
           variant="outlined"
           fullWidth

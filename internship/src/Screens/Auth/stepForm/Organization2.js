@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
@@ -6,6 +6,9 @@ import logo from "../../../images/logo.png";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+
+import Notification from '../Notification.js'
+
 const useStyles = makeStyles((theme) => ({
   formControl: {
     marginTop: theme.spacing(2),
@@ -18,8 +21,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "white",
   },
 }));
+
 export const Organization2 = ({ formData, setForm, navigation }) => {
   const { established, strength, city, country } = formData;
+  const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
   const classes = useStyles();
   return (
     <div className="d-flex justify-content-center align-items-center">
@@ -125,11 +130,24 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
           className="apply_btn card_btn"
           onClick={(e) => {
             e.preventDefault();
-            navigation.next();
+            if(formData.city==="" || formData.country==="" || formData.established===""){
+              setnotify({message:'Fields cannot be empty!',isOpen:true,type:'error'});
+              setTimeout(()=>{
+                setnotify({message:'',isOpen:false,type:''})
+              },3000)
+            }
+            else 
+              navigation.next();
           }}
         >
           Next
         </button>
+        {
+          notify.isOpen && 
+          <Notification
+            notify={notify}
+          />
+        }
       </div>
     </div>
   );

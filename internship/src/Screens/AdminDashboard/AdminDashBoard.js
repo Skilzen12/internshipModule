@@ -11,7 +11,6 @@ import logo from "../../images/logo-main-black.png";
 import {
   AiFillEye,
   AiFillMessage,
-  AiFillProfile,
   AiOutlineFileDone,
   AiOutlineFileText,
 } from "react-icons/ai";
@@ -25,12 +24,13 @@ import { Checkbox } from "@material-ui/core";
 import {IoFingerPrint} from "react-icons/io5";
 import { HiDocumentDownload } from "react-icons/hi";
 import { useHistory } from "react-router";
+import { CgCloseO } from "react-icons/cg";
 
 const navCollection = [
   { name: "Dashboard", icon: RiLayout4Fill },
   { name: "Companies", icon: BiBuildings },
   { name: "Internships", icon: AiOutlineFileText },
-  { name: "Spam", icon: AiFillProfile },
+  { name: "Spam", icon: CgCloseO },
   { name: "KYC", icon: IoFingerPrint}
 ];
 
@@ -153,6 +153,7 @@ const CompaniesData=[
     compName:'Manson Software',
     compImage:'https://images-na.ssl-images-amazon.com/images/I/21wkQvrB5xL.png',
     primaryContact:'Ashish',
+    status:'Active',
     registeredOn:'01/04/2021',
     activeInternshipsCount:'20'
   },
@@ -160,6 +161,7 @@ const CompaniesData=[
     compName:'Big-Basket',
     compImage:'https://www.pinclipart.com/picdir/big/99-991436_prev-big-basket-logo-png-clipart.png',
     primaryContact:'Dexter',
+    status:'Deactive',
     registeredOn:'01/04/2021',
     activeInternshipsCount:'40'
   },
@@ -167,6 +169,7 @@ const CompaniesData=[
     compName:'Urban-Ladder',
     compImage:'https://www.shopickr.com/wp-content/uploads/2018/04/urbanladder.png?v=200',
     primaryContact:'Berlin',
+    status:'Active',
     registeredOn:'21/02/2021',
     activeInternshipsCount:'100'
   },
@@ -174,6 +177,7 @@ const CompaniesData=[
     compName:'BookMyShow',
     compImage:'https://img.favpng.com/14/7/14/bookmyshow-office-android-ticket-png-favpng-Ln9Hiu0AbwHTrfiCgNDa4h6ur_t.jpg',
     primaryContact:'Raghav',
+    status:'Active',
     registeredOn:'10/02/2021',
     activeInternshipsCount:'10'
   },
@@ -181,6 +185,7 @@ const CompaniesData=[
     compName:'Manson Software',
     compImage:'https://images-na.ssl-images-amazon.com/images/I/21wkQvrB5xL.png',
     primaryContact:'Vipin',
+    status:'Deactive',
     registeredOn:'01/04/2021',
     activeInternshipsCount:'20'
   },
@@ -188,6 +193,7 @@ const CompaniesData=[
     compName:'BookMyShow',
     compImage:'https://img.favpng.com/14/7/14/bookmyshow-office-android-ticket-png-favpng-Ln9Hiu0AbwHTrfiCgNDa4h6ur_t.jpg',
     primaryContact:'Srinivas',
+    status:'Active',
     registeredOn:'10/02/2021',
     activeInternshipsCount:'20'
   },
@@ -195,6 +201,7 @@ const CompaniesData=[
     compName:'BookMyShow',
     compImage:'https://img.favpng.com/14/7/14/bookmyshow-office-android-ticket-png-favpng-Ln9Hiu0AbwHTrfiCgNDa4h6ur_t.jpg',
     primaryContact:'Ashish',
+    status:'Deactive',
     registeredOn:'10/02/2021',
     activeInternshipsCount:'20'
   },
@@ -202,6 +209,7 @@ const CompaniesData=[
     compName:'BookMyShow',
     compImage:'https://img.favpng.com/14/7/14/bookmyshow-office-android-ticket-png-favpng-Ln9Hiu0AbwHTrfiCgNDa4h6ur_t.jpg',
     primaryContact:'Michael',
+    status:'Active',
     registeredOn:'10/02/2021',
     activeInternshipsCount:'20'
   }
@@ -512,22 +520,22 @@ const KycRow = ({kyc,action,even}) => {
               </h3>
           </td>
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20">
+              <h3 className="jobsPostedtable_cell ">
                   <b>{kyc.personName}</b>
               </h3>
           </td>
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20 ">
+              <h3 className="jobsPostedtable_cell  ">
                   {kyc.email}
               </h3>
           </td>
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20">
+              <h3 className="jobsPostedtable_cell ">
                   {kyc.phone}
               </h3>
           </td>
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20">
+              <h3 className="jobsPostedtable_cell ">
               <div class="for_media_icons for_margin_icons">
                   <a href={kyc.profilLink.lid} className="mediaIcons"><i className="fab fa-linkedin-in adj_icon" aria-hidden="true"></i></a>
                   <a href={kyc.profilLink.fb} className="mediaIcons"><i className="fab fa-facebook-f adj_icon " aria-hidden="true"></i></a>
@@ -578,22 +586,22 @@ const SpamRow1 = ({spam1,action,even}) => {
           </td>
           <td className="jobsPosted__row applicationsUser p20 mv200 cursor__pointer" onClick={()=>history.push('/companyspam')}>
               <img src={spam1.compImage} className="applicantUser__image" alt="user_image" />
-              <h3 className="jobsPostedtable_cell m20">
+              <h3 className="jobsPostedtable_cell ">
                   {spam1.compName}
               </h3>
           </td>
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20 mv150 for_center_align" >
+              <h3 className="jobsPostedtable_cell  mv150 for_center_align" >
                   {spam1.no_ofActiveInterns}
               </h3>
           </td>
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20 mv150 for_center_align">
+              <h3 className="jobsPostedtable_cell  mv150 for_center_align">
                   {spam1.no_ofSpamReports}
               </h3>
           </td>
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20 for_center_align">
+              <h3 className="jobsPostedtable_cell  for_center_align">
                   {spam1.recentSpamDate}
               </h3>
           </td>
@@ -634,38 +642,38 @@ const SpamRow = ({spam,action,even}) => {
           </td>
           <td className="jobsPosted__row applicationsUser p20 mv200">
               <img src={spam.compImage} className="applicantUser__image" alt="user_image" />
-              <h3 className="jobsPostedtable_cell m20">
+              <h3 className="jobsPostedtable_cell ">
                   {spam.compName}
               </h3>
           </td>
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20 mv150">
+              <h3 className="jobsPostedtable_cell  mv150">
                   <b>{spam.title}</b>
               </h3>
           </td>
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20 mv150">
+              <h3 className="jobsPostedtable_cell  mv150">
                   {spam.category}
               </h3>
           </td>
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20">
+              <h3 className="jobsPostedtable_cell ">
                   {spam.postedBy}
               </h3>
           </td>
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20">
+              <h3 className="jobsPostedtable_cell ">
                   {spam.postedOn}
               </h3>
           </td>
           
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20">
+              <h3 className="jobsPostedtable_cell ">
                   {spam.reportedBy}
               </h3>
           </td>
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20">
+              <h3 className="jobsPostedtable_cell ">
                   {spam.reportedDate}
               </h3>
           </td>
@@ -698,27 +706,27 @@ const InternshipRow = ({internship,action,even}) => {
           </td>
           <td className="jobsPosted__row applicationsUser p20 mv200">
               <img src={internship.compImage} className="applicantUser__image" alt="user_image" />
-              <h3 className="jobsPostedtable_cell m20">
+              <h3 className="jobsPostedtable_cell ">
                   {internship.compName}
               </h3>
           </td>
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20 mv150">
+              <h3 className="jobsPostedtable_cell  mv150">
                   <b>{internship.title}</b>
               </h3>
           </td>
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20">
+              <h3 className="jobsPostedtable_cell ">
                   {internship.postedOn}
               </h3>
           </td>
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20 mv150">
+              <h3 className="jobsPostedtable_cell  mv150">
                   {internship.category}
               </h3>
           </td>
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20">
+              <h3 className="jobsPostedtable_cell ">
                   {internship.applicantsCount}
               </h3>
           </td>
@@ -803,7 +811,7 @@ sortHandler.column='name'
 
 const Internships = () => {
   const [action, setAction] = useState('all');
-  const tags=[{name:"all",color:'black'},{name: "active", color: 'rgba(45,132,90,1)'}, {name: "inactive", color: 'rgba(211,46,46,1)'}, {name: 'expiring soon', color: 'orange'}]
+  const tags=[{name:"all",color:'black'},{name: "active", color: 'rgba(45,132,90,1)'}, {name: "inactive", color: 'rgba(211,46,46,1)'}]
 
   const [search,setSearch]=useState('');
 
@@ -1335,6 +1343,7 @@ const Companies = () => {
 const CompanyTableRow = ({company,action,even}) => {
   // const {status,setStatus}=internship;
   const history = useHistory()
+  const [st,setSt]=useState(false)
   
   return(
       <tr  style={{backgroundColor: even ? '#F4F5F8' : '#FFFFFF', border: '1px solid #E5E5E5'}}>
@@ -1345,6 +1354,11 @@ const CompanyTableRow = ({company,action,even}) => {
               <img src={company.compImage} className="applicantUser__image" alt="user_image" />
               <h3 className="jobsPostedtable_cell m20">
                   {company.compName}
+              </h3>
+          </td>
+          <td  className="jobsPosted__row">
+              <h3 className="jobsPostedtable_cell m20 mv150">
+                  {st===true?"active":"deactive"}
               </h3>
           </td>
           <td  className="jobsPosted__row">
@@ -1364,18 +1378,18 @@ const CompanyTableRow = ({company,action,even}) => {
           </td>
             {
               <>
-                  <td className="jobsPosted__row" onClick={() =>{} }>
-                      <h3 className="jobsPostedtable_cell edit">
+                  <td className="jobsPosted__row" onClick={() =>{setSt(true)} }>
+                      <h3 className="jobsPostedtable_cell shortlist">
                           On Hold
                       </h3>
                   </td>
-                  <td className="jobsPosted__row" onClick={() =>{} }>
+                  <td className="jobsPosted__row" onClick={() =>{setSt(false)} }>
                       <h3 className="jobsPostedtable_cell deactivate">
                           Delete
                       </h3>
                   </td>
-                  <td className="jobsPosted__row" onClick={() =>{} }>
-                      <h3 className="jobsPostedtable_cell shortlist">
+                  <td className="jobsPosted__row" onClick={() =>{setSt(false)} }>
+                      <h3 className="jobsPostedtable_cell spam_black ">
                           Spam
                       </h3>
                   </td>
@@ -1390,7 +1404,7 @@ const CompaniesTable = ()=>{
   const [action, setAction] = useState('all');
   const [search,setSearch]=useState('');
 
-  const CompanyColumnOrder = ['Company','Primary Contact','Registered On','No of Active Internships'];
+  const CompanyColumnOrder = ['Company','Status','Primary Contact','Registered On','No of Active Internships'];
   
 
   return (

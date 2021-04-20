@@ -11,7 +11,6 @@ import logo from "../../images/logo-main-black.png";
 import {
   AiFillEye,
   AiFillMessage,
-  AiFillProfile,
   AiOutlineFileDone,
   AiOutlineFileText,
 } from "react-icons/ai";
@@ -25,12 +24,13 @@ import { Checkbox } from "@material-ui/core";
 import {IoFingerPrint} from "react-icons/io5";
 import { HiDocumentDownload } from "react-icons/hi";
 import { useHistory } from "react-router";
+import { CgCloseO } from "react-icons/cg";
 
 const navCollection = [
   { name: "Dashboard", icon: RiLayout4Fill },
   { name: "Companies", icon: BiBuildings },
   { name: "Internships", icon: AiOutlineFileText },
-  { name: "Spam", icon: AiFillProfile },
+  { name: "Spam", icon: CgCloseO },
   { name: "KYC", icon: IoFingerPrint}
 ];
 

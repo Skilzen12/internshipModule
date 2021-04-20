@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./SignUp.css";
-
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebookSquare } from "react-icons/fa";
 import {
   TextField,
   makeStyles,
@@ -51,6 +52,50 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     gridGap: "10px",
   },
+  for_auth_div:{
+    display:"flex",
+    flexDirection:"column",
+    width:"100%"
+  },
+  for_auth_btn:{
+    width: "100%",
+    background: "transparent",
+    color: "black",
+    height: "45px",
+    borderRadius:"10px",
+    border: "#b6b2b2 solid 1px",
+    margin:"10px 0px",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    paddingTop: "10px"   
+  },
+  for_auth_fb_icons:{
+    marginTop:"0px",
+    marginBottom:"1px",
+    marginRight:"10px",
+    fontSize:"25px",
+    color:"#3838e9",
+  },
+  for_auth_icons:{
+    marginTop:"0px",
+    marginBottom:"1px",
+    marginRight:"10px",
+    fontSize:"25px"
+  },
+  for_hr_line:{
+  width:"100%"
+  },
+  for_already_registerd:{
+    width:"100%"
+  },
+  for_Login_redirect:{
+    color:" #ec1f28 !important",
+    textDecoration:"underline !important",
+    fontSize:'15px',
+    marginTop:'2px',
+    marginLeft:"3px"
+}
 }));
 
 const SignUp_and_SetProfile = () => {
@@ -97,13 +142,29 @@ const SignUp_and_SetProfile = () => {
               type="password"
               variant="outlined"
             />
-            <div className="m-0 w-100">
+            {/* <div className="m-0 w-100">
               <FormControlLabel
                 value="end"
                 control={<Checkbox color="primary" />}
                 label="Show Password"
                 labelPlacement="end"
               />
+            </div> */}
+            <hr className={classes.for_hr_line}></hr>
+            <div className={classes.for_auth_div}>
+              <div>
+                <button className={classes.for_auth_btn}>
+                    <FcGoogle className={classes.for_auth_icons}/> Join with Google
+                </button>
+              </div>
+              <div>
+                <button className={classes.for_auth_btn}>
+                    <FaFacebookSquare className={classes.for_auth_fb_icons}/> Join with Facebook
+                </button>
+              </div>
+            </div>
+            <div className={classes.for_already_registerd}>
+              <p>If you already have account: <a  className={classes.for_Login_redirect}>Login</a></p>
             </div>
             <div className='signup__btn d-flex justify-content-end'>
             <button

@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import "./SignUp.css";
 
+import {Alert} from '@material-ui/lab'
+import validator from 'validator';
+
 import {
   TextField,
   makeStyles,
+  Snackbar,
   Checkbox,
   FormControlLabel,
 } from "@material-ui/core";
 
 import logo from "../../../images/logo.png";
-
 import { OrganizationMultiStep } from "../OrganizationMultiStep";
-
 import { MultiStepForm } from "../MultiStepForm";
 import { BsFillPeopleFill, BsPersonFill } from "react-icons/bs";
 
@@ -53,12 +55,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const Notification = ({notify}) => {
+  return (
+    <Snackbar
+      open = {notify.isOpen}
+      autoHideDuration={3000}
+      anchorOrigin = {{vertical:'top',horizontal:'center'}}
+    >
+      <Alert severity={notify.type} >
+        {notify.message}
+      </Alert>
+    </Snackbar>
+    // <Snackbar open={notify.isOpen} autoHideDuration={6000} >
+    //   <Alert severity="success">
+    //     This is a success message!
+    //   </Alert>
+    // </Snackbar>
+  )
+}
+
 const SignUp_and_SetProfile = () => {
   const [section, setSection] = useState("SignUp");
   const classes = useStyles();
+  let userObj={email:"",mobile:"",password:""};
 
   // ---------SignUp (asks credentials)
   const SignUp1 = () => {
+    const [email,setemail] = useState("");
+    const [mobile,setmobile] = useState("");
+    const [password,setpassword] = useState("");
+    const [confirm,setconfirm] = useState("");
+    const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
+    
     return (
       <div className="internship__container__centered">
         <div className="internship__content__card p-5 signup__container">
@@ -74,6 +102,8 @@ const SignUp_and_SetProfile = () => {
               className={classes.fullWidth}
               size="small"
               label="Email Address"
+              value={email}
+              onChange={(e)=>{setemail(e.target.value)}}
               variant="outlined"
               fullWidth
             />
@@ -81,6 +111,8 @@ const SignUp_and_SetProfile = () => {
               className={classes.fullWidth}
               size="small"
               label="Contact Number"
+              value={mobile}
+              onChange={(e)=>{setmobile(e.target.value)}}
               variant="outlined"
               fullWidth
             />
@@ -88,6 +120,8 @@ const SignUp_and_SetProfile = () => {
               size="small"
               label="Password"
               type="password"
+              value={password}
+              onChange={(e)=>{setpassword(e.target.value)}}
               variant="outlined"
             />
             <TextField
@@ -95,28 +129,46 @@ const SignUp_and_SetProfile = () => {
               size="small"
               label="Confirm Password"
               type="password"
+              value={confirm}
+              onChange={(e)=>{setconfirm(e.target.value)}}
               variant="outlined"
             />
-            <div className="m-0 w-100">
-              <FormControlLabel
-                value="end"
-                control={<Checkbox color="primary" />}
-                label="Show Password"
-                labelPlacement="end"
-              />
-            </div>
             <div className='signup__btn d-flex justify-content-end'>
             <button
-              class="apply_btn card_btn"
+              className="apply_btn card_btn"
               onClick={(e) => {
                 e.preventDefault();
-                setSection("SignUp2");
+                if(!validator.isEmail(email)){
+                  setnotify({message:'Wrong Format of Email address!',isOpen:true,type:'error'});
+                  setTimeout(()=>{
+                    setnotify({message:'',isOpen:false,type:''})
+                  },3000)
+                }else if(password!==confirm){
+                  setnotify({message:'Passwords not match!',isOpen:true,type:'error'});
+                  setTimeout(()=>{
+                    setnotify({message:'',isOpen:false,type:''})
+                  },3000)
+                }
+                else{
+                  console.log(email,mobile,password);
+                  userObj.email = email;
+                  userObj.password = password;
+                  userObj.mobile = mobile;
+                  console.log(userObj);
+                  setSection("SignUp2");
+                }
               }}
             >
               Sign Up
             </button>
             </div>
           </form>
+          {
+            notify.isOpen && 
+            <Notification
+              notify={notify}
+            />
+          }
         </div>
       </div>
     );
@@ -168,12 +220,9 @@ const SignUp_and_SetProfile = () => {
   return (
     <div className='Login__Signup'>
       {section === "SignUp" && <SignUp1 />}
-
-      {section === "SignUp2" && <SignUp2 />}
-
+      {section === "SignUp2" && <SignUp2  />}
       {section === "Student" && <MultiStepForm />}
-      {section === "Org" && <OrganizationMultiStep />}
-
+      {section === "Org" && <OrganizationMultiStep obj={userObj} />}
     </div>
   );
 };

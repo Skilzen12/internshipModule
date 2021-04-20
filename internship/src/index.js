@@ -12,7 +12,7 @@ import CompanyProfile from './Screens/CompanyProfile/Company_profile';
 import InternshipProfile from './Screens/InternshipProfile/Comp_profile2'; 
 import CompanyDashboard from './Screens/Dashboard/DashboardMain'; 
 import CompanySpam from './Screens/AdminDashboard/CompanySpam';
-import AdminDashboardMain from './Screens/AdminDashboard/AdminDashboardMain';
+import AdminDashboardMain from './Screens/AdminDashboard/AdminDashBoard';
 
 import './index.css';
 

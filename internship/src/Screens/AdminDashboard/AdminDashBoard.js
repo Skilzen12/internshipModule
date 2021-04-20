@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../InternshipPages/Landing Page/Dashboard/DashboardMain.css";
+import "../Dashboard/DashboardMain.css";
 import Header from "../../Components/Header/Updated_Header";
 import SearchIcon from "@material-ui/icons/Search";
 import IconButton from "@material-ui/core/IconButton";
@@ -29,7 +29,7 @@ import { useHistory } from "react-router";
 const navCollection = [
   { name: "Dashboard", icon: RiLayout4Fill },
   { name: "Companies", icon: BiBuildings },
-  { name: "Internships", icon: AiOutlineFileText, number: 14 },
+  { name: "Internships", icon: AiOutlineFileText },
   { name: "Spam", icon: AiFillProfile },
   { name: "KYC", icon: IoFingerPrint}
 ];

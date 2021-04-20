@@ -35,7 +35,9 @@ const steps = [
   { id: "otp" },
 ];
 
-export const MultiStepForm = () => {
+export const MultiStepForm = ({user}) => {
+  defaultData.email=user.email;
+  defaultData.mobileNo=user.mobile;
   const [formData, setForm] = useForm( defaultData );
   const dispatch = useDispatch();
     //for Education array

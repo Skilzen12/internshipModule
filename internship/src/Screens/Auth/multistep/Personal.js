@@ -124,6 +124,7 @@ export const Personal = ({ formData, setForm, navigation }) => {
               fullWidth
               value={email}
               onChange={setForm}
+              disabled
             />
             <TextField
               label="Date of Birth"
@@ -156,6 +157,7 @@ export const Personal = ({ formData, setForm, navigation }) => {
               fullWidth
               value={mobileNo}
               onChange={setForm}
+              disabled
             />
             {/* <label for="birthday">Birthday</label>
                   <input type="date" id="birthday" name="birthday" /> */}

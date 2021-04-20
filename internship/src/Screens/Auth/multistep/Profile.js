@@ -57,8 +57,6 @@ const useStyles = makeStyles((theme) => ({
     color:'#4040f8',
   },
   for_adjgitIcon:{
-    
-   
     marginBottom: '0px',
     marginRight: '5px',
     fontSize:'31px',

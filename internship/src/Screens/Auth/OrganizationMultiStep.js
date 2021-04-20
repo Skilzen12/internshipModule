@@ -18,6 +18,7 @@ export const OrganizationMultiStep = (obj) => {
     city: "",
     country: "",
     description:"",
+    socialLinks:{},
   };
   const [formData, setForm] = useForm(defaultData);
   const { step, navigation } = useStep({

@@ -14,6 +14,7 @@ const defaultData = {
   strength: "",
   city: "",
   country: "",
+  description:"",
 };
 
 const steps = [{ id: "organization" }, { id: "organization2" }, { id: "otp" }];
@@ -38,7 +39,7 @@ export const OrganizationMultiStep = () => {
 
   return (
     <div>
-      <h1>Student</h1>
+      <h1>Organization/Company Registration</h1>
     </div>
   );
 };

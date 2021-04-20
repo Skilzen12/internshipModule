@@ -15,9 +15,11 @@ import CompanySpam from './Screens/AdminDashboard/CompanySpam';
 import AdminDashboardMain from './Screens/AdminDashboard/AdminDashBoard';
 
 import './index.css';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 ReactDOM.render(
-  <>
+  <Provider store={store}>
     <Router>
       <Switch>
         <Route exact path='/' component={App} />
@@ -34,6 +36,6 @@ ReactDOM.render(
         <Route exact path='/companyspam' component={CompanySpam} />
       </Switch>             
     </Router>
-  </>,
+  </Provider>,
   document.getElementById('root')
 );

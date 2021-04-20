@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { BsArrowLeft, BsArrowRight, BsDashCircleFill, BsPlusCircle, FaCheckCircle } from "react-icons/all";
 import logoOnly from "../../../images/Group.png";
 import { TextField, makeStyles } from "@material-ui/core";
+import { useForm } from "react-hooks-helper";
 
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
@@ -37,15 +38,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ExperienceFields = ({setForm,expDesignation,expOrganization,expStartDate,expEndDate,expDescription,RemoveExpHandler,isFirst}) => {
+const ExperienceFields = ({
+  ExpDetails,
+  SaveThis,
+  RemoveThis,
+  isFirst
+}) => {
+  console.log(ExpDetails)
   const classes = useStyles();
-  const [saved,setSaved]=useState(false)
-  
-  useEffect(()=>{
-    setSaved(false);
-  },
-  [setForm,expDesignation,expOrganization,expStartDate,expEndDate,expDescription,RemoveExpHandler,isFirst])
-//   console.log("in Fields",expDesignation,expOrganization,expStartDate,expEndDate,expDescription)
+  const [saved,setSaved]=useState(0)
+  const [ExpDetails1,setExpDetails1] = useForm(ExpDetails)
+
+  const ChangeHandler=(e)=>{
+    setSaved(1);
+    setExpDetails1(e);
+  }
+
   return (
     <>
       <TextField
@@ -54,8 +62,8 @@ const ExperienceFields = ({setForm,expDesignation,expOrganization,expStartDate,e
         name="expDesignation"
         label="Designation/Title"
         variant="outlined"
-        onChange={setForm}
-        value={expDesignation}
+        onChange={ChangeHandler}
+        value={ExpDetails1.expDesignation}
       />
       <TextField
         fullWidth
@@ -63,8 +71,8 @@ const ExperienceFields = ({setForm,expDesignation,expOrganization,expStartDate,e
         name="expOrganization"
         label="Organization Name"
         variant="outlined"
-        onChange={setForm}
-        value={expOrganization}
+        onChange={ChangeHandler}
+        value={ExpDetails1.expOrganization}
       />
       <TextField
         fullWidth
@@ -72,8 +80,8 @@ const ExperienceFields = ({setForm,expDesignation,expOrganization,expStartDate,e
         name="expLocation"
         label="Location"
         variant="outlined"
-        onChange={setForm}
-        value={expOrganization}
+        onChange={ChangeHandler}
+        value={ExpDetails1.expLocation}
       />
       <div className={classes.rootDatePicker}>
         <TextField
@@ -85,8 +93,8 @@ const ExperienceFields = ({setForm,expDesignation,expOrganization,expStartDate,e
           }}
           variant="outlined"
           size="small"
-        onChange={setForm}
-        // value={expStartDate}
+          onChange={ChangeHandler}
+          value={ExpDetails1.expStartDate}
         />
         <TextField
           label="End Date"
@@ -97,8 +105,8 @@ const ExperienceFields = ({setForm,expDesignation,expOrganization,expStartDate,e
           }}
           variant="outlined"
           size="small"
-        onChange={setForm}
-        // value={expEndDate}
+          onChange={ChangeHandler}
+          value={ExpDetails1.expEndDate}
         />
       </div>
       <TextField
@@ -107,20 +115,20 @@ const ExperienceFields = ({setForm,expDesignation,expOrganization,expStartDate,e
         name="expDescription"
         label="Description"
         variant="outlined"
-        onChange={setForm}
-        value={expDescription}
+        onChange={ChangeHandler}
+        value={ExpDetails1.expDescription}
       />
       <div className={`edu_footer my-2 d-flex ${!isFirst?'justify-content-between':'justify-content-end'}`}>
         <div
           style={{ cursor: "pointer",display:isFirst?'none':'unset' }}
-          onClick={RemoveExpHandler}
+          onClick={RemoveThis}
         >
           <BsDashCircleFill style={{ fontSize: 20,marginTop: '-2px',color:'red' }} />{" "}
           <p style={{ display: "inline-block",fontSize: 14 }}>Remove Experience</p>
         </div>
         <div>
-          {!saved?<FaCheckCircle style={{ fontSize: 20,color:'#00c600', marginBottom:'0px',cursor:'pointer'}} onClick={()=>{setSaved(true)}} />
-          :<p style={{transition:'all .3s',fontSize:14}}>Data Saved</p>
+          {saved===1?<FaCheckCircle style={{ fontSize: 20,color:'#00c600', marginBottom:'0px',cursor:'pointer'}} onClick={()=>{setSaved(2);SaveThis(ExpDetails1)}} />
+          :(saved===2&&<p style={{transition:'all .3s',fontSize:14}}>Data Saved</p>)
           }
         </div>
       </div>
@@ -129,24 +137,27 @@ const ExperienceFields = ({setForm,expDesignation,expOrganization,expStartDate,e
   );
 };
 
-export const Experience = ({ formData, setForm, navigation }) => {
-  const {expDesignation,expOrganization,expStartDate,expEndDate,expDescription} = formData;
-  console.log("in Experience",formData)
-  console.log("in Experience",expDesignation,expOrganization,expStartDate,expEndDate,expDescription)
-
-  const [form2, setForm2] = useState([]);
+export const Experience = ({ setExpDetails,ExpDetails,navigation }) => {
   const classes = useStyles();
-  const [expCount, setExpCount] = useState([{}]);
 
   const AddExpHandler = () => {
-    setExpCount((eduCount) => {
-      const newArray = expCount.concat({});
+    setExpDetails((eduCount) => {
+      const newArray = ExpDetails.concat({});
       return newArray;
     });
   };
+
+  const SaveExpHandler = (id,data)=>{
+    setExpDetails(ExpDetails=>{
+      const newArray=[...ExpDetails];
+      newArray[id]=data;
+      return newArray;
+    })
+  }
+
   const RemoveExpHandler = (id)=>{
-    setExpCount((educount)=>{
-        const newArray = [...expCount];
+    setExpDetails((educount)=>{
+        const newArray = [...ExpDetails];
         newArray.splice(id,1);
         return newArray;
       })
@@ -172,16 +183,12 @@ export const Experience = ({ formData, setForm, navigation }) => {
             noValidate
             autoComplete="off"
           >
-            {expCount.map((exp,id) => (
+            {ExpDetails.map((exp,id) => (
               <ExperienceFields 
                 isFirst={id===0}
-                setForm={setForm}
-                expDesignation={expDesignation}
-                expOrganization={expOrganization}
-                expStartDate={expStartDate}
-                expEndDate={expEndDate}
-                expDescription={expDescription}
-                RemoveExpHandler={()=>RemoveExpHandler(id)}
+                ExpDetails={ExpDetails[id]}
+                SaveThis={(data)=>{SaveExpHandler(id,data)}}
+                RemoveThis={()=>{RemoveExpHandler(id)}}
               />
             ))}
             <div

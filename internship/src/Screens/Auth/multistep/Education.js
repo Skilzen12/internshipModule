@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { BiCheckCircle, BsArrowLeft, BsArrowRight, BsDashCircleFill, BsPlusCircle, FaCheckCircle } from "react-icons/all";
 import logoOnly from "../../../images/Group.png";
 import { TextField, makeStyles } from "@material-ui/core";
+import { useForm } from "react-hooks-helper";
 
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
@@ -38,33 +39,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EducationFields = ({
-  college,
-  specialization,
-  degree,
-  location,
-  startdate,
-  enddate,
-  setForm,
-  formData,
-  RemoveEduHandler,
+  EduDetails,
+  SaveThis,
+  RemoveThis,
   isFirst
 }) => {
-  const [saved,setSaved]=useState(false)
+  const [EduDetails1,setEduDetails1] = useForm(EduDetails)
+  const [saved,setSaved]=useState(0)
   const classes = useStyles();
   
-  useEffect(()=>{
-    setSaved(false);
-  },
-  [college,
-  specialization,
-  degree,
-  location,
-  startdate,
-  enddate,
-  setForm,
-  formData,
-  RemoveEduHandler,
-  isFirst])
+  const ChangeHandler=(e)=>{
+    setSaved(1);
+    setEduDetails1(e);
+  }
+    // console.log(EduDetails);
+    // console.log(EduDetails1);
   return (
     <>
       <TextField
@@ -72,9 +61,9 @@ const EducationFields = ({
         size="small"
         label="School/College/University"
         variant="outlined"
-        name="college"
-        value={college}
-        onChange={setForm}
+        name="school"
+        value={EduDetails1.school}
+        onChange={ChangeHandler}
       />
       <TextField
         fullWidth
@@ -82,8 +71,8 @@ const EducationFields = ({
         label="Degree"
         variant="outlined"
         name="degree"
-        value={degree}
-        onChange={setForm}
+        value={EduDetails1.degree}
+        onChange={ChangeHandler}
       />
       <TextField
         fullWidth
@@ -91,8 +80,8 @@ const EducationFields = ({
         label="Specialization"
         variant="outlined"
         name="specialization"
-        value={specialization}
-        onChange={setForm}
+        value={EduDetails1.specialization}
+        onChange={ChangeHandler}
       />
       <TextField
         fullWidth
@@ -100,8 +89,8 @@ const EducationFields = ({
         label="Location"
         variant="outlined"
         name="location"
-        value={location}
-        onChange={setForm}
+        value={EduDetails1.location}
+        onChange={ChangeHandler}
       />
       <div className={classes.rootDatePicker}>
         <TextField
@@ -112,12 +101,9 @@ const EducationFields = ({
           }}
           variant="outlined"
           size="small"
-          name="startdate"
-          value={startdate}
-          onChange={() => {
-            const newVal = { ...formData, college };
-            setForm(newVal);
-          }}
+          name="startDate"
+          value={EduDetails1.startDate}
+          onChange={ChangeHandler}
         />
         <TextField
           label="End Date"
@@ -127,22 +113,22 @@ const EducationFields = ({
           }}
           variant="outlined"
           size="small"
-          name="enddate"
-          value={enddate}
-          onChange={setForm}
+          name="endDate"
+          value={EduDetails1.endDate}
+          onChange={ChangeHandler}
         />
       </div>
       <div className={`edu_footer my-2 d-flex ${!isFirst?'justify-content-between':'justify-content-end'}`}>
         <div
           style={{ cursor: "pointer",display:isFirst?'none':'unset' }}
-          onClick={RemoveEduHandler}
+          onClick={RemoveThis}
         >
           <BsDashCircleFill style={{ fontSize: 20,marginTop: '-2px',color:'red' }} />{" "}
           <p style={{ display: "inline-block",fontSize: 14 }}>Remove Education</p>
         </div>
         <div>
-          {!saved?<FaCheckCircle style={{ fontSize: 20,color:'#00c600', marginBottom:'0px',cursor:'pointer'}} onClick={()=>{setSaved(true)}} />
-          :<p style={{transition:'all .3s',fontSize:14}}>Data Saved</p>
+          {saved===1?<FaCheckCircle style={{ fontSize: 20,color:'#00c600', marginBottom:'0px',cursor:'pointer'}} onClick={()=>{setSaved(2);SaveThis(EduDetails1)}} />
+          :(saved===2&&<p style={{transition:'all .3s',fontSize:14}}>Data Saved</p>)
           }
         </div>
       </div>
@@ -150,25 +136,40 @@ const EducationFields = ({
     </>
   );
 };
-export const Education = ({ formData, setForm, navigation }) => {
-  const { college, specialization, degree, startdate, enddate } = formData;
-  const [form2, setForm2] = useState([]);
+
+
+export const Education = ({ navigation,setEduDetails,EduDetails }) => {
   const classes = useStyles();
-  const [eduCount, setEduCount] = useState([{}]);
   
   const AddEduHandler = () => {
-    setEduCount((eduCount) => {
-      const newArray = eduCount.concat({});
+    setEduDetails((EduDetails) => {
+      const newArray = EduDetails.concat({
+        school:"",
+        degree:"",
+        specialization:"",
+        location:"",
+        startDate:"",
+        endDate:""
+      });
       return newArray;
     });
   };
 
+  const SaveEduHandler = (id,data)=>{
+    setEduDetails(EduDetails=>{
+      const newArray=[...EduDetails];
+      newArray[id]=data;
+      return newArray;
+    })
+  }
+
   const RemoveEduHandler = (id)=>{
-    setEduCount((educount)=>{
-      const newArray = [...eduCount];
+    setEduDetails((EduDetails)=>{
+      const newArray = [...EduDetails];
       newArray.splice(id,1);
       return newArray;
     })
+    // console.log(EduDetails);
   }
 
   return (
@@ -191,17 +192,12 @@ export const Education = ({ formData, setForm, navigation }) => {
             noValidate
             autoComplete="off"
           >
-            {eduCount.map((edu,id) => (
+            {EduDetails.map((edu,id) => (
               <EducationFields
                 isFirst={id===0}
-                college={college}
-                specialization={specialization}
-                degree={degree}
-                startdate={startdate}
-                enddate={enddate}
-                setForm={setForm}
-                formData={formData}
-                RemoveEduHandler={()=>{RemoveEduHandler(id)}}
+                EduDetails={EduDetails[id]}
+                SaveThis={(data)=>{SaveEduHandler(id,data)}}
+                RemoveThis={()=>{RemoveEduHandler(id)}}
               />
             ))}
             <div

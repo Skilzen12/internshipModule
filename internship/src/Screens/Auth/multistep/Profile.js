@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export const Profile = ({ formData, setForm, navigation }) => {
-  const { profileTitle, skills, fb, github, linkedIn,portfolio } = formData;
+  const { profileTitle, skills, facebook, github, linkedIn,portfolio,profileDesc,resumeLink } = formData;
   const classes = useStyles();
   return (
     <div className="d-flex justify-content-center align-items-center">
@@ -103,7 +103,10 @@ export const Profile = ({ formData, setForm, navigation }) => {
             <h6 style={{ margin: "20px 0 10px" }} for="description">
               Describe Yourself
             </h6>
-            <textarea id="description" rows={6} style={{ width: "100%" }} />
+            <textarea id="description" rows={6} style={{ width: "100%" }} 
+              name="profileDesc"
+              value={profileDesc}
+              onChange={setForm} />
             <TagsSelect
               name="skills"
               style={{ marginTop: 10 }}
@@ -139,7 +142,7 @@ export const Profile = ({ formData, setForm, navigation }) => {
             </div>
             <TextField
               label="LinkedIn"
-              name="LinkedIn"
+              name="linkedIn"
               variant="outlined"
               size="small"
               fullWidth
@@ -167,11 +170,11 @@ export const Profile = ({ formData, setForm, navigation }) => {
             </div>
             <TextField
               label="Facebook"
-              name="fb"
+              name="facebook"
               variant="outlined"
               size="small"
               fullWidth
-              value={fb}
+              value={facebook}
               onChange={setForm}
             />
             </div>
@@ -198,7 +201,7 @@ export const Profile = ({ formData, setForm, navigation }) => {
               variant="outlined"
               size="small"
               fullWidth
-              value={fb}
+              value={resumeLink}
               onChange={setForm}
             />
             <div className="signup__footer mt-3 d-flex justify-content-between">

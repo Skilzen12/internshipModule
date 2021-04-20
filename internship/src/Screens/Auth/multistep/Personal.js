@@ -66,7 +66,7 @@ const CheckBox = ({ active }) => {
 };
 
 export const Personal = ({ formData, setForm, navigation }) => {
-  let { fname, lname, email, dob, city, mob, gender } = formData;
+  let { fname, lname, email, dob, location, mobileNo, gender } = formData;
   const classes = useStyles();
   const [activeGender, setActiveGender] = useState("male");
 
@@ -140,21 +140,21 @@ export const Personal = ({ formData, setForm, navigation }) => {
             />
             <TextField
               label="Current Location"
-              name="city"
+              name="location"
               variant="outlined"
               size="small"
               fullWidth
-              value={city}
+              value={location}
               onChange={setForm}
             />
 
             <TextField
               label="Mobile No."
-              name="mob"
+              name="mobileNo"
               variant="outlined"
               size="small"
               fullWidth
-              value={mob}
+              value={mobileNo}
               onChange={setForm}
             />
             {/* <label for="birthday">Birthday</label>

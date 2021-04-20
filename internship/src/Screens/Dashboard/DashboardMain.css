@@ -10,7 +10,7 @@
     display: flex;
     flex-direction: column;
     padding: 30px 20px;
-    width: 20%;
+    width: 15%;
     margin-top: -8%;
     position: fixed;
     z-index: 0;
@@ -56,8 +56,8 @@
     flex-direction: column;
     padding: 30px 20px;
     border-radius: 8px;
-    width: 80%;
-    margin-left: 20%;
+    width: 85%;
+    margin-left: 17%;
     box-shadow: 0 0 15px -4px rgb(0 0 0 / 30%);
     border: 1px solid rgba(0,0,0,.125);
     /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.13); */
@@ -146,10 +146,11 @@
     cursor: pointer;
     border-radius: 4px;
     padding: 5px 10px;
+    text-transform: capitalize;
 }
 .dashboard__jobsPostedTag:hover{
-    border-color: 1px solid rgb(227, 227, 227);
-    background-color: white;
+    /* border-color: 1px solid rgb(227, 227, 227); */
+    background-color: #f1f1f1cf;
 }
 .dashboard__jobsPostedFilterheading{
     font-family: 'Inter';
@@ -180,16 +181,19 @@
     font-weight: normal;
     font-size: 15px;
     color: #6B6E6F;
+    cursor: pointer;
+    text-align: center;
 }
 .jobsPostedtable_cell{
     font-family: 'Inter';
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
-    color: #2B3940
+    color: #2B3940;
+    text-align: center;
 }
 .jobsPosted__row{
-    padding: 20px 5px;
+    padding: 20px 10px;
 }
 .textalign__right{
     text-align: center;
@@ -209,6 +213,12 @@
 }
 .shortlist{
     color: orange;
+    padding: 0px 10px;
+    cursor: pointer;
+    font-size: 13px;
+}
+.spam_black{
+    color: rgb(49, 49, 48);
     padding: 0px 10px;
     cursor: pointer;
     font-size: 13px;
@@ -257,11 +267,22 @@
 .dashboard___slider{
     display: none;
 }
-
+.for_center_align{
+    text-align: center !important;
+}
+.for_doc{
+    font-size: 24px !important;
+    padding: 0px 12px !important;
+    padding-bottom: 3px !important;
+}
+.for_margin_icons{
+    margin-top: 0px !important;
+}
 @media (max-width : 1024px){
     .dashboard__slider{
         padding: 20px 15px;
         margin-top: -9%;
+        width:20%;
     }
     .dashboard__card{
         min-width: 260px;
@@ -446,6 +467,7 @@
     min-width: 150px;
 }
 .mv100{
+    
     min-width: 100px;
 }
 .mv200{
@@ -455,6 +477,9 @@
     min-width: 75px;
 }
 
+.cursor__pointer{
+    cursor: pointer;
+}
 
 @media only screen and (min-width: 542px) and (max-width: 768px){
     .dashboard__content .box2 {

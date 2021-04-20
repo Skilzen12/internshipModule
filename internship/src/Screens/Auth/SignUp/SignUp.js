@@ -172,7 +172,7 @@ const SignUp_and_SetProfile = () => {
               </div>
             </div>
             <div className={classes.for_already_registerd}>
-              <p>If you already have account: <a  className={classes.for_Login_redirect}>Login</a></p>
+              <p>If you already have account: <a href="http://localhost:3000/login" className={classes.for_Login_redirect}>Login</a></p>
             </div>
             <div className='signup__btn d-flex justify-content-end'>
             <button

@@ -157,14 +157,6 @@ const SignUp_and_SetProfile = () => {
               onChange={(e)=>{setconfirm(e.target.value)}}
               variant="outlined"
             />
-            {/* <div className="m-0 w-100">
-              <FormControlLabel
-                value="end"
-                control={<Checkbox color="primary" />}
-                label="Show Password"
-                labelPlacement="end"
-              />
-            </div> */}
             <hr className={classes.for_hr_line}></hr>
             <div className={classes.for_auth_div}>
               <div>
@@ -198,7 +190,6 @@ const SignUp_and_SetProfile = () => {
                   },3000)
                 }
                 else{
-                  console.log(email,mobile,password);
                   setUser({email:email,mobile:mobile,password:password});
                   setSection("SignUp2");
                 }
@@ -248,7 +239,6 @@ const SignUp_and_SetProfile = () => {
               className="select__type_btn apply_btn"
               onClick={(e) => {
                 e.preventDefault();
-                console.log(user,"in fn");
                 setSection("Org");
               }}
             >

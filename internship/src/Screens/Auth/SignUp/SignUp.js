@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   for_auth_btn:{
     width: "100%",
     background: "transparent",
-    color: "black",
+    color: "#848383",
     height: "45px",
     borderRadius:"10px",
     border: "#b6b2b2 solid 1px",
@@ -87,7 +87,8 @@ const useStyles = makeStyles((theme) => ({
   width:"100%"
   },
   for_already_registerd:{
-    width:"100%"
+    width:"100%",
+    color:"#848383"
   },
   for_Login_redirect:{
     color:" #ec1f28 !important",

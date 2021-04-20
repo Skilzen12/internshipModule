@@ -58,7 +58,7 @@ export const Otp = ({ formData, setForm, navigation,submitForm }) => {
               />{" "}
               Back
             </button>
-            <button className="apply_btn card_btn" onClick={(e) =>{e.preventDefault();submitForm();console.log(formData)}  }>
+            <button className="apply_btn card_btn" onClick={(e) =>{e.preventDefault();if(submitForm)submitForm();console.log(formData)}  }>
               Submit
             </button>
           </div>

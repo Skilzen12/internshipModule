@@ -257,7 +257,7 @@ const SignUp_and_SetProfile = () => {
     <div className='Login__Signup'>
       {section === "SignUp" && <SignUp1 />}
       {section === "SignUp2" && <SignUp2  />}
-      {section === "Student" && <MultiStepForm />}
+      {section === "Student" && <MultiStepForm user={user} /> }
       {section === "Org" && <OrganizationMultiStep user={user} />}
     </div>
   );

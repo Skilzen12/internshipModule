@@ -44,7 +44,7 @@ const EducationFields = ({
   EduDetails,
   SaveThis,
   RemoveThis,
-  isFirst
+  isFirst,
 }) => {
   const [EduDetails1,setEduDetails1] = useForm(EduDetails)
   const [saved,setSaved]=useState(0)
@@ -55,8 +55,6 @@ const EducationFields = ({
     setSaved(1);
     setEduDetails1(e);
   }
-    console.log(EduDetails);
-    console.log(EduDetails1);
   return (
     <>
       <TextField
@@ -153,7 +151,7 @@ export const Education = ({ navigation,setEduDetails,EduDetails }) => {
         specialization:"",
         location:"",
         startDate:"",
-        endDate:""
+        endDate:"",
       });
       return newArray;
     });
@@ -186,7 +184,6 @@ export const Education = ({ navigation,setEduDetails,EduDetails }) => {
     });
     return flag;
   }
-
   return (
     <div className="d-flex justify-content-center align-items-center">
       <div className="internship__content__card my-5 p-5 signup__container">
@@ -237,7 +234,8 @@ export const Education = ({ navigation,setEduDetails,EduDetails }) => {
                 onClick={(e) => {
                   e.preventDefault();
                   if(isEmpty()){
-                    setnotify({message:'Fields cannot be empty!',isOpen:true,type:'error'});
+                    const mess = "Fields cannot be empty!";
+                    setnotify({message:mess,isOpen:true,type:'error'});
                     setTimeout(()=>{
                       setnotify({message:'',isOpen:false,type:''})
                     },3000)

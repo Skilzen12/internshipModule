@@ -4,6 +4,7 @@ import { Checkbox, FormControlLabel, makeStyles, TextField } from '@material-ui/
 import { useHistory } from 'react-router';
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookSquare } from "react-icons/fa";
+
 import validator from 'validator';
 import Notification from '../Notification.js'
 

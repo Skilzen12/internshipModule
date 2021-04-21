@@ -1,0 +1,35 @@
+.company__name{
+    font: 16px 'Gordita', sans-serif;
+    font-weight: 500;
+}
+.tags__gridCard{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 20px;
+    list-style: none;
+    align-items: center;
+    margin-left: 0;
+    padding-left: 0;
+}
+.details__featuredGrid{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 5px;
+    flex-wrap: wrap;
+    margin: 0
+}
+.tags__featuredGrid{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 5px;
+    flex-wrap: wrap;
+    margin: 0
+  }

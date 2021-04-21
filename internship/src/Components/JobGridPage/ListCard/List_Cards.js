@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
 import {
   Link
@@ -7,6 +8,7 @@ import imgF from '../../../images/InternFrame3/svg/icon-fire-rounded.svg'
 import iconL from '../../../images/InternFrame3/svg/icon-loaction-pin-black.svg'
 import iconS from '../../../images/InternFrame3/svg/icon-suitecase.svg'
 import iconC from '../../../images/InternFrame3/svg/icon-clock.svg'
+import { HiUserGroup } from 'react-icons/hi';
 
 const List_Cards = ({obj}) => {
   var postedDate = obj.posted_date.split('T')[0];
@@ -33,8 +35,10 @@ const List_Cards = ({obj}) => {
       <div className="row">
         <div className="col-md-6">
           <div className="media align-items-center">
-            <div className="square-72 d-block mr-8">
-              <img src={LogoMap.get(obj.company.name.toString()).url} alt="" style={{maxWidth: 140, maxHeight: 80}} />
+            <div className="square-72 d-block mr-8">              
+              {obj.company.logo.link ? (
+                <img src={LogoMap.get(obj.company.name.toString()).url} alt="" style={{maxWidth: 140, maxHeight: 80}} />
+                ) : <HiUserGroup style={{fontSize: 40}} /> }
             </div>
             <div style={{marginLeft: 20}}>
               <h3 className="mb-0">
@@ -42,14 +46,14 @@ const List_Cards = ({obj}) => {
                   to={`/internship?id=${obj.uuid}`}
                   className="font-size-6 heading-default-color"
                 >
-                  {obj.title}
+                  {obj.title ? obj.title : 'ABCD EFG'}
                 </Link>
               </h3>
               <Link
                 to="/#"
-                className="font-size-3 text-default-color line-height-2"
+                className="company__name line-height-2"
               >
-                {obj.company.name}
+                {obj.company.name ? obj.company.name : 'XYZ'}
               </Link>
             </div>
           </div>
@@ -67,61 +71,29 @@ const List_Cards = ({obj}) => {
       </div>
       <div className="row pt-8">
         <div className="col-md-7">
-          <ul className="d-flex list-unstyled mr-n3 flex-wrap">
-          {obj.skills.map(skill => (
-            <li>
-              <Link
-                to="/#"
-                className="bg-regent-opacity-15 min-width-px-96 mr-3 text-center rounded-3 px-6 py-1 font-size-3 text-black-2 mt-2"
-              >
-                {skill.name}
-              </Link>
-            </li>
-          ))}
-          </ul>
+          <TagsIcons list={obj.skills} />
         </div>
         <div className="col-md-5">
-          <ul className="d-flex list-unstyled mr-n3 flex-wrap mr-n8 justify-content-md-end">
-            <li className="mt-2 mr-4 font-size-small text-black-2 d-flex align-items-center">
-              <span
-                className="mr-2"
-                css={`
-                  margin-top: -2px;
-                `}
-              >
-                <img src={iconL} alt="" />
-              </span>
-              <span className="font-weight-semibold">
-                {obj.city}
-              </span>
-            </li>
-            <li className="mt-2 mr-4 font-size-small text-black-2 d-flex align-items-center">
-              <span
-                className="mr-2"
-                css={`
-                  margin-top: -2px;
-                `}
-              >
-                <img src={iconS} alt="" />
-              </span>
-              <span className="font-weight-semibold">
-                {obj.kind}
-              </span>
-            </li>
-            <li className="mt-2 mr-4 font-size-small text-black-2 d-flex align-items-center">
-              <span
-                className="mr-2"
-                css={`
-                  margin-top: -2px;
-                `}
-              >
-                <img src={iconC} alt="" />
-              </span>
-              <span className="font-weight-semibold">
-                {time}d ago
-              </span>
-            </li>
-          </ul>
+            <ul className="details__featuredGrid">
+              <li className="mt-2 font-size-small text-black-2 d-flex">
+                <span className="featureCard__detailIcons"> <img src={iconL} alt="" /> </span>
+                <span className="font-weight-semibold" style={{ fontFamily: "Gordita" }} >
+                  {obj.city}
+                </span>
+              </li>
+              <li className="mt-2 font-size-small text-black-2 d-flex">
+                <span className="featureCard__detailIcons"> <img src={iconS} alt="" /> </span>
+                <span className="font-weight-semibold" style={{ fontFamily: "Gordita" }} >
+                  {obj.kind}                  
+                </span>
+              </li>
+              <li className="mt-2 font-size-small text-black-2 d-flex">
+                <span className="featureCard__detailIcons"> <img src={iconC} alt="" /> </span>
+                <span className="font-weight-semibold" style={{ fontFamily: "Gordita" }} >
+                  {time}d ago
+                </span>
+              </li>
+            </ul>
         </div>
       </div>
     </div>
@@ -130,3 +102,19 @@ const List_Cards = ({obj}) => {
 }
 
 export default List_Cards;
+
+const TagsIcons =({list})=>{ 
+  return (
+    <ul className="tags__featuredGrid">
+      {list.map(item=>(
+        <li className="mt-1">
+          <a className="bg-regent-opacity-15 min-width-px-96 text-center rounded-3 py-1"
+            style={{ fontFamily: "Gordita" }}
+          >
+            {item.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../Components/Header/Updated_Header";
 import SearchIcon from "@material-ui/icons/Search";
 import Brands from "../../Components/LandingPage/BrandCard/Brands";
@@ -14,9 +14,10 @@ import AdminService from "../../AdminServices/AdminService";
 const Landing2 = () => {
   const [internCategories, setCategories] = useState([]);
   const [internships, setInternships] = useState([]);
+  const [count, setCount] = useState(0);
 
   const getCategories = async () => {
-    AdminService.getInternshipsCategories()
+    await AdminService.getInternshipsCategories()
     .then(res => {
       setCategories(res.data.category);
     })
@@ -26,17 +27,16 @@ const Landing2 = () => {
   const getFeaturedJobs = async () => {
     AdminService.getInternshipsList()
     .then(res => {
+      setCount(res.data.count);
       setInternships(res.data.results);
     })
     .catch(err => console.log(err));
   } 
 
-  window.onload = () => {
+  useEffect(() => {
     getCategories();
     getFeaturedJobs();
-  }
-
-  console.log(internships, internCategories)
+  },[]);
   
   return (
     <>
@@ -45,7 +45,7 @@ const Landing2 = () => {
         <div className="landingpage2__title row container-fluid">
           <div className="title__content2 col-xlg-5 col-md-6 ml-5 col-sm-8">
             <div className="hashtag2 container">
-              #{internships.length} jobs are available right now
+              #{count} jobs are available right now
             </div>
             <div className="landingpage2__title__heading container">
               Find the most exciting jobs.

@@ -135,7 +135,7 @@ const Job_Grid = () => {
                 </Link>
               </div>
             </div>
-            <div className="row justify-content-start main_row_grid_cards">
+            <div className="row justify-content-start main_row_grid_cards" style={{width: '100%'}}>
               {
                 grid ?
                   (

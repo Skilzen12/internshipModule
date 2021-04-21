@@ -1,20 +1,19 @@
 import React, { useState } from "react";
 import "./SignUp.css";
-
 import validator from 'validator';
-
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookSquare } from "react-icons/fa";
 import {
   TextField,
   makeStyles,
 } from "@material-ui/core";
-
 import Notification from '../Notification.js'
 import logo from "../../../images/logo.png";
 import { OrganizationMultiStep } from "../OrganizationMultiStep";
 import { MultiStepForm } from "../MultiStepForm";
 import { BsFillPeopleFill, BsPersonFill } from "react-icons/bs";
+import axios from "axios";
+import {API_ENDPOINT} from '../../../AdminServices/baseURL';
 
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
@@ -100,9 +99,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignUp_and_SetProfile = () => {
-  const [section, setSection] = useState("SignUp");
   const classes = useStyles();
-  const [user,setUser] = useState({email:"",mobile:"",password:""});
+  const [user,setUser] = useState({email:"",mobile:""});
+
+  const SignUp = async (email, phone, password, confirm, fname, lname) => {
+      const SignUpStuff = {
+        email : email,
+        phone_number : phone,
+        password : password,
+        password_confirmation : confirm,
+      }
+
+      await axios.post(`${API_ENDPOINT}/skilzen/v1/sign_up/`, SignUpStuff)
+        .then(res => {
+          if(res.statusText === 'Created'){
+            setUser({email:email, mobile:phone, fname: fname, lname: lname});
+            window.open('/login', '_self')
+          }
+        })
+        .catch(err => console.log(err))
+
+  }
 
   // ---------SignUp (asks credentials)
   const SignUp1 = () => {
@@ -110,6 +127,8 @@ const SignUp_and_SetProfile = () => {
     const [mobile,setmobile] = useState("");
     const [password,setpassword] = useState("");
     const [confirm,setconfirm] = useState("");
+    const [fname, setFname] = useState("");
+    const [lname, setLname] = useState("");
     const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
     
     return (
@@ -123,6 +142,25 @@ const SignUp_and_SetProfile = () => {
           />
           <h3 className="text-center mb-4">Join us!</h3>
           <form className={classes.rootSignUp} noValidate autoComplete="off">
+          <TextField
+              label="First Name"
+              name="fname"
+              value={fname}
+              onChange={(e)=>{setFname(e.target.value)}}
+              variant="outlined"
+              size="small"
+              fullWidth
+            />
+            <TextField
+              className={classes.rightInputField}
+              label="Last Name"
+              name="lname"
+              variant="outlined"
+              size="small"
+              fullWidth
+              value={lname}
+              onChange={(e)=>{setLname(e.target.value)}}
+            />
             <TextField
               className={classes.fullWidth}
               size="small"
@@ -172,7 +210,7 @@ const SignUp_and_SetProfile = () => {
               </div>
             </div>
             <div className={classes.for_already_registerd}>
-              <p>If you already have an account: <a href="http://localhost:3000/login" className={classes.for_Login_redirect}>Login</a></p>
+              <p>Already have an account? <a href="http://localhost:3000/login" className={classes.for_Login_redirect}>Login here!</a></p>
             </div>
             <div className='signup__btn d-flex justify-content-end'>
             <button
@@ -191,8 +229,7 @@ const SignUp_and_SetProfile = () => {
                   },3000)
                 }
                 else{
-                  setUser({email:email,mobile:mobile,password:password});
-                  setSection("SignUp2");
+                  SignUp(email, mobile, password, confirm, fname, lname);
                 }
               }}
             >
@@ -212,54 +249,52 @@ const SignUp_and_SetProfile = () => {
   };
 
   //----------Asks whether student or Organization
-  const SignUp2 = () => (
-    <div className="d-flex justify-content-center align-items-center">
-      <div className="internship__content__card my-5 p-5 signup__container">
-        <img
-          className="mb-5"
-          src={logo}
-          style={{ width: "30%" }}
-          alt="skilzen logo"
-        />
+  // const SignUp2 = () => (
+  //   <div className="d-flex justify-content-center align-items-center">
+  //     <div className="internship__content__card my-5 p-5 signup__container">
+  //       <img
+  //         className="mb-5"
+  //         src={logo}
+  //         style={{ width: "30%" }}
+  //         alt="skilzen logo"
+  //       />
 
-        <form noValidate autoComplete="off">
-          {/* <h3 className="text-center mb-4">I am</h3> */}
-          <div className='d-flex align-items-center'>
-            <button
-              className="select__type_btn apply_btn"
-              onClick={(e) => {
-                e.preventDefault();
-                setSection("Student");
-              }}
-            >
-              <BsPersonFill />
-              Student
-            </button>
-            <h4 className="w-100 text-center m-0">Or</h4>
-            <button
-              className="select__type_btn apply_btn"
-              onClick={(e) => {
-                e.preventDefault();
-                setSection("Org");
-              }}
-            >
-              <BsFillPeopleFill />
-              Organistion/Company
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
+  //       <form noValidate autoComplete="off">
+  //         <div className='d-flex align-items-center'>
+  //           <button
+  //             className="select__type_btn apply_btn"
+  //             onClick={(e) => {
+  //               e.preventDefault();
+  //               setSection("Student");
+  //             }}
+  //           >
+  //             <BsPersonFill />
+  //             Student
+  //           </button>
+  //           <h4 className="w-100 text-center m-0">Or</h4>
+  //           <button
+  //             className="select__type_btn apply_btn"
+  //             onClick={(e) => {
+  //               e.preventDefault();
+  //               setSection("Org");
+  //             }}
+  //           >
+  //             <BsFillPeopleFill />
+  //             Organistion/Company
+  //           </button>
+  //         </div>
+  //       </form>
+  //     </div>
+  //   </div>
+  // );
 
-  // ----------SignUP and SetProfile Merged Below---------
+  // // ----------SignUP and SetProfile Merged Below---------
 
   return (
     <div className='Login__Signup'>
-      {section === "SignUp" && <SignUp1 />}
-      {section === "SignUp2" && <SignUp2  />}
-      {section === "Student" && <MultiStepForm user={user} /> }
-      {section === "Org" && <OrganizationMultiStep user={user} />}
+      <SignUp1 />
+      {/* {section === "Student" && <MultiStepForm user={user} /> }
+      {section === "Org" && <OrganizationMultiStep user={user} />} */}
     </div>
   );
 };

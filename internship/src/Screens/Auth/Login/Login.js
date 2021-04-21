@@ -4,9 +4,12 @@ import { Checkbox, FormControlLabel, makeStyles, TextField } from '@material-ui/
 import { useHistory } from 'react-router';
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookSquare } from "react-icons/fa";
-
 import validator from 'validator';
 import Notification from '../Notification.js'
+import axios from 'axios';
+import {API_ENDPOINT} from '../../../AdminServices/baseURL';
+import { getItem, setItem } from '../../../utility/localStorageControl';
+import AdminService from '../../../AdminServices/AdminService';
 
 
 
@@ -93,15 +96,37 @@ const useStyles = makeStyles((theme) => ({
     
   }));
 
+const SignIn = async(email, pass, PhoneOTP, setPhoneOTP, setEmailOTP, EmailOTP) => {
+  const loginStuff = {
+    username : email,
+    password : pass
+  }
+
+  await axios.post(`${API_ENDPOINT}/skilzen/v1/login/`, loginStuff)
+    .then(res => {
+      if(res.statusText === 'OK'){
+        setItem('accessToken', res.data.token);
+        if(getItem('accessToken')){
+          window.open('/VerifyOTP', '_self');
+        }
+      }
+    })
+    .catch(err => console.log(err))
+
+}
+
+
 
 const Login = () => {
     const classes=useStyles();
     const history=useHistory();
-    const [user,setUser] = useState({email:"",password:""});
-    const [email,setemail] = useState("");
-    const [password,setpassword] = useState("");
+    const [user,setUser] = useState({email:"", password:""});
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [showpassword,setshowpassword] = useState(false);
     const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
+    const [PhoneOTP, setPhoneOTP] = useState("");
+    const [EmailOTP, setEmailOTP] = useState("");
 
     return (
         <div className="internship__container__centered">
@@ -112,14 +137,14 @@ const Login = () => {
             style={{ width: "30%" }}
             alt="skilzen logo"
           />
-          <h3 className="text-center mb-4">Log In</h3>
+          <h3 className="text-center mb-4">Login to Skilzen!</h3>
           <form className={classes.rootSetProfile} noValidate autoComplete="off">
             <TextField
               className={classes.fullWidth}
               size="small"
               label="Email Adress"
               value={email}
-              onChange={(e)=>{setemail(e.target.value)}}
+              onChange={(e)=>{setEmail(e.target.value)}}
               variant="outlined"
               fullWidth
             />
@@ -129,7 +154,7 @@ const Login = () => {
               type={showpassword?"text":"password"}
               variant="outlined"
               value={password}
-              onChange={(e)=>{setpassword(e.target.value)}}
+              onChange={(e)=>{setPassword(e.target.value)}}
               fullWidth
             />
             <div className="m-0 w-100">
@@ -138,8 +163,7 @@ const Login = () => {
                 control={<Checkbox color="primary" />}
                 label="Show Password"
                 labelPlacement="end"
-                onChange={()=>{setshowpassword(val => !val)}}
-
+                onChange={()=>{setshowpassword(!showpassword)}}
               />
             </div>
             <hr className={classes.for_hr_line}></hr>
@@ -156,7 +180,7 @@ const Login = () => {
               </div>
             </div>
             <div className={classes.for_newUser}>
-              <p>If you are a new user: <a href="http://localhost:3000/signup" className={classes.for_signup_redirect}>Signup</a></p>
+              <p> New User? <a href="http://localhost:3000/signup" className={classes.for_signup_redirect}>Click here to Sign Up!</a></p>
             </div>
             <div className={classes.for_login_adj}>
                 <button
@@ -164,15 +188,16 @@ const Login = () => {
                   onClick={(e) => {
                     e.preventDefault();
                     if(!validator.isEmail(email)){
-                      setnotify({message:'Wrong Format of Email address!',isOpen:true,type:'error'});
+                      setnotify({message:'Wrong Format of Email address!',isOpen:true, type:'error'});
                       setTimeout(()=>{
-                        setnotify({message:'',isOpen:false,type:''})
+                        setnotify({message:'', isOpen:false, type:''})
                       },3000)
                     }
                     else{
-                        setUser({email:email,password:password});
-                        history.replace('/home2');
-                      }  
+                      SignIn(email, password);
+                      // setUser({email:email, password:password});
+                      // history.replace('/home2');
+                    }  
                   }}
                 >
                   Log in

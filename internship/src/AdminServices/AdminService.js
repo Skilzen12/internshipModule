@@ -5,14 +5,20 @@ export default {
   // SignUp: async(data) => {
   //   return DataService.post('/skilzen/v1/sign_up/', data);    
   // },
-  userLogin: async(data) => {
-    return DataService.post('/skilzen/v1/login/', data);    
+  // userLogin: async(data) => {
+  //   return await DataService.post('/skilzen/v1/login/', data);    
+  // },
+  getPhoneOTP: async() => {
+    return await DataService.get('/skilzen/v1/phone_otp/');    
   },
-  getOTP: async() => {
-    return DataService.get('/skilzen/v1/phone_otp/');    
+  getEmailOTP: async() => {
+    return await DataService.get('/skilzen/v1/email_otp/');    
   },
-  verifyOTP: async(data) => {
-    return DataService.post('/skilzen/v1/otp/verify/', data);    
+  verifyPhoneOTP: async(data) => {
+    return DataService.post('/skilzen/v1/phone_otp/verify/', data);    
+  },
+  verifyEmailOTP: async(data) => {
+    return DataService.post('/skilzen/v1/email_otp/verify/', data);    
   },
   getUserProfile: async() => {
     return DataService.get('/skilzen/v1/profile/');

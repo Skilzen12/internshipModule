@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LandingPage from './Screens/LandingPage/LandingPage';
 import JobGrid from './Screens/JobGrid/Job_Grid';
 import Login from './Screens/Auth/Login/Login';
+import VerifyOTP from './Screens/Auth/Login/VerifyOTP';
 import SignUp from './Screens/Auth/SignUp/SignUp';
 import PostInternship from './Screens/PostInternship/Post_intern';
 import CandidateProfile from './Screens/CandidateProfile/Candidate';
@@ -25,6 +26,7 @@ ReactDOM.render(
         <Route exact path='/' component={App} />
         <Route exact path='/home' component={LandingPage} />
         <Route exact path='/login' component={Login} />
+        <Route exact path='/VerifyOTP' component={VerifyOTP} />
         <Route exact path='/signup' component={SignUp} />
         <Route exact path='/postInternship' component={PostInternship} />
         <Route exact path='/jobGrid' component={JobGrid} />

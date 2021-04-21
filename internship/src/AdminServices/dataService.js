@@ -1,10 +1,11 @@
 import axios from 'axios';
 import {API_ENDPOINT} from './baseURL';
+import { getItem } from '../utility/localStorageControl';
 
 const authHeader = () => ({
   'Content-Type': 'application/json',
    'Accept': 'application/json',
-   'Authorization': 'Token 2487e1850493ce537edb026742c9626c643f29c2',
+   'Authorization': `Token ${getItem('accessToken')}`,
 });
 
 const client = axios.create({

@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from "../../../images/logo.png";
 import { Checkbox, FormControlLabel, makeStyles, TextField } from '@material-ui/core';
 import { useHistory } from 'react-router';
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookSquare } from "react-icons/fa";
+import validator from 'validator';
+import Notification from '../Notification.js'
 
 
 
@@ -75,7 +77,18 @@ const useStyles = makeStyles((theme) => ({
     for_login_adj:{
       display:"flex",
       justifyContent:"flex-end"
-    }
+    },
+    for_newUser:{
+      width:"100%",
+      color:"#848383"
+    },
+    for_signup_redirect:{
+      color:" #ec1f28 !important",
+      textDecoration:"underline !important",
+      fontSize:'15px',
+      marginTop:'2px',
+      marginLeft:"3px"
+  }
     
   }));
 
@@ -83,6 +96,12 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
     const classes=useStyles();
     const history=useHistory();
+    const [user,setUser] = useState({email:"",password:""});
+    const [email,setemail] = useState("");
+    const [password,setpassword] = useState("");
+    const [showpassword,setshowpassword] = useState(false);
+    const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
+
     return (
         <div className="internship__container__centered">
         <div className="internship__content__card p-5 signup__container">
@@ -98,14 +117,18 @@ const Login = () => {
               className={classes.fullWidth}
               size="small"
               label="Email Adress"
+              value={email}
+              onChange={(e)=>{setemail(e.target.value)}}
               variant="outlined"
               fullWidth
             />
             <TextField
               size="small"
               label="Password"
-              type="password"
+              type={showpassword?"text":"password"}
               variant="outlined"
+              value={password}
+              onChange={(e)=>{setpassword(e.target.value)}}
               fullWidth
             />
             <div className="m-0 w-100">
@@ -114,6 +137,8 @@ const Login = () => {
                 control={<Checkbox color="primary" />}
                 label="Show Password"
                 labelPlacement="end"
+                onChange={()=>{setshowpassword(val => !val)}}
+
               />
             </div>
             <hr className={classes.for_hr_line}></hr>
@@ -129,18 +154,36 @@ const Login = () => {
                 </button>
               </div>
             </div>
+            <div className={classes.for_newUser}>
+              <p>If you are a new user: <a href="http://localhost:3000/signup" className={classes.for_signup_redirect}>Signup</a></p>
+            </div>
             <div className={classes.for_login_adj}>
                 <button
                   class="apply_btn card_btn"
                   onClick={(e) => {
                     e.preventDefault();
-                    history.replace('/home2');
+                    if(!validator.isEmail(email)){
+                      setnotify({message:'Wrong Format of Email address!',isOpen:true,type:'error'});
+                      setTimeout(()=>{
+                        setnotify({message:'',isOpen:false,type:''})
+                      },3000)
+                    }
+                    else{
+                        setUser({email:email,password:password});
+                        history.replace('/home2');
+                      }  
                   }}
                 >
                   Log in
                 </button>
             </div>
           </form>
+          {
+            notify.isOpen && 
+            <Notification
+              notify={notify}
+            />
+          }
         </div>
       </div>
     )

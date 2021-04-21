@@ -2,6 +2,32 @@
   background-color: rgb(175 175 175 / 15%);
   padding: 4px 8px;
 }
+.text__skills{
+  font: 15px 'Gordita', sans-serif;
+  font-weight: 500;
+}
+.featured__fireIcons{
+  margin-top: 10px;
+  height: 20px;
+  width: 20px;
+}
+.stipend__featured{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.featured__paid{
+  font: 15px 'Gordita', sans-serif;
+  font-weight: 500;
+}
+.roww{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 10px 0;
+}
 .list-unstyled {
   padding-left: 0;
   list-style: none;
@@ -18,7 +44,28 @@
 .rounded2 {
   border-radius: 30px;
   border: 1px solid rgba(155, 154, 150, 0.5);
-  padding: 20px;
+  padding: 30px 15px;
+}
+.tags__featured{
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 5px;
+  flex-wrap: wrap;
+  margin: 0
+}
+.details__featured{
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 5px;
+  flex-wrap: wrap;
+  margin: 0
 }
 .text-black-2 {
   color: var(--toast);

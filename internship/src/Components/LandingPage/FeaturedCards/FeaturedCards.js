@@ -7,6 +7,7 @@ import iconLPB from "../../../images/Landing2/icon-loaction-pin-black.svg";
 import iconS from "../../../images/Landing2/icon-suitecase.svg";
 import iconC from "../../../images/Landing2/icon-clock.svg";
 import {LogoMap} from '../../../utility/Maps/LandingPageMaps';
+import {HiUserGroup} from 'react-icons/hi'
 
 function FeaturedCards({data}) {  
   return (
@@ -15,15 +16,18 @@ function FeaturedCards({data}) {
       style={{ overflowX: "hidden", gap: "12px" }}
     >
       {data.map(featured =>{
-        var postedDate = featured.posted_date.split('T')[0];
-        var PostedDate = postedDate.split('-')[2];
-        var PostedMonth = postedDate.split('-')[1];
+        let given = featured.posted_date ? featured.posted_date : 0;
+        if(given){
+          var postedDate = given.split('T')[0];
+          var PostedDate = postedDate.split('-')[2];
+          var PostedMonth = postedDate.split('-')[1];
 
-        var currentDate = new Date();
-        var CurrentDate = String(currentDate.getDate()).padStart(2, '0');
-        var CurrentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+          var currentDate = new Date();
+          var CurrentDate = String(currentDate.getDate()).padStart(2, '0');
+          var CurrentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
 
-        var time = getPostedDate();
+          var time = getPostedDate();
+        }       
 
         function getPostedDate(){
           if(CurrentMonth === PostedMonth){
@@ -35,78 +39,60 @@ function FeaturedCards({data}) {
 
         return (
         <div className="rounded2 col-md-5">
-        <div className="row p-3 px-4">
-          <div className="col-md-7">
-            <div className="media align-items-center">
+          <div className="col-md-12">
+            <div className="media" style={{flexDirection: 'column', }}>
               <div className="square-72 d-block mr-3">
-                <img src={LogoMap.get(featured.company.name.toString()).url} className="companyLogo__featuredCards" alt="" />
+                {featured.company.logo.link ? (
+                  <img src={LogoMap.get(featured.company.name).url} className="companyLogo__featuredCards" alt="" />
+                ) : <HiUserGroup style={{fontSize: 40}} /> }
               </div>
-              <div>
+              <div className="roww">
                 <h3 className="mb-0">
-                  <a className="" style={{ fontFamily: "Gordita", fontSize: 17 }}>
-                  {featured.title}
-                  </a>
+                  <a className="" style={{ fontFamily: "Gordita", fontSize: 20 }}>{featured.title ? featured.title : 'XYZ Company'}</a>
                 </h3>
-
-                <a className="font-size-3 text-default-color line-height-2"></a>
+                <div className="media stipend__featured">
+                  <img src={iconFR} alt="" className="featured__fireIcons" />
+                  <p className="mt-2">
+                    <span className="featured__paid">
+                      {featured.min_stipend}-{featured.max_stipend} INR
+                    </span>
+                  </p>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="col-md-5 text-right featuredCards__stipend">
-            <div className="media justify-content-md-end">
-              <div className="image mr-3 mt-2">
-                <img src={iconFR} alt="" />
-              </div>
-              <p className="mt-2">
-                <span
-                  className="text-black-2"
-                  style={{ fontFamily: "Gordita" }}
-                >
-                  {featured.min_stipend}-{featured.max_stipend} INR
-                </span>
-              </p>
-            </div>
           </div>
         </div>
-        <div className="row pt-4 pl-4">
-          <div className="col-md-6">
-              <TagsIcons list={featured.skills} />
+        <div className="row pt-1" style={{gap: 10}}>
+          <div className="col-md-12" style={{padding: 0, paddingLeft: 15, paddingRight: 15}}>
+            <h5 className="text__skills mb-0">Required Skills :</h5>
+            <TagsIcons list={featured.skills} />
           </div>
-          <div className="col-md-6">
-            <ul className="d-flex list-unstyled justify-content-md-end mr-3">
-              <li className="mt-2 mr-8 font-size-small text-black-2 d-flex">
-                <span className="featureCard__detailIcons">
-                  <img src={iconLPB} alt="" />
-                </span>
-                <span
-                  className="font-weight-semibold mr-2"
-                  style={{ fontFamily: "Gordita" }}
-                >
-                  {featured.city}
-                </span>
-              </li>
-              <li className="mt-2 mr-8 font-size-small text-black-2 d-flex">
-                <span className="featureCard__detailIcons">
-                  <img src={iconS} alt="" />
-                </span>
-                <span
-                  className="font-weight-semibold mr-2"
-                  style={{ fontFamily: "Gordita" }}
-                >
-                  {featured.kind}                  
-                </span>
-              </li>
-              <li className="mt-2 mr-8 font-size-small text-black-2 d-flex">
-                <span className="featureCard__detailIcons">
-                  <img src={iconC} alt="" />
-                </span>
-                <span
-                  className="font-weight-semibold mr-2"
-                  style={{ fontFamily: "Gordita" }}
-                >
-                  {time}d ago
-                </span>
-              </li>
+          <div className="col-md-12" style={{padding: 0, paddingLeft: 15, paddingRight: 15}}>
+            <h5 className="text__skills mb-0">Details :</h5>
+            <ul className="details__featured">
+              {featured.city ? (
+                <li className="mt-2 font-size-small text-black-2 d-flex">
+                  <span className="featureCard__detailIcons"> <img src={iconLPB} alt="" /> </span>
+                  <span className="font-weight-semibold" style={{ fontFamily: "Gordita" }} >
+                    {featured.city}
+                  </span>
+                </li>
+              ): null}     
+              {featured.kind ? (
+                <li className="mt-2 font-size-small text-black-2 d-flex">
+                  <span className="featureCard__detailIcons"> <img src={iconS} alt="" /> </span>
+                  <span className="font-weight-semibold" style={{ fontFamily: "Gordita" }} >
+                    {featured.kind}                  
+                  </span>
+                </li>
+              ): null}     
+              {featured.posted_date ? (
+                <li className="mt-2 font-size-small text-black-2 d-flex">
+                  <span className="featureCard__detailIcons"> <img src={iconC} alt="" /> </span>
+                  <span className="font-weight-semibold" style={{ fontFamily: "Gordita" }} >
+                    {time}d ago
+                  </span>
+                </li>
+              ): null}  
             </ul>
           </div>
         </div>
@@ -120,10 +106,10 @@ export default FeaturedCards;
 
 export const TagsIcons =({list})=>{ 
   return (
-    <ul className="d-flex list-unstyled mr-n3 flex-wrap mb-4">
+    <ul className="tags__featured">
       {list.map(item=>(
-        <li className="mt-2">
-          <a className="bg-regent-opacity-15 min-width-px-96 mr-3 text-center rounded-3 py-1"
+        <li className="mt-1">
+          <a className="bg-regent-opacity-15 min-width-px-96 text-center rounded-3 py-1"
             style={{ fontFamily: "Gordita" }}
           >
             {item.name}

@@ -5,6 +5,8 @@ import logoOnly from "../../../images/Group.png";
 import { TextField, makeStyles } from "@material-ui/core";
 import { useForm } from "react-hooks-helper";
 
+import Notification from '../Notification.js'
+
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
     "& > *": {
@@ -46,14 +48,15 @@ const EducationFields = ({
 }) => {
   const [EduDetails1,setEduDetails1] = useForm(EduDetails)
   const [saved,setSaved]=useState(0)
+
   const classes = useStyles();
   
   const ChangeHandler=(e)=>{
     setSaved(1);
     setEduDetails1(e);
   }
-    // console.log(EduDetails);
-    // console.log(EduDetails1);
+    console.log(EduDetails);
+    console.log(EduDetails1);
   return (
     <>
       <TextField
@@ -140,7 +143,8 @@ const EducationFields = ({
 
 export const Education = ({ navigation,setEduDetails,EduDetails }) => {
   const classes = useStyles();
-  
+  const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
+
   const AddEduHandler = () => {
     setEduDetails((EduDetails) => {
       const newArray = EduDetails.concat({
@@ -170,6 +174,17 @@ export const Education = ({ navigation,setEduDetails,EduDetails }) => {
       return newArray;
     })
     // console.log(EduDetails);
+  }
+  function isEmpty(){
+    let flag = false;
+    EduDetails.map(obj=>{
+      console.log(obj);
+      if(obj.school==="" || obj.degree==="" || obj.specialization===""|| obj.location===""){
+        console.log("ret true");
+        flag = true;
+      }
+    });
+    return flag;
   }
 
   return (
@@ -219,7 +234,19 @@ export const Education = ({ navigation,setEduDetails,EduDetails }) => {
               </button>
               <button
                 className="apply_btn card_btn"
-                onClick={() => navigation.next()}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if(isEmpty()){
+                    setnotify({message:'Fields cannot be empty!',isOpen:true,type:'error'});
+                    setTimeout(()=>{
+                      setnotify({message:'',isOpen:false,type:''})
+                    },3000)
+                  }else{
+                    console.log("is empty false");
+                    console.log(EduDetails);
+                    navigation.next();
+                  }
+                }}
               >
                 Next{" "}
                 <BsArrowRight
@@ -229,6 +256,12 @@ export const Education = ({ navigation,setEduDetails,EduDetails }) => {
             </div>
           </form>
         </section>
+        {
+          notify.isOpen && 
+          <Notification
+            notify={notify}
+          />
+        }
       </div>
     </div>
   );

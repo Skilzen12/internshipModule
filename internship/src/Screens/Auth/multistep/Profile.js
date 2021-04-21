@@ -1,10 +1,13 @@
-import React from "react";
+import React,{ useState} from "react";
 import { BsArrowLeft, BsArrowRight, BsPlusCircle } from "react-icons/all";
 import { TagsSelect } from "react-select-material-ui";
 import { TextField, makeStyles } from "@material-ui/core";
 import logoOnly from "../../../images/Group.png";
 import { AiOutlineGlobal,AiFillLinkedin,AiFillFacebook } from "react-icons/ai";
 import { FaGithubSquare } from "react-icons/fa";
+
+import Notification from '../Notification.js'
+
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
     "& > *": {
@@ -68,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 export const Profile = ({ formData, setForm, navigation }) => {
   const { profileTitle, skills, facebook, github, linkedIn,portfolio,profileDesc,resumeLink } = formData;
+  const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
   const classes = useStyles();
   return (
     <div className="d-flex justify-content-center align-items-center">
@@ -214,7 +218,28 @@ export const Profile = ({ formData, setForm, navigation }) => {
               </button>
               <button
                 className="apply_btn card_btn"
-                onClick={() => navigation.next()}
+                onClick={(e) => {
+                  console.log(formData);
+                  e.preventDefault();
+                  if(formData.profileTitle==="" || formData.profileDesc===""){
+                    setnotify({message:'Fields cannot be empty!',isOpen:true,type:'error'});
+                    setTimeout(()=>{
+                      setnotify({message:'',isOpen:false,type:''})
+                    },3000)
+                  }else if(formData.facebook==="" || formData.github===""||formData.linkedIn===""||formData.portfolio===""){
+                    setnotify({message:'Add all social media links!',isOpen:true,type:'error'});
+                    setTimeout(()=>{
+                      setnotify({message:'',isOpen:false,type:''})
+                    },3000)
+                  }else if(formData.resumeLink===""){
+                    setnotify({message:'Add resume !',isOpen:true,type:'error'});
+                    setTimeout(()=>{
+                      setnotify({message:'',isOpen:false,type:''})
+                    },3000)
+                  }else{
+                    navigation.next();
+                  }
+                }}
               >
                 Next{" "}
                 <BsArrowRight
@@ -223,6 +248,12 @@ export const Profile = ({ formData, setForm, navigation }) => {
               </button>
             </div>
           </form>
+          {
+            notify.isOpen && 
+            <Notification
+              notify={notify}
+            />
+          }
         </section>
       </div>
     </div>

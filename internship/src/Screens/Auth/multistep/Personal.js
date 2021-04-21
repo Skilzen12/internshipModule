@@ -5,6 +5,8 @@ import { GoCheck } from "react-icons/go";
 import logoOnly from "../../../images/Group.png";
 import { BsArrowRight } from "react-icons/all";
 
+import Notification from '../Notification.js'
+
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
     "& > *": {
@@ -67,6 +69,8 @@ const CheckBox = ({ active }) => {
 
 export const Personal = ({ formData, setForm, navigation }) => {
   let { fname, lname, email, dob, location, mobileNo, gender } = formData;
+  const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
+
   const classes = useStyles();
   const [activeGender, setActiveGender] = useState("male");
 
@@ -200,7 +204,14 @@ export const Personal = ({ formData, setForm, navigation }) => {
                 class="apply_btn card_btn"
                 onClick={(e) => {
                   e.preventDefault();
-                  navigation.next();
+                  if(fname==="" || lname==="" || dob===""|| location==="" ){
+                    setnotify({message:'Fields cannot be empty!',isOpen:true,type:'error'});
+                    setTimeout(()=>{
+                      setnotify({message:'',isOpen:false,type:''})
+                    },3000)
+                  }else{
+                    navigation.next();
+                  }
                 }}
               >
                 Next{" "}
@@ -211,6 +222,12 @@ export const Personal = ({ formData, setForm, navigation }) => {
             </div>
           </form>
         </section>
+        {
+          notify.isOpen && 
+          <Notification
+            notify={notify}
+          />
+        }
       </div>
     </div>
   );

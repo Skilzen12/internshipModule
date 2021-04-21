@@ -5,6 +5,8 @@ import logoOnly from "../../../images/Group.png";
 import { TextField, makeStyles } from "@material-ui/core";
 import { useForm } from "react-hooks-helper";
 
+import Notification from '../Notification.js'
+
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
     "& > *": {
@@ -44,7 +46,6 @@ const ExperienceFields = ({
   RemoveThis,
   isFirst
 }) => {
-  console.log(ExpDetails)
   const classes = useStyles();
   const [saved,setSaved]=useState(0)
   const [ExpDetails1,setExpDetails1] = useForm(ExpDetails)
@@ -139,6 +140,7 @@ const ExperienceFields = ({
 
 export const Experience = ({ setExpDetails,ExpDetails,navigation }) => {
   const classes = useStyles();
+  const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
 
   const AddExpHandler = () => {
     setExpDetails((eduCount) => {
@@ -161,6 +163,18 @@ export const Experience = ({ setExpDetails,ExpDetails,navigation }) => {
         newArray.splice(id,1);
         return newArray;
       })
+  }
+
+  function isEmpty(){
+    let flag = false;
+    ExpDetails.map(obj=>{
+      console.log(obj);
+      if(obj.expDesignation==="" || obj.expLocation==="" || obj.expDescription===""|| obj.expOrganization===""){
+        console.log("ret true");
+        flag = true;
+      }
+    });
+    return flag;
   }
 
   return (
@@ -210,7 +224,19 @@ export const Experience = ({ setExpDetails,ExpDetails,navigation }) => {
               </button>
               <button
                 className="apply_btn card_btn"
-                onClick={() => navigation.next()}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if(isEmpty()){
+                    setnotify({message:'Fields cannot be empty!',isOpen:true,type:'error'});
+                    setTimeout(()=>{
+                      setnotify({message:'',isOpen:false,type:''})
+                    },3000)
+                  }else{
+                    console.log("is empty false");
+                    // console.log(EduDetails);
+                    navigation.next();
+                  }
+                }}
               >
                 Next{" "}
                 <BsArrowRight
@@ -219,6 +245,12 @@ export const Experience = ({ setExpDetails,ExpDetails,navigation }) => {
               </button>
             </div>
           </form>
+          {
+            notify.isOpen && 
+            <Notification
+              notify={notify}
+            />
+          }
         </section>
       </div>
     </div>

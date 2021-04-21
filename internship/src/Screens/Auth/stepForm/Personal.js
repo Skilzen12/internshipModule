@@ -1,10 +1,13 @@
-import React from "react";
+import React,{useState} from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button"
 import logo from '../../../images/logo.png'
 
+import Notification from '../Notification.js'
+
 export const Personal = ({ formData, setForm, navigation }) => {
   const { firstName, lastName, email, phone, city, country } = formData;
+  
 
   return (
     <div className="d-flex justify-content-center align-items-center">
@@ -42,7 +45,7 @@ export const Personal = ({ formData, setForm, navigation }) => {
           label="Email"
           name="email"
           value={email}
-          onChange={setForm}
+          disabled
           margin="normal"
           variant="outlined"
           autoComplete="off"
@@ -51,9 +54,9 @@ export const Personal = ({ formData, setForm, navigation }) => {
         />
         <TextField
           label="Phone"
-          name="phone"
-          value={phone}
-          onChange={setForm}
+          name="mobile"
+          value={mobile}
+          disabled
           margin="normal"
           variant="outlined"
           autoComplete="off"
@@ -88,10 +91,18 @@ export const Personal = ({ formData, setForm, navigation }) => {
           fullWidth
           color="primary"
           style={{ marginTop: "1rem" }}
-          onClick={() => navigation.next()}
+          onClick={(e) => {
+            navigation.next();
+          }}
         >
           Next
         </Button>
+        {
+          notify.isOpen && 
+          <Notification
+            notify={notify}
+          />
+        }
       </div>
     </div>
   );

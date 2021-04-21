@@ -24,19 +24,19 @@ export default {
     return DataService.put('/skilzen/v1/profile/update_profile/', data);
   },
   getInternshipsList : async () => {
-    return DataService.get('/internship/v1/internships/');
+    return await DataService.get('/internship/v1/internships/');
   },
   getInternshipsCategories : async () => {
-    return DataService.get('/internship/v1/internships/stats/');
+    return await DataService.get('/internship/v1/internships/stats/');
   },
   getInternshipsDetail : async (id) => {
-    return DataService.get(`/internship/v1/internships/${id}/`);
+    return await DataService.get(`/internship/v1/internships/${id}/`);
   },
   InternshipsApply : async (id) => {
-    return DataService.get(`/internship/v1/internships/${id}/bookmark`);
+    return await DataService.get(`/internship/v1/internships/${id}/bookmark`);
   },
   InternshipsBookmark : async (id) => {
-    return DataService.get(`/internship/v1/internships/${id}/apply`);
+    return await DataService.get(`/internship/v1/internships/${id}/apply`);
   },
   addRecruiters: async(data) => {
     return DataService.post('/internship/v1/company-recruiters/', data);

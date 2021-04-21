@@ -16,7 +16,7 @@ function Updated_Header() {
             </button>
             <div id="navbarCollapse" className="collapse navbar-collapse justify-content-start">
                 <div className="navbar-nav">
-                    <a href="#" className="nav-item nav-link active">Internships</a>
+                    <a href="/jobGrid" className="nav-item nav-link active">Internships</a>
                 </div>
                 <div className="navbar-nav ml-auto">
                     <a href="/login" className="nav-item nav-link signIn">Sign In</a>

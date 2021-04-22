@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import './App.css';
 import { useSelector , useDispatch } from 'react-redux'
+import {getUserData} from './redux/actions/user.actions'
 import {isAdminLogged} from './redux/actions/auth.actions'
 import PrivateRoute from './Screens/Auth/PrivateRoute'
 
@@ -28,6 +29,7 @@ function App() {
     if(!auth.authenticate){
       dispatch(isAdminLogged());
     }
+    dispatch(getUserData());
   },[])
 
   return (

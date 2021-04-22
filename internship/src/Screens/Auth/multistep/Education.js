@@ -173,12 +173,11 @@ export const Education = ({ navigation,setEduDetails,EduDetails }) => {
     })
     // console.log(EduDetails);
   }
-  function isEmpty(){
+  function isEmpty(){ 
     let flag = false;
     EduDetails.map(obj=>{
       console.log(obj);
-      if(obj.school==="" || obj.degree==="" || obj.specialization===""|| obj.location===""){
-        console.log("ret true");
+      if(obj.school==="" || obj.degree==="" || obj.startDate===""|| obj.endDate===""||obj.specialization===""|| obj.location===""){
         flag = true;
       }
     });
@@ -242,6 +241,16 @@ export const Education = ({ navigation,setEduDetails,EduDetails }) => {
                   }else{
                     console.log("is empty false");
                     console.log(EduDetails);
+                    EduDetails.map(obj=>{
+                      const new_obj = {
+                        school:"",
+                        degree:"",
+                        specialization:"",
+                        location:"",
+                        startDate:"",
+                        endDate:"",
+                      }
+                    })
                     navigation.next();
                   }
                 }}

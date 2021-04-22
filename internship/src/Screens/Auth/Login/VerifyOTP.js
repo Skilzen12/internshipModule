@@ -1,6 +1,7 @@
 import { Button, makeStyles, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
+import { Redirect } from "react-router";
 import AdminService from "../../../AdminServices/AdminService";
 import logoOnly from '../../../images/Group.png'
 
@@ -22,8 +23,9 @@ const useStyles = makeStyles((theme) => ({
 
 const SubmitOTP = (phone, email) => {
     if(phone && email){
-        window.open('/home', '_self');
+      window.open('/login','_self');
     }
+    window.open('/login','_self');
 }
 
 const SendPhoneOTP = async () => {
@@ -94,20 +96,30 @@ const VerifyOTP = () => {
                 <p>Email ID Verification</p>
 
                 <TextField label="Verfication code" value={emailVerification} onChange={(e) => setEmailVerification(e.target.value)} id="email__verification" variant="outlined" size="small" style={{width:'70%'}} helperText={emailVerificationHelperText?"OTP has been Sent to your Email":""} />
-                {emailVerificationHelperText ? (
+                {/* {emailVerificationHelperText ? (
                     <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}} onClick={()=>{VerifyEmail(emailVerification, setoutputM, setEmailHelperText)}} >Verify</Button>
                 ) :
                     <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}} onClick={()=>{setEmailHelperText(true); SendEmailOTP()}} >Send OTP</Button>
+                }*/}
+                {emailVerificationHelperText ? (
+                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}} >Verify</Button>
+                ) :
+                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}} onClick={()=>{setEmailHelperText(true);}} >Send OTP</Button>
                 }                
                 <br/><br/>
                 
                 <p>Phone No Verification</p>
                 
                 <TextField label="Verfication code" value={phoneVerification} onChange={(e) => setPhoneVerification(e.target.value)} id="phone__verification" variant="outlined" size="small" style={{width:'70%'}} helperText={phoneVerificationHelperText?"OTP has been Sent to your Phone":""}/>
-                {phoneVerificationHelperText ? (
+                {/* {phoneVerificationHelperText ? (
                     <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}} onClick={()=>{VerifyPhone(phoneVerification, setoutputP, setPhoneHelperText)}} >Verify</Button>
                 ) : 
                     <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}}  onClick={()=>{setPhoneHelperText(true); SendPhoneOTP();}} >Send OTP</Button>
+                } */}
+                {phoneVerificationHelperText ? (
+                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}} >Verify</Button>
+                ) : 
+                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}}  onClick={()=>{setPhoneHelperText(true);}} >Send OTP</Button>
                 }
                 <div className="signup__footer mt-3 d-flex justify-content-end">
                     <button className="apply_btn card_btn" onClick={(e) =>{e.preventDefault(); SubmitOTP(outputPhone, outputEmail)}}>

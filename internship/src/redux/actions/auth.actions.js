@@ -1,5 +1,7 @@
-import { authConstants } from "../actionTypes"
+import { authConstants,getData } from "../actionTypes"
 import axios from '../helper_axios'
+
+import AdminService from '../../AdminServices/AdminService'
 
 export const signIn = (user)=>{
   return async (dispatch)=>{

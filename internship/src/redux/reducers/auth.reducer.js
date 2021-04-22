@@ -6,7 +6,7 @@ const initialState = {
     message:''
 }
 
-  export const authReducer =  (state=initialState,action)=>{
+  export default  (state=initialState,action)=>{
     console.log(action)
     switch(action.type){
       case authConstants.SIGNIN_REQUEST : 

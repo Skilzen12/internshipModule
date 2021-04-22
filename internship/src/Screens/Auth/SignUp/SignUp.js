@@ -117,13 +117,14 @@ const SignUp_and_SetProfile = () => {
         password_confirmation : confirm,
       }
 
-      await axios.post(`${API_ENDPOINT}/skilzen/v1/sign_up/`, SignUpStuff)
-        .then(res => {
-          if(res.statusText === 'Created'){
-            window.open('/login', '_self')
-          }
-        })
-        .catch(err => console.log(err))
+      // await axios.post(`${API_ENDPOINT}/skilzen/v1/sign_up/`, SignUpStuff)
+      //   .then(res => {
+      //     if(res.statusText === 'Created'){
+      //       window.open('/VerifyOTP', '_self')
+      //     }
+      //   })
+      //   .catch(err => console.log(err))
+      window.open('/')
 
   }
   if(auth.authenticate){

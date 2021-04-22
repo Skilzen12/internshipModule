@@ -19,6 +19,7 @@ import './index.css';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import { MultiStepForm } from './Screens/Auth/MultiStepForm';
+import { OrganizationMultiStep } from './Screens/Auth/OrganizationMultiStep';
 
 ReactDOM.render(
   <Provider store={store}>
@@ -38,6 +39,7 @@ ReactDOM.render(
         <Route exact path='/adminDashboard' component={AdminDashboardMain} />
         <Route exact path='/companyspam' component={CompanySpam} />
         <Route exact path='/applyForm' component={MultiStepForm} />
+        <Route exact path='/applyRecruiterForm' component={OrganizationMultiStep} />
       </Switch>             
     </Router>
   </Provider>,

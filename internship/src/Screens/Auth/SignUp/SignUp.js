@@ -16,6 +16,10 @@ import axios from "axios";
 import {API_ENDPOINT} from '../../../AdminServices/baseURL';
 import { setItem } from "../../../utility/localStorageControl";
 
+import { useSelector , useDispatch } from 'react-redux'
+import { Redirect} from 'react-router';
+import {signIn} from '../../../redux/actions/auth.actions';
+
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
     "& > *": {
@@ -103,6 +107,9 @@ const SignUp_and_SetProfile = () => {
   const classes = useStyles();
   const [user,setUser] = useState({email:"",mobile:"", fname: "", lname: ""});
 
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
+
   const SignUp = async (email, phone, password, confirm, fname, lname) => {
       const SignUpStuff = {
         email : email,
@@ -120,6 +127,9 @@ const SignUp_and_SetProfile = () => {
         })
         .catch(err => console.log(err))
 
+  }
+  if(auth.authenticate){
+    return <Redirect to={'/'} />
   }
 
   // ---------SignUp (asks credentials)

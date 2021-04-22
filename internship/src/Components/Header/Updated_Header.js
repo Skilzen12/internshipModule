@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, { useState }from 'react';
 import './Header.css';
 import logo from '../../images/logo.png';
 import {IconButton,Badge} from '@material-ui/core';
@@ -7,7 +7,26 @@ import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import NotificationsOutlinedIcon from '@material-ui/icons/NotificationsOutlined';
 
+
+
+import { useSelector , useDispatch } from 'react-redux'
+import { logoutAdmin } from '../../redux/actions/auth.actions';
+import Notification from '../../Screens/Auth/Notification';
+
 function Updated_Header() {
+    const dispatch = useDispatch();
+    const auth = useSelector(state => state.auth);
+
+    const logout = ()=>{
+        dispatch(logoutAdmin());
+        setnotify({message:'Logged Out Successfully!',isOpen:true,type:'success'});
+        setTimeout(()=>{
+            setnotify({message:'',isOpen:false,type:''})
+        },3000)
+    }
+
+    const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
+
     return (
         <nav className="navbar navbar-expand-xl navbar-light bg-light header">
             <img className="header__logo" src={logo} alt="skilzen logo"/>
@@ -19,10 +38,20 @@ function Updated_Header() {
                     <a href="/jobGrid" className="nav-item nav-link active">Internships</a>
                 </div>
                 <div className="navbar-nav ml-auto">
-                    <a href="/login" className="nav-item nav-link signIn">Sign In</a>
-                    <div className="form-inline" style={{marginRight:'14px'}} >
-                        <a href="/signUp" className="btn btn-sm btn-dark header__signup">Sign Up</a>
-                    </div>
+                    {
+                        auth.authenticate==false?
+                        (
+                            <>
+                            <a href="/login" className="nav-item nav-link signIn">Sign In</a>
+                            <div className="form-inline" style={{marginRight:'14px'}} >
+                                <a href="/signUp" className="btn btn-sm btn-dark header__signup">Sign Up</a>
+                            </div>
+                            </>
+                        ):
+                        <div className="form-inline" style={{marginRight:'14px'}} >
+                            <a href="/" onClick={logout} className="btn btn-sm btn-dark header__signup">Logout</a>
+                        </div>
+                    }
                     <div classname="icons_header">
                         <IconButton  aria-label="Show cart items">
                             <Badge badgeContent={2} color="primary">
@@ -42,6 +71,10 @@ function Updated_Header() {
                     </div>
                 </div>
             </div>
+            {
+                notify.isOpen && 
+                <Notification notify={notify} />
+            }
         </nav>
     )
 }

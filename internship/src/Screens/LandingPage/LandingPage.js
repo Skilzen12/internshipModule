@@ -11,6 +11,7 @@ import CareerCard from "../../Components/LandingPage/CareerCard/CareerCard";
 import CityCards from "../../Components/LandingPage/CityCard/CityCards";
 import AdminService from "../../AdminServices/AdminService";
 
+import axios from '../../redux/helper_axios'
 const Landing2 = () => {
   const [internCategories, setCategories] = useState([]);
   const [internships, setInternships] = useState([]);

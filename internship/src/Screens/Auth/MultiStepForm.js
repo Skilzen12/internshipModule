@@ -6,7 +6,7 @@ import { Profile } from "./multistep/Profile";
 import { Otp } from "./stepForm/Otp";
 import { Experience } from "./multistep/Experience";
 import { useDispatch } from "react-redux";
-import { storeProfile } from "../../redux/actions/auth.actions";
+// import { storeProfile } from "../../redux/actions/auth.actions";
 
 const defaultData = {
   type: "student",
@@ -86,7 +86,7 @@ export const MultiStepForm = ({user}) => {
       EduDetails,
       ExpDetails,
     };
-    dispatch(storeProfile(data));
+    // dispatch(storeProfile(data));
   };
   const { step, navigation } = useStep({
     steps,

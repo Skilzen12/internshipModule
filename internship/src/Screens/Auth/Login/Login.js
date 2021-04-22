@@ -11,7 +11,9 @@ import {API_ENDPOINT} from '../../../AdminServices/baseURL';
 import { getItem, setItem } from '../../../utility/localStorageControl';
 import AdminService from '../../../AdminServices/AdminService';
 
-
+import { useSelector , useDispatch } from 'react-redux'
+import { Redirect} from 'react-router';
+import {signIn} from '../../../redux/actions/auth.actions';
 
 const useStyles = makeStyles((theme) => ({
     rootSignUp: {
@@ -94,35 +96,48 @@ const useStyles = makeStyles((theme) => ({
       marginLeft:"3px"
   }
     
-  }));
-
-const SignIn = async(email, pass, ) => {
-  const loginStuff = {
-    username : email,
-    password : pass
-  }
-
-  await axios.post(`${API_ENDPOINT}/skilzen/v1/login/`, loginStuff)
-    .then(res => {
-      if(res.statusText === 'OK'){
-        setItem('accessToken', res.data.token);
-        if(getItem('accessToken')){
-          window.open('/VerifyOTP', '_self');
-        }
-      }
-    })
-    .catch(err => console.log(err))
-
-}
-
-
+}));
 
 const Login = () => {
+  const dispatch = useDispatch();
+
     const classes=useStyles();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showpassword,setshowpassword] = useState(false);
     const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
+
+    const auth = useSelector(state => state.auth);
+
+    const SignIn = async(email, pass, ) => {
+      const loginStuff = {
+        username : email,
+        password : pass
+      }
+      // await axios.post(`${API_ENDPOINT}/skilzen/v1/login/`, loginStuff)
+      //   .then(res => {
+      //     if(res.statusText === 'OK'){
+      //       setItem('accessToken', res.data.token);
+      //       if(getItem('accessToken')){
+      //         window.open('/VerifyOTP', '_self');
+      //       }
+      //     }
+      //   })
+      //   .catch(err => console.log(err))
+      
+      dispatch(signIn(loginStuff));
+      if(auth.authenticate==false){
+        setnotify({message:auth.message,isOpen:true, type:'error'});
+        setTimeout(()=>{
+          setnotify({message:'', isOpen:false, type:''})
+        },3000)
+      }else{
+        
+      }
+    }
+    if(auth.authenticate){
+      return <Redirect to={'/'} />
+    }
 
     return (
         <div className="internship__container__centered">

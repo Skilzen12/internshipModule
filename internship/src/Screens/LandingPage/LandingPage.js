@@ -10,11 +10,18 @@ import FeaturedCards from "../../Components/LandingPage/FeaturedCards/FeaturedCa
 import CareerCard from "../../Components/LandingPage/CareerCard/CareerCard";
 import CityCards from "../../Components/LandingPage/CityCard/CityCards";
 import AdminService from "../../AdminServices/AdminService";
+import { getItem } from "../../utility/localStorageControl";
 
 const Landing2 = () => {
   const [internCategories, setCategories] = useState([]);
   const [internships, setInternships] = useState([]);
   const [count, setCount] = useState(0);
+
+  const UserProfile = async () => {
+    await AdminService.getUserProfile()
+      .then(res => console.log(res.data.results[0]))
+      .catch(err => console.log(err))
+  }
 
   const getCategories = async () => {
     await AdminService.getInternshipsCategories()
@@ -36,6 +43,9 @@ const Landing2 = () => {
   useEffect(() => {
     getCategories();
     getFeaturedJobs();
+    if(getItem('accesstoken')){
+      UserProfile();
+    }
   },[]);
   
   return (

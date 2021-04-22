@@ -98,6 +98,26 @@ const useStyles = makeStyles((theme) => ({
     
 }));
 
+const SignIn = async(email, pass, ) => {
+  const loginStuff = {
+    username : email,
+    password : pass
+  }
+
+  await axios.post(`${API_ENDPOINT}/skilzen/v1/login/`, loginStuff)
+    .then(res => {
+      if(res.statusText === 'OK'){
+        setItem('accesstoken', res.data.token);
+        if(getItem('accesstoken')){
+          window.open('/VerifyOTP', '_self');
+        }
+      }
+    })
+    .catch(err => console.log(err))
+
+}
+
+
 const Login = () => {
   const dispatch = useDispatch();
 

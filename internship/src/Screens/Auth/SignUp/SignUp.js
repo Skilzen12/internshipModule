@@ -105,7 +105,6 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp_and_SetProfile = () => {
   const classes = useStyles();
-  const [user,setUser] = useState({email:"",mobile:"", fname: "", lname: ""});
 
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
@@ -121,7 +120,6 @@ const SignUp_and_SetProfile = () => {
       await axios.post(`${API_ENDPOINT}/skilzen/v1/sign_up/`, SignUpStuff)
         .then(res => {
           if(res.statusText === 'Created'){
-            setUser({email:email, mobile:phone, fname: fname, lname: lname});
             window.open('/login', '_self')
           }
         })

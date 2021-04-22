@@ -105,8 +105,8 @@ const SignIn = async(email, pass, ) => {
   await axios.post(`${API_ENDPOINT}/skilzen/v1/login/`, loginStuff)
     .then(res => {
       if(res.statusText === 'OK'){
-        setItem('accessToken', res.data.token);
-        if(getItem('accessToken')){
+        setItem('accesstoken', res.data.token);
+        if(getItem('accesstoken')){
           window.open('/VerifyOTP', '_self');
         }
       }

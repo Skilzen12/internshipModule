@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
     
   }));
 
-const SignIn = async(email, pass, PhoneOTP, setPhoneOTP, setEmailOTP, EmailOTP) => {
+const SignIn = async(email, pass, ) => {
   const loginStuff = {
     username : email,
     password : pass
@@ -119,14 +119,10 @@ const SignIn = async(email, pass, PhoneOTP, setPhoneOTP, setEmailOTP, EmailOTP) 
 
 const Login = () => {
     const classes=useStyles();
-    const history=useHistory();
-    const [user,setUser] = useState({email:"", password:""});
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showpassword,setshowpassword] = useState(false);
     const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
-    const [PhoneOTP, setPhoneOTP] = useState("");
-    const [EmailOTP, setEmailOTP] = useState("");
 
     return (
         <div className="internship__container__centered">
@@ -195,8 +191,6 @@ const Login = () => {
                     }
                     else{
                       SignIn(email, password);
-                      // setUser({email:email, password:password});
-                      // history.replace('/home2');
                     }  
                   }}
                 >

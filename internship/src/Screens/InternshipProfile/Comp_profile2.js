@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Comp_profile2.css';
 import  {dataCmp2} from '../../utility/DummyData/InternshipProfile';
 import Back from "../../Components/GoBack/Back_comp";
@@ -11,7 +11,7 @@ import AdminService from '../../AdminServices/AdminService';
 import {LogoMap} from '../../utility/Maps/LandingPageMaps';
 import { HiUserGroup } from 'react-icons/hi';
 
-const InternshipProfile = ({obj, id}) => {
+const InternshipProfile = ({obj, uuid, Apply, Bookmark}) => {
     function getDate(date){
         var postedDate = date.split('T')[0];
         var PostedDate = postedDate.split('-')[2];
@@ -43,10 +43,10 @@ const InternshipProfile = ({obj, id}) => {
                         </div>
                         <div className="btn_row">
                             <div className="adj_btn_comp">
-                                <button className="btn_for_apply btn_for_card" disabled={obj.is_applied} onClick={() => Apply(id)}>{obj.is_applied ? 'Applied' : 'Apply Now'}</button>
+                                <button className="btn_for_apply btn_for_card" disabled={obj.is_applied} onClick={() => Apply(uuid)}>{obj.is_applied ? 'Applied' : 'Apply Now'}</button>
                             </div>
                             <div className="adj_btn_comp">
-                                <button className="btn_for_apply btn_for_card" disabled={obj.is_marked} onClick={() => Bookmark(id)}>
+                                <button className="btn_for_apply btn_for_card" disabled={obj.is_marked} onClick={() => Bookmark(uuid)}>
                                     {obj.is_marked ? <BsFillBookmarkFill style={{fontSize:17,paddingBottom:'2px', marginRight: 5}}/> : <Mark style={{fontSize:17, marginRight: 5, paddingBottom:'2px'}}/>}
                                     {obj.is_marked ? 'Saved' : 'Bookmark it'}
                                 </button>
@@ -104,7 +104,7 @@ const InternshipProfile = ({obj, id}) => {
                             <p className="content_area2">{obj.description}</p>
                             <hr className="hr_for_TM"></hr>
                             <div className="adj_btn_comp">
-                                <button className="btn_for_apply btn_for_card" disabled={obj.is_applied} onClick={() => Apply(id)}>{obj.is_applied ? 'Applied' : 'Apply Now'}</button>
+                                <button className="btn_for_apply btn_for_card" disabled={obj.is_applied} onClick={() => Apply(uuid)}>{obj.is_applied ? 'Applied' : 'Apply Now'}</button>
                             </div>
                         </div>
                     </div>                                            
@@ -130,36 +130,36 @@ const TagsIcons =({list})=>{
     )
 }
 
-const Apply = async (id) => {
-    AdminService.InternshipsApply(id)
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
-}
-const Bookmark = async (id) => {
-    AdminService.InternshipsApply(id)
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
-}
+function AboutCmp (props){    
+    const [data, setData] = useState([]);
+    var uuid = (props.location.state.uuid);
 
-function AboutCmp (){
-    let [data, setData] = useState([]);
-    var id = '';
+    const Apply = async (uuid) => {
+        window.open('/applyForm', '_self');
+    }
+
+    const Bookmark = async (uuid) => {
+        AdminService.InternshipsBookmark(uuid)
+        .then(res => {
+            if(res.data.status === 200){
+                getDetails(uuid);
+            }
+        })
+        .catch(err => console.log(err))
+    }
     
     const getDetails = async (id) => {
         AdminService.getInternshipsDetail(id)
-            .then(res => setData(res.data))
+            .then(res => {
+                setData(res.data);
+            })
             .catch(err => console.log(err))
     }   
+    useEffect(() => {
+        getDetails(uuid);
+    }, [uuid])
 
-    function getIDFromURL(){
-        return window.location.href.split('?')[1].split('=')[1];
-    };  
-
-    window.onload = () => {         
-        id = getIDFromURL();
-        getDetails(id); 
-    }    
-
+    console.log(data);
     return(
         <>
             <div style={{background: '#CDCDCD1F',height:'100%',overflow:'auto'}}>
@@ -169,7 +169,7 @@ function AboutCmp (){
                             <div className='adjusting_card_back'>
                                 <Back/>
                             </div>
-                            {data ? <InternshipProfile obj={data} id={id} /> : null }          
+                            {data ? <InternshipProfile obj={data} uuid={uuid} Apply={Apply} BookMark={Bookmark} /> : null }          
                         </div>
                         <Footer></Footer>
                     </div>

@@ -14,6 +14,7 @@ import { MultiStepForm } from "../MultiStepForm";
 import { BsFillPeopleFill, BsPersonFill } from "react-icons/bs";
 import axios from "axios";
 import {API_ENDPOINT} from '../../../AdminServices/baseURL';
+import { setItem } from "../../../utility/localStorageControl";
 
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
@@ -100,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp_and_SetProfile = () => {
   const classes = useStyles();
-  const [user,setUser] = useState({email:"",mobile:""});
+  const [user,setUser] = useState({email:"",mobile:"", fname: "", lname: ""});
 
   const SignUp = async (email, phone, password, confirm, fname, lname) => {
       const SignUpStuff = {

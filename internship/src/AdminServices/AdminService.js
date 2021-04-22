@@ -15,10 +15,10 @@ export default {
     return await DataService.get('/skilzen/v1/email_otp/');    
   },
   verifyPhoneOTP: async(data) => {
-    return DataService.post('/skilzen/v1/phone_otp/verify/', data);    
+    return DataService.post('/skilzen/v1/phone_otp/verify', data);    
   },
   verifyEmailOTP: async(data) => {
-    return DataService.post('/skilzen/v1/email_otp/verify/', data);    
+    return DataService.post('/skilzen/v1/email_otp/verify', data);    
   },
   getUserProfile: async() => {
     return DataService.get('/skilzen/v1/profile/');
@@ -39,10 +39,10 @@ export default {
     return await DataService.get(`/internship/v1/internships/${id}/`);
   },
   InternshipsApply : async (id) => {
-    return await DataService.get(`/internship/v1/internships/${id}/bookmark`);
+    return await DataService.get(`/internship/v1/internships/${id}/apply`);
   },
   InternshipsBookmark : async (id) => {
-    return await DataService.get(`/internship/v1/internships/${id}/apply`);
+    return await DataService.get(`/internship/v1/internships/${id}/bookmark`);
   },
   addRecruiters: async(data) => {
     return DataService.post('/internship/v1/company-recruiters/', data);

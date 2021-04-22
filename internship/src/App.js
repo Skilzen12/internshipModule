@@ -4,6 +4,7 @@ import LandingPage from './Screens/LandingPage/LandingPage';
 
 
 function App() {
+  
   return (
     <div className="App">
       <LandingPage />

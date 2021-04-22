@@ -38,21 +38,31 @@ const SendEmailOTP = async () => {
       .catch(err => console.log(err))
 }
 
-const VerifyPhone = async(phone, Phone) => {
+const VerifyPhone = async(phone, Phone, PhoneText) => {
     var phoneData = {
         otp : phone
     }
     AdminService.verifyPhoneOTP(phoneData)
-        .then(res => console.log(res))
+        .then(res => {
+          if(res.data === 'User is Verified'){
+            Phone(true);
+            PhoneText('OTP Verified!')
+          }
+        })
         .catch(err => console.log(err))
 }
 
-const VerifyEmail = async(email, Email) => {
+const VerifyEmail = async(email, Email, EmailText) => {
     var emailData = {
         otp : email
     }
     AdminService.verifyEmailOTP(emailData)
-        .then(res => console.log(res))
+        .then(res => {
+          if(res.data === 'User is Verified'){
+            Email(true);
+            EmailText('OTP Verified!');
+          }
+        })
         .catch(err => console.log(err))
 }
   
@@ -67,7 +77,7 @@ const VerifyOTP = () => {
   const [outputEmail, setoutputM] = useState(false);
     return (
       <div className="d-flex justify-content-center align-items-center">
-          <div className="internship__content__card my-5 p-5 signup__container">
+          <div className="internship__content__card my-5 p-5 signup__container" style={{width: 500}}>
             <img
               className="mt-n2"
               src={logoOnly}
@@ -85,7 +95,7 @@ const VerifyOTP = () => {
 
                 <TextField label="Verfication code" value={emailVerification} onChange={(e) => setEmailVerification(e.target.value)} id="email__verification" variant="outlined" size="small" style={{width:'70%'}} helperText={emailVerificationHelperText?"OTP has been Sent to your Email":""} />
                 {emailVerificationHelperText ? (
-                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}} onClick={()=>{VerifyEmail(emailVerification, outputEmail)}} >Verify</Button>
+                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}} onClick={()=>{VerifyEmail(emailVerification, setoutputM, setEmailHelperText)}} >Verify</Button>
                 ) :
                     <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}} onClick={()=>{setEmailHelperText(true); SendEmailOTP()}} >Send OTP</Button>
                 }                
@@ -95,7 +105,7 @@ const VerifyOTP = () => {
                 
                 <TextField label="Verfication code" value={phoneVerification} onChange={(e) => setPhoneVerification(e.target.value)} id="phone__verification" variant="outlined" size="small" style={{width:'70%'}} helperText={phoneVerificationHelperText?"OTP has been Sent to your Phone":""}/>
                 {phoneVerificationHelperText ? (
-                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}} onClick={()=>{VerifyPhone(phoneVerification, outputPhone)}} >Verify</Button>
+                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}} onClick={()=>{VerifyPhone(phoneVerification, setoutputP, setPhoneHelperText)}} >Verify</Button>
                 ) : 
                     <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}}  onClick={()=>{setPhoneHelperText(true); SendPhoneOTP();}} >Send OTP</Button>
                 }

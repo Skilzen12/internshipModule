@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useState } from "react";
 import "./FeaturedCard.css";
+import {Link} from 'react-router-dom';
 import iconFR from "../../../images/Landing2/icon-fire-rounded.svg";
 import iconLPB from "../../../images/Landing2/icon-loaction-pin-black.svg";
 import iconS from "../../../images/Landing2/icon-suitecase.svg";
@@ -15,7 +16,7 @@ function FeaturedCards({data}) {
       className="row justify-content-center"
       style={{ overflowX: "hidden", gap: "12px" }}
     >
-      {data.map(featured =>{
+      {data.map(featured =>{ 
         let given = featured.posted_date ? featured.posted_date : 0;
         if(given){
           var postedDate = given.split('T')[0];
@@ -48,7 +49,13 @@ function FeaturedCards({data}) {
               </div>
               <div className="roww">
                 <h3 className="mb-0">
-                  <a className="" style={{ fontFamily: "Gordita", fontSize: 20 }}>{featured.title ? featured.title : 'XYZ Company'}</a>
+                  <Link to={{
+                    pathname: `/internship`,
+                    search: `?id=${featured.uuid}`,
+                    state: { uuid : featured.uuid }
+                  }}>
+                    <a className="" style={{ fontFamily: "Gordita", fontSize: 20 }}>{featured.title ? featured.title : 'XYZ Company'}</a>
+                  </Link>
                 </h3>
                 <div className="media stipend__featured">
                   <img src={iconFR} alt="" className="featured__fireIcons" />

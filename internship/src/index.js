@@ -18,6 +18,7 @@ import AdminDashboardMain from './Screens/AdminDashboard/AdminDashBoard';
 import './index.css';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import { MultiStepForm } from './Screens/Auth/MultiStepForm';
 
 ReactDOM.render(
   <Provider store={store}>
@@ -36,6 +37,7 @@ ReactDOM.render(
         <Route exact path='/dashboard' component={CompanyDashboard} />
         <Route exact path='/adminDashboard' component={AdminDashboardMain} />
         <Route exact path='/companyspam' component={CompanySpam} />
+        <Route exact path='/applyForm' component={MultiStepForm} />
       </Switch>             
     </Router>
   </Provider>,

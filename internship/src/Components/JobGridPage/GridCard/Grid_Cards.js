@@ -30,7 +30,11 @@ const Grid_Cards = ({obj}) => {
         </div>
         <div className="company__name text-gray"> {obj.company.name ? obj.company.name : 'ABC'} </div>
         <h2 className="mt-1 mb-2" style={{fontFamily:'Gordita'}}>
-          <Link to={`/internship?id=${obj.uuid}`} className="font-weight-bold font-size-5"> {obj.title ? obj.title : 'XYZ'} </Link>
+          <Link to={{
+                    pathname: `/internship`,
+                    search: `?id=${obj.uuid}`,
+                    state: { uuid : obj.uuid }
+                  }} className="font-weight-bold font-size-5"> {obj.title ? obj.title : 'XYZ'} </Link>
         </h2>
         <ul className="tags__gridCard mb-2 card-tag-list">
           <li> 

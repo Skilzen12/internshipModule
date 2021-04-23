@@ -35,6 +35,7 @@ function Student_details() {
         amount:" ",
         date:"",
         category:" ",
+        otherCategory:" ",
         PPO:false
         
     })
@@ -89,12 +90,7 @@ function Student_details() {
         //     perk
         // })
     }
-    const otherCatrgoryTrue=()=>{
-        setShow_other(true)
-    }
-    const otherCatrgoryFalse=()=>{
-        setShow_other(false)
-    }
+    
     // const handleChange2 = (event) => {
     //     const  target = event.target
     //     const name = target.name
@@ -140,39 +136,33 @@ function Student_details() {
                                     <RadioGroup aria-label="category" name="category"   onChange={changehandler}>
                                     <div className="profile_outter">
                                         <div className='profile_part1'>
-                                            <FormControlLabel value="Business Development (Sales)" control={<Radio />} label="Business Development (Sales)"  onChange={otherCatrgoryFalse} />
-                                            <FormControlLabel value="Graphic Design" control={<Radio />} label="Graphic Design" onChange={otherCatrgoryFalse} />
-                                            <FormControlLabel value="Social Media Marketing" control={<Radio />} label="Social Media Marketing" onChange={otherCatrgoryFalse} />
-                                            <FormControlLabel value="Operations" control={<Radio />} label="Operations"   onChange={otherCatrgoryFalse}/>
-                                            <FormControlLabel value="Digital Marketing" control={<Radio />} label="Digital Marketing" onChange={otherCatrgoryFalse} />
-                                            <FormControlLabel value="Law/Lega" control={<Radio />} label="Law/Lega" onChange={otherCatrgoryFalse} />
-                                            <FormControlLabel value="other" control={<Radio />} label="Other"  onChange={otherCatrgoryTrue} />
+                                            <FormControlLabel value="Business Development (Sales)" control={<Radio />} label="Business Development (Sales)"  />
+                                            <FormControlLabel value="Graphic Design" control={<Radio />} label="Graphic Design" />
+                                            <FormControlLabel value="Social Media Marketing" control={<Radio />} label="Social Media Marketing" />
+                                            <FormControlLabel value="Operations" control={<Radio />} label="Operations"  />
+                                            <FormControlLabel value="Digital Marketing" control={<Radio />} label="Digital Marketing" />
+                                            <FormControlLabel value="Law/Lega" control={<Radio />} label="Law/Lega" />
+                                            <FormControlLabel value="other" control={<Radio />} label="Other"  />
 
                                         </div>
                                         <div className='profile_part2'>                               
-                                            <FormControlLabel value="Web Development" control={<Radio />} label="Web Development" onChange={otherCatrgoryFalse}  />
-                                            <FormControlLabel value="Content Writing" control={<Radio />} label="Content Writing" onChange={otherCatrgoryFalse} />
-                                            <FormControlLabel value="Marketing" control={<Radio />} label="Marketing"  onChange={otherCatrgoryFalse}/>
-                                            <FormControlLabel value="Mobile App Development" control={<Radio />} label="Mobile App Development"  onChange={otherCatrgoryFalse} />
-                                            <FormControlLabel value="Human Resources (HR)" control={<Radio />} label="Human Resources (HR)" onChange={otherCatrgoryFalse}/>
-                                            <FormControlLabel value="Campus Ambassador" control={<Radio />} label="Campus Ambassador" onChange={otherCatrgoryFalse} /> 
+                                            <FormControlLabel value="Web Development" control={<Radio />} label="Web Development"    />
+                                            <FormControlLabel value="Content Writing" control={<Radio />} label="Content Writing"   />
+                                            <FormControlLabel value="Marketing" control={<Radio />} label="Marketing"   />
+                                            <FormControlLabel value="Mobile App Development" control={<Radio />} label="Mobile App Development"   />
+                                            <FormControlLabel value="Human Resources (HR)" control={<Radio />} label="Human Resources (HR)" />
+                                            <FormControlLabel value="Campus Ambassador" control={<Radio />} label="Campus Ambassador"  /> 
                                         </div> 
                                     </div>  
                                     </RadioGroup>
                                 </FormControl>
                                 <div>  
                                     {
-                                        /* <FormControl component="fieldset">
-                                            <RadioGroup aria-label="othercat" name="othercat"  onChange={othercatrgory} >
-                                            </RadioGroup>
-                                        </FormControl> */
-                                    }
-                                    {
-                                        show_other?( <FormControl fullWidth  variant="outlined">
+                                        formData.category==="other"?( <FormControl fullWidth  variant="outlined">
                                         <OutlinedInput
                                             id="outlined-adornment-amount"  
                                             onChange={changehandler}
-                                            name="category"
+                                            name="otherCategory"
                                             placeholder="Catrgory name"
                                             min="1"
                                             error
@@ -319,19 +309,24 @@ function Student_details() {
                                                 </RadioGroup>
                                             </FormControl>
                                         </div>
-                                        <div>
-                                            <FormControl fullWidth  variant="outlined">
-                                                <OutlinedInput
-                                                    id="outlined-adornment-amount"  
-                                                    onChange={changehandler}
-                                                    name="amount"
-                                                    placeholder="e.g. 1000"
-                                                    type="number"
-                                                    min="1"
-                                                    error
-                                                />
-                                            </FormControl>
-                                        </div>
+                                        {
+                                            formData.stipend==="Fixed"?( 
+                                            <div>
+                                                <p className="for_heading_name">Stipend provided by your Organization:</p>
+                                                <FormControl fullWidth  variant="outlined">
+                                                    <OutlinedInput
+                                                        id="outlined-adornment-amount"  
+                                                        onChange={changehandler}
+                                                        name="amount"
+                                                        placeholder="e.g. 1000"
+                                                        type="number"
+                                                        min="1"
+                                                        error
+                                                    />
+                                                </FormControl>
+                                            </div>):null
+                                        }
+                                       
                                     </div>
                                     <div className="post_parts">
                                         <p className="for_heading_name">Intern’s responsibilities</p>

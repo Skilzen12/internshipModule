@@ -16,6 +16,7 @@ import Notification from '../../Screens/Auth/Notification';
 function Updated_Header() {
     const dispatch = useDispatch();
     const auth = useSelector(state => state.auth);
+    const user = useSelector(state => state.user);
 
     const logout = ()=>{
         dispatch(logoutAdmin());
@@ -29,17 +30,31 @@ function Updated_Header() {
 
     return (
         <nav className="navbar navbar-expand-xl navbar-light bg-light header">
-            <img className="header__logo" src={logo} alt="skilzen logo"/>
+            <img onClick={() => window.open('/', '_self')} style={{cursor: 'pointer'}} className="header__logo" src={logo} alt="skilzen logo"/>
             <button type="button" className="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span className="navbar-toggler-icon"></span>
             </button>
-            <div id="navbarCollapse" className="collapse navbar-collapse justify-content-start">
+            <div id="navbarCollapse" style={{gap: 25}} className="collapse navbar-collapse justify-content-start">
                 <div className="navbar-nav">
                     <a href="/jobGrid" className="nav-item nav-link active">Internships</a>
                 </div>
+                {
+                    user.recruits_for !== null ? (
+                        <div className="navbar-nav">
+                            <a href="/dashboard" className="nav-item nav-link active">Dashboard</a>
+                        </div>
+                    ) : null
+                }
+                {
+                    auth.authenticate === true ? (
+                        <div className="navbar-nav">
+                            <a href="/candidate" className="nav-item nav-link active">Profile</a>
+                        </div>
+                    ) : null
+                }
                 <div className="navbar-nav ml-auto">
                     {
-                        auth.authenticate==false?
+                        auth.authenticate===false?
                         (
                             <>
                             <a href="/login" className="nav-item nav-link signIn">Sign In</a>

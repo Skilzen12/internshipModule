@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { authConstants } from "../actionTypes";
 
 const initialState = {
@@ -10,6 +11,7 @@ const initialState = {
 
   export default  (state=initialState,action)=>{
     console.log(action)
+    // eslint-disable-next-line default-case
     switch(action.type){
       case authConstants.SIGNIN_REQUEST : 
         state = {

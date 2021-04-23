@@ -1,4 +1,6 @@
 import { getData,addEducation as Edu,addWorkExperience as Exp } from "../actionTypes";
+/* eslint-disable default-case */
+/* eslint-disable import/no-anonymous-default-export */
 
 const initialState = {
   first_name: "",
@@ -12,7 +14,7 @@ const initialState = {
   educLoading:false,
   expLoading: false,
   skillsLoading: false,
-
+  recruits_for: null
 }
 
 export default (state=initialState,action)=>{

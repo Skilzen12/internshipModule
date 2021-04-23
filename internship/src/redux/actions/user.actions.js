@@ -52,7 +52,6 @@ export const addEducations = (data) => {
       }
       return {...res,error:''};
     }catch(err){
-      console.log(err,"err");
       dispatch({
         type:Edu.ADD_EDUCATION_FAILURE,
         payload:{
@@ -65,12 +64,12 @@ export const addEducations = (data) => {
 }
 export const addWorkExperience = (data) => {
   return async (dispatch)=>{
-    dispatch({type:Exp.ADD_WORK_EXP_REQUEST,})
+    dispatch({type:Exp.ADD_WORK_EXP_REQUEST})
     const obj = {meta:data};
     try{
-      const res = await axios.post('/skilzen/v1/profile/work_experience',obj);
-      if(res.statusText === 'OK'){
-        dispatch({type:Exp.ADD_WORK_EXP_SUCCESS,})
+      const res = await axios.post('/skilzen/v1/profile/work_experience/',obj);
+      if(res.status===201){
+        dispatch({type:Exp.ADD_WORK_EXP_SUCCESS})
       }else{
         dispatch({
           type:Exp.ADD_WORK_EXP_FAILURE,
@@ -79,7 +78,7 @@ export const addWorkExperience = (data) => {
           }
         })
       }
-      return res;
+      return {...res,error:''};
     }
     catch(err){
       dispatch({
@@ -92,15 +91,3 @@ export const addWorkExperience = (data) => {
     }
   }
 }
-// {
-//   "meta": {
-//       "degree": "Btech Chemical",
-//       "college_id": "1",
-//       "college_name": "NIT",
-//       "college_city": "Warangal",
-//       "start_date": "2017-08-02",
-//       "end_date": "2022-08-21",
-//       "location": ""
-      
-//       }
-// }

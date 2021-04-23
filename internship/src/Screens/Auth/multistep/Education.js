@@ -58,7 +58,6 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,id}) => {
   const [saved,setSaved]=useState(false);
   const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
 
-  const user = useSelector(state => state.user);
   const dispatch = useDispatch();
 
   const classes = useStyles();
@@ -66,6 +65,7 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,id}) => {
   const ChangeHandler=(e)=>{
     setEduDetails1(e);
   }
+
   const saveClicked = async()=>{
     const {school,degree,startDate,endDate,location} = EduDetails1;
 
@@ -73,7 +73,7 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,id}) => {
       setnotify({message:'Fields cannot be empty!',isOpen:true,type:'error'});
       setTimeout(()=>{
         setnotify({message:'',isOpen:false,type:''})
-      },1600)
+      },2500)
     }
     else{
       const new_obj = {
@@ -97,11 +97,12 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,id}) => {
           setnotify({message:'',isOpen:false,type:''})
         },1600)
         setSaved(true);
-        SaveThis(EduDetails1)
+        SaveThis({...EduDetails1,saved:true})
       }
     }
 
   }
+  
   return (
     <>
       <TextField
@@ -173,13 +174,24 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,id}) => {
         />
       </div>
       <div className={`edu_footer my-2 d-flex ${!isFirst?'justify-content-between':'justify-content-end'}`}>
-        <div
-          style={{ cursor: "pointer",display:isFirst?'none':'unset' }}
-          onClick={RemoveThis}
-        >
-          <BsDashCircleFill style={{ fontSize: 20,marginTop: '-2px',color:'red' }} />{" "}
-          <p style={{ display: "inline-block",fontSize: 14 }}>Remove Education</p>
-        </div>
+        {
+          saved ?
+          <div
+            style={{ cursor:'disabled' ,visibility:'hidden' }}
+            onClick={RemoveThis}
+          >
+            <BsDashCircleFill style={{ fontSize: 20,marginTop: '-2px',color:'red' }} />{" "}
+            <p style={{ display: "inline-block",fontSize: 14 }}>Remove Education</p>
+          </div> 
+          :
+          <div
+            style={{ cursor: "pointer",display:isFirst?'none':'unset' }}
+            onClick={RemoveThis}
+          >
+            <BsDashCircleFill style={{ fontSize: 20,marginTop: '-2px',color:'red' }} />{" "}
+            <p style={{ display: "inline-block",fontSize: 14 }}>Remove Education</p>
+          </div>
+        }
         <div>
           {saved===false?<FaCheckCircle style={{ fontSize: 20,color:'#00c600', marginBottom:'0px',cursor:'pointer'}} onClick={saveClicked} />
           :(saved===true&&<p style={{transition:'all .3s',fontSize:14}}>Data Saved</p>)
@@ -211,6 +223,7 @@ export const Education = ({ navigation,setEduDetails,EduDetails }) => {
         location:"",
         startDate:"",
         endDate:"",
+        saved:false,
       });
       return newArray;
     });
@@ -236,7 +249,7 @@ export const Education = ({ navigation,setEduDetails,EduDetails }) => {
     let flag = false;
     EduDetails.map(obj=>{
       console.log(obj);
-      if(obj.school==="" || obj.degree==="" || obj.startDate===""|| obj.endDate===""||obj.specialization===""|| obj.location===""){
+      if(obj.saved==false){
         flag = true;
       }
     });
@@ -295,15 +308,12 @@ export const Education = ({ navigation,setEduDetails,EduDetails }) => {
                 onClick={(e) => {
                   e.preventDefault();
                   if(isEmpty()){
-                    const mess = "Fields cannot be empty!";
+                    const mess = "Save the Data !";
                     setnotify({message:mess,isOpen:true,type:'error'});
                     setTimeout(()=>{
                       setnotify({message:'',isOpen:false,type:''})
                     },3000)
                   }else{
-                    EduDetails.map(async(obj,id)=>{
-                      
-                    })
                     navigation.next();
                   }
                 }}

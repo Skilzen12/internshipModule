@@ -15,7 +15,7 @@ import PostInternship from './Screens/PostInternship/Post_intern';
 import CandidateProfile from './Screens/CandidateProfile/Candidate';
 import CompanyProfile from './Screens/CompanyProfile/Company_profile';
 import InternshipProfile from './Screens/InternshipProfile/Comp_profile2'; 
-import CompanyDashboard from './Screens/Dashboard/DashboardMain'; 
+import DashboardMain from './Screens/Dashboard/DashboardMain'; 
 import CompanySpam from './Screens/AdminDashboard/CompanySpam';
 import AdminDashboardMain from './Screens/AdminDashboard/AdminDashBoard';
 import { MultiStepForm } from './Screens/Auth/MultiStepForm';
@@ -45,7 +45,7 @@ function App() {
           <Route exact path='/candidate' component={CandidateProfile} />
           <Route exact path='/company' component={CompanyProfile} />
           <PrivateRoute exact path='/internship' component={InternshipProfile} />
-          <Route exact path='/dashboard' component={CompanyDashboard} />
+          <Route exact path='/dashboard' component={DashboardMain} />
           <Route exact path='/adminDashboard' component={AdminDashboardMain} />
           <Route exact path='/companyspam' component={CompanySpam} />
           <Route exact path='/applyForm' component={MultiStepForm} />

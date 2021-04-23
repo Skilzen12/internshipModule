@@ -140,7 +140,6 @@ const Login = () => {
         username : email,
         password : pass
       }
-      
       await dispatch(signIn(loginStuff));
 
       if(!auth.loading && !auth.authenticate && auth.message!==""){

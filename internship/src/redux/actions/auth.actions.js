@@ -18,9 +18,17 @@ export const signIn = (user)=>{
             token
           }
         })
+      }else{
+        dispatch({
+          type:authConstants.SIGNIN_FAILURE,
+          payload:{
+            message: 'Invalid Login Credentials!'
+          }
+        })
       }
     }
     catch(err){
+      console.log(err,"err");
       dispatch({
         type:authConstants.SIGNIN_FAILURE,
         payload:{

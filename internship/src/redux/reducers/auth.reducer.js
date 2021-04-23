@@ -4,14 +4,13 @@ import { authConstants } from "../actionTypes";
 const initialState = {
     token:null,
     authenticate:false,
-    message:'',
+    message:"",
     loading:false,
     signedUp:false,
 }
 
   export default  (state=initialState,action)=>{
     console.log(action)
-    // eslint-disable-next-line default-case
     switch(action.type){
       case authConstants.SIGNIN_REQUEST : 
         state = {
@@ -24,17 +23,19 @@ const initialState = {
           ...state,
           token:action.payload.token,
           authenticate:true,
-          message:'successfully signed in..',
           loading:false,
+          message:"",
         }
         break;
       case authConstants.SIGNIN_FAILURE : 
         state = {
+          ...state,
           token:null,
           authenticate:false,
           message:action.payload.message, 
           loading:false
         }
+        console.log(state)
         break;
       case authConstants.SIGNUP_REQUEST : 
         state = {

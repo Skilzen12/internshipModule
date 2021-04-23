@@ -4,6 +4,7 @@ import { useSelector , useDispatch } from 'react-redux'
 import {getUserData} from './redux/actions/user.actions'
 import {isAdminLogged} from './redux/actions/auth.actions'
 import PrivateRoute from './Screens/Auth/PrivateRoute'
+import InternshipRoute from './Screens/Auth/InternshipRoute'
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LandingPage from './Screens/LandingPage/LandingPage';
@@ -44,7 +45,7 @@ function App() {
           <Route exact path='/jobGrid' component={JobGrid} />
           <Route exact path='/candidate' component={CandidateProfile} />
           <Route exact path='/company' component={CompanyProfile} />
-          <PrivateRoute exact path='/internship' component={InternshipProfile} />
+          <InternshipRoute exact path='/internship' component={InternshipProfile} />
           <Route exact path='/dashboard' component={DashboardMain} />
           <Route exact path='/adminDashboard' component={AdminDashboardMain} />
           <Route exact path='/companyspam' component={CompanySpam} />

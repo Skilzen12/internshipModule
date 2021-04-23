@@ -3,10 +3,9 @@ import React from "react";
 import { useForm, useStep } from "react-hooks-helper";
 import { Organization } from "./stepForm/Organization";
 import { Organization2 } from "./stepForm/Organization2";
-import { Otp } from "./stepForm/Otp";
 import { useSelector , useDispatch } from 'react-redux'
 
-const steps = [{ id: "organization" }, { id: "organization2" }, { id: "otp" }];
+const steps = [{ id: "organization" }, { id: "organization2" }];
 
 const defaultData = {
   organization: "",
@@ -15,10 +14,13 @@ const defaultData = {
   established: "",
   strength: "",
   city: "",
-  kind: "",
+  type: "",
   description:"",
   socialLinks:{},
-  website: ""
+  website: "",
+  company_uid: "",
+  official_doc: "",
+  logo: "",
 };
 
 export const OrganizationMultiStep = () => {
@@ -40,8 +42,6 @@ export const OrganizationMultiStep = () => {
       return <Organization {...props} />;
     case "organization2":
       return <Organization2 {...props} />;
-    case "otp":
-      return <Otp {...props} />;
   }
 
   return (

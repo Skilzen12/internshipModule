@@ -125,17 +125,17 @@ const Login = () => {
       }
       await dispatch(signIn(loginStuff));
 
-      if(!auth.loading && !auth.authenticate && auth.message!==""){
-        setnotify({message:auth.message,isOpen:true, type:'error'});
+      if(auth.authenticate==false ){
+        setnotify({message:'Invalid Credentials ! ',isOpen:true, type:'error'});
         setTimeout(()=>{
           setnotify({message:'', isOpen:false, type:''})
         },3000)
       }else{
         setnotify({message:'Successfully signed in',isOpen:true, type:'success'});
+        dispatch(getUserData());
         setTimeout(()=>{
           setnotify({message:'', isOpen:false, type:''})
         },3000)
-        dispatch(getUserData());
       }
     }
     if(auth.authenticate){
@@ -195,7 +195,7 @@ const Login = () => {
               </div>
             </div>
             <div className={classes.for_newUser}>
-              <p> New User? <a href="http://localhost:3000/signup" className={classes.for_signup_redirect}>Click here to Sign Up!</a></p>
+              <p> New User? <a href="/signup" className={classes.for_signup_redirect}>Click here to Sign Up!</a></p>
             </div>
             <div className={classes.for_login_adj}>
                 <button

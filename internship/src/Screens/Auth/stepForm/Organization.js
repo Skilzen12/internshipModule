@@ -98,8 +98,8 @@ export const Organization = ({ formData, setForm, navigation }) => {
             onChange={setForm}
             name="type"
           >
-            <MenuItem value={"business-to-business"}>Business to Business</MenuItem>
-            <MenuItem value={"business-to-customer"}>Business to Customer</MenuItem>
+            <MenuItem value={"B2B"}>Business to Business</MenuItem>
+            <MenuItem value={"B2C"}>Business to Customer</MenuItem>
           </Select>
         </FormControl>
 

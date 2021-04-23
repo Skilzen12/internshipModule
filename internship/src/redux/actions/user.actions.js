@@ -1,4 +1,4 @@
-import {getData,addEducation as Edu , addWorkExperience as Exp } from "../actionTypes"
+import {getData,addEducation as Edu , addWorkExperience as Exp,addNewRecruiter as Rec } from "../actionTypes"
 import axios from '../helper_axios'
 
 
@@ -88,6 +88,35 @@ export const addWorkExperience = (data) => {
         }
       })
       return {error:'Error while accessing data!'};
+    }
+  }
+}
+
+export const addNewRecruiter = (data)=>{
+  return async (dispatch)=>{
+    dispatch({type:Rec.ADD_RECRUITER_REQUEST})
+    try{
+      const res = await axios.post('/internship/v1/company-recruiters/',data);
+      if(res.status===201){
+        dispatch({type:Rec.ADD_RECRUITER_SUCCESS}) 
+      }else{
+        dispatch({
+          type:Rec.ADD_RECRUITER_FAILURE,
+          payload:{
+            message: 'Error while adding data!'
+          }
+        })
+      }
+      return {...res,error:''};
+    }
+    catch(err){
+      dispatch({
+        type:Rec.ADD_RECRUITER_FAILURE,
+        payload:{
+          message: 'Error while adding data!'
+        }
+      })
+      return {error:'Error while adding data!'};
     }
   }
 }

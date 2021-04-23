@@ -8,6 +8,9 @@ import { FaGithubSquare } from "react-icons/fa";
 
 import Notification from '../Notification.js'
 
+import {addNewRecruiter} from '../../../redux/actions/user.actions'
+import { useSelector , useDispatch } from 'react-redux'
+
 const useStyles = makeStyles((theme) => ({
   formControl: {
     marginTop: theme.spacing(2),
@@ -81,6 +84,8 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
   const { established, strength, city, country } = formData;
   const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
 
+  const dispatch = useDispatch();
+  
   const [facebook,setfb] = useState("");
   const [github,setgit] = useState("");
   const [linkedIn,setlinkedin] = useState("");
@@ -188,6 +193,21 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
             onChange={(e)=>{setportfolio(e.target.value)}}
           />
         </div>
+        <h6 style={{ marginTop: '30px',marginBottom: '6px'}}>Upload company UID</h6>
+        <div class="btn  float-left" style={{backgroundColor:"#000",color:"#fff"}}>  
+          <input type="file" name="company_uid" onChange={setForm} />
+        </div>
+        <br />
+        <h6 style={{ marginTop: '50px',marginBottom: '6px'}}>Upload company logo</h6>
+        <div class="btn  float-left" style={{backgroundColor:"#000",color:"#fff"}}>  
+          <input type="file" name="official_doc" onChange={setForm} />
+        </div>
+        <br />
+        <h6 style={{ marginTop: '50px',marginBottom: '6px'}}>Upload Official Document</h6>
+        <div class="btn  float-left" style={{backgroundColor:"#000",color:"#fff"}}>  
+          <input type="file" name="logo" onChange={setForm} />
+        </div>
+        <br />
 
         <button
           className="card_btn mx-2"
@@ -222,11 +242,13 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
               formData.socialLinks.facebook = facebook;
               formData.socialLinks.linkedIn = linkedIn;
               formData.socialLinks.portfolio = portfolio;
-              navigation.next();
+              console.log(formData);
+              
+              dispatch(addNewRecruiter(formData));
             }
           }}
         >
-          Next
+          Submit
         </button>
         {notify.isOpen && <Notification notify={notify} />}
       </div>

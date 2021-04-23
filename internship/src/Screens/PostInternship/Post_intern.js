@@ -36,6 +36,7 @@ function Student_details() {
         max_stipend: 0,
         date: 0,
         category:" ",
+        otherCategory: "",
         PPO:false,
         short_description: "",
         apply_by: " "   
@@ -54,7 +55,7 @@ function Student_details() {
     const [state, setState] = useState({
         onlineInterview: false
       });
-    
+
     const handleChange = (event) => {
         setState({ ...state, [event.target.name]: event.target.checked });
       };
@@ -311,7 +312,7 @@ function Student_details() {
                                     <div className="post_parts">
                                         <div>
                                             <p className="for_heading_name">Stipend</p>
-                                            <FormControl component="fieldset">
+                                            {/* <FormControl component="fieldset">
                                                 <RadioGroup aria-label="stipend" name="stipend"  onChange={changehandler}>
                                                     <div className="stipendOptions">
                                                         <div className="profile_outter">
@@ -326,7 +327,7 @@ function Student_details() {
                                                         </div>    
                                                     </div> 
                                                 </RadioGroup>
-                                            </FormControl>
+                                            </FormControl> */}
                                         </div>
                                         <div>
                                             <FormControl fullWidth style={{display: 'flex', flexDirection: 'row', gap: 50}} variant="outlined">
@@ -351,12 +352,13 @@ function Student_details() {
                                             </FormControl>
                                         </div>
                                         <div style={{marginTop: 20}}>
+                                            <p className="for_heading_name">Tag Line</p>
                                             <FormControl fullWidth variant="outlined">
                                                 <OutlinedInput
                                                     id="outlined-adornment-amount"  
                                                     onChange={changehandler}
                                                     name="short_description"
-                                                    placeholder="TagLine"
+                                                    placeholder="Short Description"
                                                     type="text"
                                                     error
                                                 />
@@ -511,7 +513,7 @@ const PostIntern = (data) => {
         company_location: {
             location: "Hyderabad, Near Panja Gutta, Imerial Plaza"
         },
-        category: data.category,
+        category: data.category==="other" ? data.otherCategory : data.category,
         max_stipend: data.max_stipend,
         min_stipend: data.min_stipend,
         kind: data.internType,

@@ -12,13 +12,13 @@ export const OrganizationMultiStep = (obj) => {
     organization: "",
     email: obj.user.email,
     mobile: obj.user.mobile,
-    type: "",
     established: "",
     strength: "",
     city: "",
-    country: "",
+    kind: "",
     description:"",
     socialLinks:{},
+    website: ""
   };
   const [formData, setForm] = useForm(defaultData);
   const { step, navigation } = useStep({

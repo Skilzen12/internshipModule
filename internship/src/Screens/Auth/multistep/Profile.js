@@ -7,8 +7,8 @@ import { AiOutlineGlobal,AiFillLinkedin,AiFillFacebook } from "react-icons/ai";
 import { FaGithubSquare } from "react-icons/fa";
 
 import Notification from '../Notification.js'
-import { addSkills } from "../../../redux/actions/user.actions";
-import { useDispatch } from "react-redux";
+import { addProfile, addSkills} from "../../../redux/actions/user.actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
@@ -72,11 +72,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export const Profile = ({ formData, setForm, navigation }) => {
+
   const { profileTitle, facebook, github, linkedIn,portfolio,profileDesc,resumeLink } = formData;
   const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const profileError = useSelector(state=>state.user.profileError);
+  const profileLoading = useSelector(state=>state.user.profileLoading);
+  const skillsError = useSelector(state=>state.user.skillsError)
+  const user_skills = useSelector(state=>state.user.user_skills)
+  const skillsLoading = useSelector(state=>state.user.skillsLoading)
   const defaultSkills = ['Advising',
   'Coaching',
   'Conflict resolution',
@@ -96,7 +102,67 @@ export const Profile = ({ formData, setForm, navigation }) => {
     setSkills(values);
     else setSkills([]);
   }
-   console.log(skills);
+
+  const saveProfile = async ()=>{
+    // console.log('in saveprofile')
+    const social_links = [
+      {
+        handle:'LinkedIn',
+        link:linkedIn
+      },
+      {
+        handle:'Facebook',
+        link:facebook
+      },
+      {
+        handle:'Github',
+        link:github
+      }
+    ]
+    const linked_website=portfolio;
+    dispatch(addProfile(profileDesc,social_links,'HYD',linked_website))
+  }
+  const saveSkills =  ()=>{
+    // console.log('in saveskills')
+    skills.forEach(async skill=>{
+      const obj={
+          skill: {
+            name : skill,
+            kind : "soft"
+        }
+      }
+      dispatch(addSkills(obj));
+    })
+  }
+
+  const saveAndNext = ()=>{
+    // console.log('in saveandnext')
+    saveProfile();
+    saveSkills()
+    // console.log("VARS",!profileError,!skillsError,user_skills.length)
+    if(!profileLoading&&!skillsLoading&&!profileError&&!skillsError&&user_skills.length){
+      setnotify({message:'Data Saved!',type:'Success',isOpen:true})
+      setTimeout(()=>{
+        navigation.next();
+        setnotify({message:'',type:'',isOpen:false})
+      },1500)
+    }
+    else if(!profileLoading&&!skillsLoading){
+      if(profileError) {
+        setnotify({message:profileError,type:'error',isOpen:true})
+        setTimeout(()=>{
+          setnotify({message:'',type:'',isOpen:false})
+        },3000)
+      }
+      else{
+        setnotify({message:skillsError,type:'error',isOpen:true})
+        setTimeout(()=>{
+          setnotify({message:'',type:'',isOpen:false})
+        },3000)
+      }
+    }
+  }
+
   return (
     <div className="d-flex justify-content-center align-items-center">
       <div className="internship__content__card my-5 p-5 signup__container">
@@ -253,17 +319,7 @@ export const Profile = ({ formData, setForm, navigation }) => {
                     }, 3000);
                   }
                   else{
-                    skills.forEach(skill=>{
-                      const obj={
-                        skill:{
-                          name:skill,
-                          kind:'soft'
-                        }
-                      }
-                      dispatch(addSkills(obj));
-                    })
-                    
-                    navigation.next();
+                    saveAndNext();
                   }
                 }}
               >

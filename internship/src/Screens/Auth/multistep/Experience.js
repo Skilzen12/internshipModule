@@ -43,19 +43,56 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ExperienceFields = ({
-  ExpDetails,
-  SaveThis,
-  RemoveThis,
-  isFirst
-}) => {
+const ExperienceFields = ({ExpDetails,SaveThis,RemoveThis,isFirst,id}) => {
   const classes = useStyles();
-  const [saved,setSaved]=useState(0)
+  const [saved,setSaved]=useState(false)
   const [ExpDetails1,setExpDetails1] = useForm(ExpDetails)
 
+  const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
+  const dispatch = useDispatch();
+
   const ChangeHandler=(e)=>{
-    setSaved(1);
     setExpDetails1(e);
+  }
+
+  const saveClicked = async()=>{
+    const {expDesignation,expOrganization,expStartDate,expEndDate,expLocation,expDescription} = ExpDetails1;
+
+    if(expDesignation===""||expOrganization===""||expStartDate===""||expEndDate===""||expLocation===""||expDescription===""){
+      setnotify({message:'Fields cannot be empty!',isOpen:true,type:'error'});
+      setTimeout(()=>{
+        setnotify({message:'',isOpen:false,type:''})
+      },2500)
+    }
+    else{
+      const new_obj = {
+        title:expDesignation,
+        company_name:expOrganization,
+        company_id:id+1,
+        start_date:expStartDate,
+        end_date:expEndDate,
+        city:expLocation,
+        extra:expDescription,
+      }
+      console.log(new_obj);
+      
+      const res = await dispatch(addWorkExperience(new_obj));
+      console.log(res,"res in Exp");
+      if(res.error!==""){
+        setnotify({message:res.error,isOpen:true,type:'error'});
+        setTimeout(()=>{
+          setnotify({message:'',isOpen:false,type:''})
+        },1600)
+      }else{
+        setnotify({message:'Added Field Successfully..',isOpen:true,type:'success'});
+        setTimeout(()=>{
+          setnotify({message:'',isOpen:false,type:''})
+        },1600)
+        setSaved(true);
+        SaveThis({...ExpDetails1,saved:true})
+      }
+    }
+
   }
 
   return (
@@ -66,6 +103,7 @@ const ExperienceFields = ({
         name="expDesignation"
         label="Designation/Title"
         variant="outlined"
+        disabled={saved}
         onChange={ChangeHandler}
         value={ExpDetails1.expDesignation}
       />
@@ -75,6 +113,7 @@ const ExperienceFields = ({
         name="expOrganization"
         label="Organization Name"
         variant="outlined"
+        disabled={saved}
         onChange={ChangeHandler}
         value={ExpDetails1.expOrganization}
       />
@@ -84,6 +123,7 @@ const ExperienceFields = ({
         name="expLocation"
         label="Location"
         variant="outlined"
+        disabled={saved}
         onChange={ChangeHandler}
         value={ExpDetails1.expLocation}
       />
@@ -92,6 +132,7 @@ const ExperienceFields = ({
           label="Start Date"
           type="date"
           name="expStartDate"
+          disabled={saved}
           InputLabelProps={{
             shrink: true,
           }}
@@ -104,6 +145,7 @@ const ExperienceFields = ({
           label="End Date"
           type="date"
           name="expEndDate"
+          disabled={saved}
           InputLabelProps={{
             shrink: true,
           }}
@@ -117,25 +159,43 @@ const ExperienceFields = ({
         fullWidth
         size="small"
         name="expDescription"
+        disabled={saved}
         label="Description"
         variant="outlined"
         onChange={ChangeHandler}
         value={ExpDetails1.expDescription}
       />
       <div className={`edu_footer my-2 d-flex ${!isFirst?'justify-content-between':'justify-content-end'}`}>
-        <div
-          style={{ cursor: "pointer",display:isFirst?'none':'unset' }}
-          onClick={RemoveThis}
-        >
-          <BsDashCircleFill style={{ fontSize: 20,marginTop: '-2px',color:'red' }} />{" "}
-          <p style={{ display: "inline-block",fontSize: 14 }}>Remove Experience</p>
-        </div>
+        {
+          saved ?
+          <div
+            style={{ cursor:'disabled' ,visibility:'hidden' }}
+            onClick={RemoveThis}
+          >
+            <BsDashCircleFill style={{ fontSize: 20,marginTop: '-2px',color:'red' }} />{" "}
+            <p style={{ display: "inline-block",fontSize: 14 }}>Remove Experience</p>
+          </div> 
+          :
+          <div
+            style={{ cursor: "pointer",display:isFirst?'none':'unset' }}
+            onClick={RemoveThis}
+          >
+            <BsDashCircleFill style={{ fontSize: 20,marginTop: '-2px',color:'red' }} />{" "}
+            <p style={{ display: "inline-block",fontSize: 14 }}>Remove Experience</p>
+          </div>
+        }
         <div>
-          {saved===1?<FaCheckCircle style={{ fontSize: 20,color:'#00c600', marginBottom:'0px',cursor:'pointer'}} onClick={()=>{setSaved(2);SaveThis(ExpDetails1)}} />
-          :(saved===2&&<p style={{transition:'all .3s',fontSize:14}}>Data Saved</p>)
+          {saved===false?<FaCheckCircle style={{ fontSize: 20,color:'#00c600', marginBottom:'0px',cursor:'pointer'}} onClick={saveClicked} />
+          :(saved===true&&<p style={{transition:'all .3s',fontSize:14}}>Data Saved</p>)
           }
         </div>
       </div>
+        {
+          notify.isOpen && 
+          <Notification
+            notify={notify}
+          />
+        }
       <hr />
     </>
   );
@@ -148,7 +208,16 @@ export const Experience = ({ setExpDetails,ExpDetails,navigation }) => {
 
   const AddExpHandler = () => {
     setExpDetails((eduCount) => {
-      const newArray = ExpDetails.concat({});
+      const newArray = ExpDetails.concat({
+        expDesignation: "",
+        expOrganization: "",
+        expLocation: "",
+        expStartDate: "",
+        expEndDate: "",
+        expDescription: "",
+        saved:false,
+        }
+      );
       return newArray;
     });
   };
@@ -163,7 +232,7 @@ export const Experience = ({ setExpDetails,ExpDetails,navigation }) => {
 
   const RemoveExpHandler = (id)=>{
     setExpDetails((educount)=>{
-        const newArray = [...ExpDetails];
+        const newArray = [...educount];
         newArray.splice(id,1);
         return newArray;
       })
@@ -173,8 +242,7 @@ export const Experience = ({ setExpDetails,ExpDetails,navigation }) => {
     let flag = false;
     ExpDetails.map(obj=>{
       console.log(obj);
-      if(obj.expDesignation==="" || obj.expLocation==="" || obj.expDescription===""|| obj.expOrganization===""){
-        console.log("ret true");
+      if(obj.saved==false){
         flag = true;
       }
     });
@@ -207,6 +275,7 @@ export const Experience = ({ setExpDetails,ExpDetails,navigation }) => {
                 ExpDetails={ExpDetails[id]}
                 SaveThis={(data)=>{SaveExpHandler(id,data)}}
                 RemoveThis={()=>{RemoveExpHandler(id)}}
+                id={id}
               />
             ))}
             <div
@@ -231,23 +300,11 @@ export const Experience = ({ setExpDetails,ExpDetails,navigation }) => {
                 onClick={(e) => {
                   e.preventDefault();
                   if(isEmpty()){
-                    setnotify({message:'Fields cannot be empty!',isOpen:true,type:'error'});
+                    setnotify({message:'Save the Data !',isOpen:true,type:'error'});
                     setTimeout(()=>{
                       setnotify({message:'',isOpen:false,type:''})
                     },3000)
                   }else{
-                    ExpDetails.map((obj,id)=>{
-                      const new_obj = {
-                        title:obj.expDesignation,
-                        company_name:obj.expOrganization,
-                        company_id:id,
-                        start_date:obj.expStartDate,
-                        end_date:obj.expEndDate,
-                        city:obj.expLocation,
-                        extra:obj.expDescription,
-                      }
-                      dispatch(addWorkExperience(new_obj));
-                    })
                     navigation.next();
                   }
                 }}

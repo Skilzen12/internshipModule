@@ -1,12 +1,14 @@
 import React,{ useState} from "react";
 import { BsArrowLeft, BsArrowRight, BsPlusCircle } from "react-icons/all";
-import { TagsSelect } from "react-select-material-ui";
+import { MultipleSelect } from "react-select-material-ui";
 import { TextField, makeStyles } from "@material-ui/core";
 import logoOnly from "../../../images/Group.png";
 import { AiOutlineGlobal,AiFillLinkedin,AiFillFacebook } from "react-icons/ai";
 import { FaGithubSquare } from "react-icons/fa";
 
 import Notification from '../Notification.js'
+import { addSkills } from "../../../redux/actions/user.actions";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
@@ -70,9 +72,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export const Profile = ({ formData, setForm, navigation }) => {
-  const { profileTitle, skills, facebook, github, linkedIn,portfolio,profileDesc,resumeLink } = formData;
+  const { profileTitle, facebook, github, linkedIn,portfolio,profileDesc,resumeLink } = formData;
   const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const defaultSkills = ['Advising',
+  'Coaching',
+  'Conflict resolution',
+  'Decision making',
+  'Delegating',
+  'Diplomacy',
+  'Interviewing',
+  'Motivation',
+  'People management',
+  'Problem solving',
+  'Strategic thinking',
+  ]
+  const [skills,setSkills] = useState([]);
+  const skillsChangeHandler = (values)=>{
+    console.log('skills selected',values);
+    if(values)
+    setSkills(values);
+    else setSkills([]);
+  }
+   console.log(skills);
   return (
     <div className="d-flex justify-content-center align-items-center">
       <div className="internship__content__card my-5 p-5 signup__container">
@@ -109,32 +133,18 @@ export const Profile = ({ formData, setForm, navigation }) => {
               name="profileDesc"
               value={profileDesc}
               onChange={setForm} />
-            <TagsSelect
+            <MultipleSelect
               name="skills"
               style={{ marginTop: 10 }}
               label="Skills"
-              options={[
-                "skill1",
-                "skill2",
-                "skill3",
-                "skill1",
-                "skill2",
-                "skill3",
-                "skill1",
-                "skill2",
-                "skill3",
-                "skill1",
-                "skill2",
-                "skill3",
-              ]}
-              // onChange={this.handleChange}
+              options={defaultSkills}
+              onChange={skillsChangeHandler}
               SelectProps={{
                 isCreatable: true,
                 msgNoOptionsAvailable: "All tags are selected",
                 msgNoOptionsMatchFilter: "No tag matches the filter",
               }}
-              value={skills}
-              onChange={(e) => console.log(e)}
+              values={skills}
               variant="outlined"
             />
             <h6 style={{ marginTop: 30 }}>Social Media Links</h6>
@@ -236,7 +246,23 @@ export const Profile = ({ formData, setForm, navigation }) => {
                     setTimeout(()=>{
                       setnotify({message:'',isOpen:false,type:''})
                     },3000)
-                  }else{
+                  }else if(skills.length===0){
+                    setnotify({message:'Add Atleast one skill!',isOpen:true,type:'error'})
+                    setTimeout(() => {
+                      setnotify({message:'',isOpen:false,type:''})
+                    }, 3000);
+                  }
+                  else{
+                    skills.forEach(skill=>{
+                      const obj={
+                        skill:{
+                          name:skill,
+                          kind:'soft'
+                        }
+                      }
+                      dispatch(addSkills(obj));
+                    })
+                    
                     navigation.next();
                   }
                 }}

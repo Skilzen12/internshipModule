@@ -1,4 +1,4 @@
-import {getData,addEducation as Edu , addWorkExperience as Exp } from "../actionTypes"
+import {getData,addEducation as Edu , addWorkExperience as Exp ,addSkills as skillTypes} from "../actionTypes"
 import axios from '../helper_axios'
 
 
@@ -84,5 +84,27 @@ export const addWorkExperience = (data) => {
         }
       })
     }
+  }
+}
+
+export const addSkills= (skill)=> async (dispatch)=>{
+  console.log(skill)
+  dispatch({
+    type:skillTypes.ADD_SKILL_REQUEST
+  })
+  const res=await axios.post('/skilzen/v1/profile/skill/',skill);
+  if(res.statusText==='Created'){
+    console.log(res);
+    dispatch({
+      type:skillTypes.ADD_SKILL_SUCCESS,
+      payload:res.data
+    })
+  }
+  else{
+    console.log(res);
+    dispatch({
+      type:skillTypes.ADD_SKILL_FAIL,
+      payload:res.message
+    })
   }
 }

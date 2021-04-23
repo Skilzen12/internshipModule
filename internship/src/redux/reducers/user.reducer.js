@@ -1,4 +1,4 @@
-import { getData,addEducation as Edu,addWorkExperience as Exp } from "../actionTypes";
+import { getData,addEducation as Edu,addWorkExperience as Exp, addSkills } from "../actionTypes";
 
 const initialState = {
   first_name: "",
@@ -11,7 +11,7 @@ const initialState = {
   user_skills: []
 }
 
-export default (state=initialState,action)=>{
+export const userReducer = (state=initialState,action)=>{
   console.log(action);
   switch(action.type){
     case getData.GETDATA_REQUEST : 
@@ -62,6 +62,26 @@ export default (state=initialState,action)=>{
         ...initialState,
       }
       break;
+    case addSkills.ADD_SKILL_REQUEST:
+      state={
+        ...state
+      }
+      break;
+    case addSkills.ADD_SKILL_SUCCESS:
+      state={
+        ...state,
+        user_skills:[...state.user_skills,action.payload]
+      }
+      break;
+    case addSkills.ADD_SKILL_FAIL:
+      state={
+        ...state,
+        err:action.payload
+      }
+      break;
+    default:
   }
+
   return state;
+  
 }

@@ -61,7 +61,7 @@ export const addEducations = (data) => {
 export const addWorkExperience = (data) => {
   return async (dispatch)=>{
     dispatch({
-      type:Exp.ADD_EDUCATION_REQUEST,
+      type:Exp.ADD_WORK_EXP_REQUEST,
       payload:{
         message:'requesting to add data'
       },
@@ -70,7 +70,7 @@ export const addWorkExperience = (data) => {
     const res = await axios.post('/skilzen/v1/profile/work_experience',obj);
     if(res.statusText === 'OK'){
       dispatch({
-        type:Exp.ADD_EDUCATION_SUCCESS,
+        type:Exp.ADD_WORK_EXP_SUCCESS,
         payload:{
           ...res.data.results[0]
         }
@@ -78,7 +78,7 @@ export const addWorkExperience = (data) => {
     }else if(res.status == 400){
       console.log(res);
       dispatch({
-        type:Exp.ADD_EDUCATION_FAILURE,
+        type:Exp.ADD_WORK_EXP_FAILURE,
         payload:{
           message: 'Error while accessing data!'
         }

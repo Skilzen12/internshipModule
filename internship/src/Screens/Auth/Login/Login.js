@@ -115,7 +115,13 @@ const Login = () => {
       }
       
       dispatch(signIn(loginStuff));
-      if(auth.authenticate==false){
+      if(auth.loading){
+        setnotify({message:'loading...',isOpen:true, type:'error'});
+        setTimeout(()=>{
+          setnotify({message:'', isOpen:false, type:''})
+        },3000)
+      }
+      if(!auth.loading && !auth.authenticate){
         setnotify({message:auth.message,isOpen:true, type:'error'});
         setTimeout(()=>{
           setnotify({message:'', isOpen:false, type:''})
@@ -127,6 +133,7 @@ const Login = () => {
     if(auth.authenticate){
       return <Redirect to={'/'} />
     }
+    
 
     return (
         <div className="internship__container__centered">

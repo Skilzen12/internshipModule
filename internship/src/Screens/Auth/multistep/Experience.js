@@ -7,6 +7,9 @@ import { useForm } from "react-hooks-helper";
 
 import Notification from '../Notification.js'
 
+import {addWorkExperience} from '../../../redux/actions/user.actions'
+import { useSelector , useDispatch } from 'react-redux'
+
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
     "& > *": {
@@ -141,6 +144,7 @@ const ExperienceFields = ({
 export const Experience = ({ setExpDetails,ExpDetails,navigation }) => {
   const classes = useStyles();
   const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
+  const dispatch = useDispatch();
 
   const AddExpHandler = () => {
     setExpDetails((eduCount) => {
@@ -232,8 +236,18 @@ export const Experience = ({ setExpDetails,ExpDetails,navigation }) => {
                       setnotify({message:'',isOpen:false,type:''})
                     },3000)
                   }else{
-                    console.log("is empty false");
-                    // console.log(EduDetails);
+                    ExpDetails.map((obj,id)=>{
+                      const new_obj = {
+                        title:obj.expDesignation,
+                        company_name:obj.expOrganization,
+                        company_id:id,
+                        start_date:obj.expStartDate,
+                        end_date:obj.expEndDate,
+                        city:obj.expLocation,
+                        extra:obj.expDescription,
+                      }
+                      dispatch(addWorkExperience(new_obj));
+                    })
                     navigation.next();
                   }
                 }}

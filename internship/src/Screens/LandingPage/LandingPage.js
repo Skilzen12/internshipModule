@@ -18,12 +18,6 @@ const Landing2 = () => {
   const [internships, setInternships] = useState([]);
   const [count, setCount] = useState(0);
 
-  const UserProfile = async () => {
-    await AdminService.getUserProfile()
-      .then(res => console.log(res.data.results[0]))
-      .catch(err => console.log(err))
-  }
-
   const getCategories = async () => {
     await AdminService.getInternshipsCategories()
     .then(res => {
@@ -44,9 +38,6 @@ const Landing2 = () => {
   useEffect(() => {
     getCategories();
     getFeaturedJobs();
-    if(getItem('accesstoken')){
-      UserProfile();
-    }
   },[]);
   
   return (

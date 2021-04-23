@@ -8,10 +8,9 @@ export const signIn = (user)=>{
     dispatch({
       type:authConstants.SIGNIN_REQUEST
     })
-    const res = await axios.post('/skilzen/v1/login/',user)
-    console.log(res)
-    
-    if(res.statusText === 'OK'){
+    const res = await axios.post('/skilzen/v1/login/',user);
+
+    if(res.status===200){
       const {token} = res.data;
       localStorage.setItem('accessToken',token);
       dispatch({
@@ -20,7 +19,7 @@ export const signIn = (user)=>{
           token
         }
       })
-    }else if(res.status == 400){
+    }else{
       console.log(res);
       dispatch({
         type:authConstants.SIGNIN_FAILURE,

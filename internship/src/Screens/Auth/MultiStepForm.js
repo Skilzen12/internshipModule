@@ -9,7 +9,6 @@ import { useDispatch } from "react-redux";
 // import { storeProfile } from "../../redux/actions/auth.actions";
 
 const defaultData = {
-  type: "student",
   fname: "",
   lname: "",
   email: "",
@@ -25,6 +24,8 @@ const defaultData = {
   linkedIn: "",
   portfolio: "",
   resumeLink: "",
+  education:[],
+  experience:[],
 };
 
 const steps = [

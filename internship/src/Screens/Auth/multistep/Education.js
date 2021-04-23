@@ -7,6 +7,9 @@ import { useForm } from "react-hooks-helper";
 
 import Notification from '../Notification.js'
 
+import {addEducations} from '../../../redux/actions/user.actions'
+import { useSelector , useDispatch } from 'react-redux'
+
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
     "& > *": {
@@ -40,12 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EducationFields = ({
-  EduDetails,
-  SaveThis,
-  RemoveThis,
-  isFirst,
-}) => {
+const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,}) => {
   const [EduDetails1,setEduDetails1] = useForm(EduDetails)
   const [saved,setSaved]=useState(0)
 
@@ -142,7 +140,7 @@ const EducationFields = ({
 export const Education = ({ navigation,setEduDetails,EduDetails }) => {
   const classes = useStyles();
   const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
-
+  const dispatch = useDispatch();
   const AddEduHandler = () => {
     setEduDetails((EduDetails) => {
       const newArray = EduDetails.concat({
@@ -239,17 +237,16 @@ export const Education = ({ navigation,setEduDetails,EduDetails }) => {
                       setnotify({message:'',isOpen:false,type:''})
                     },3000)
                   }else{
-                    console.log("is empty false");
-                    console.log(EduDetails);
-                    EduDetails.map(obj=>{
+                    EduDetails.map((obj,id)=>{
                       const new_obj = {
-                        school:"",
-                        degree:"",
-                        specialization:"",
-                        location:"",
-                        startDate:"",
-                        endDate:"",
+                        college_name:obj.school,
+                        college_id:id,
+                        degree:obj.degree,
+                        start_date:obj.startDate,
+                        college_city:obj.location,
+                        end_date:obj.endDate,
                       }
+                      dispatch(addEducations(new_obj));
                     })
                     navigation.next();
                   }

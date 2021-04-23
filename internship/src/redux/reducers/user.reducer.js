@@ -1,4 +1,4 @@
-import { getData } from "../actionTypes";
+import { getData,addEducation as Edu,addWorkExperience as Exp } from "../actionTypes";
 
 const initialState = {
   first_name: "",
@@ -26,6 +26,38 @@ export default (state=initialState,action)=>{
       }
       break;
     case getData.GETDATA_FAILURE : 
+      state = {
+        ...initialState,
+      }
+      break;
+    case Edu.ADD_EDUCATION_REQUEST : 
+      state = {
+        ...state,
+      }
+      break;
+    case Edu.ADD_EDUCATION_SUCCESS : 
+      state = {
+        ...state,
+        ...action.payload
+      }
+      break;
+    case Edu.ADD_EDUCATION_FAILURE : 
+      state = {
+        ...initialState,
+      }
+      break;
+    case Exp.ADD_WORK_EXP_REQUEST : 
+      state = {
+        ...state,
+      }
+      break;
+    case Exp.ADD_WORK_EXP_SUCCESS : 
+      state = {
+        ...state,
+        ...action.payload
+      }
+      break;
+    case Exp.ADD_WORK_EXP_FAILURE : 
       state = {
         ...initialState,
       }

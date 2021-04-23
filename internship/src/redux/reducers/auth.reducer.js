@@ -3,7 +3,8 @@ import { authConstants } from "../actionTypes";
 const initialState = {
     token:null,
     authenticate:false,
-    message:''
+    message:'',
+    loading:false,
 }
 
   export default  (state=initialState,action)=>{
@@ -12,6 +13,7 @@ const initialState = {
       case authConstants.SIGNIN_REQUEST : 
         state = {
           ...state,
+          loading:true
         }
         break;
       case authConstants.SIGNIN_SUCCESS : 
@@ -19,14 +21,16 @@ const initialState = {
           ...state,
           token:action.payload.token,
           authenticate:true,
-          message:'successfully signed in..'
+          message:'successfully signed in..',
+          loading:false,
         }
         break;
       case authConstants.SIGNIN_FAILURE : 
         state = {
           token:null,
           authenticate:false,
-          message:action.payload.message
+          message:action.payload.message, 
+          loading:false
         }
         break;
       case authConstants.SIGNOUT_REQUEST:

@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable no-lone-blocks */
 import React,{useState} from 'react';
 import './Post_intern.css';
 import Logo from "../../images/Group.png"
@@ -13,9 +16,7 @@ import TextField from '@material-ui/core/TextField';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import {ThemeDropdown} from '../../Pallete_components/Dropdown/Dropdown';
 import { GoChevronRight, GoChevronLeft } from "react-icons/go";
-
-
-
+import AdminService from '../../AdminServices/AdminService';
 
 
 function Student_details() {
@@ -28,16 +29,16 @@ function Student_details() {
         city:"",
         openings:"",
         duration:" ",
-        period_type:" ",
         responsibilities:" ",
         stipend:" ",
         skills:" ",
-        amount:" ",
-        date:"",
+        min_stipend: 0,
+        max_stipend: 0,
+        date: 0,
         category:" ",
-        otherCategory:" ",
-        PPO:false
-        
+        PPO:false,
+        short_description: "",
+        apply_by: " "   
     })
     const [perk,setPerk]=useState({
         
@@ -184,6 +185,19 @@ function Student_details() {
                                 </FormControl>
                             </div>
                             <div className="post_parts">
+                                <p className="for_heading_name">Apply By:</p>
+                                <TextField label="Apply Date" type="date" 
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    variant="outlined"
+                                    size="small"
+                                    name="apply_by"
+                                    onChange={changehandler}
+                                    error 
+                                />
+                            </div>
+                            <div className="post_parts">
                                 <p className="for_heading_name">Internship type</p>
                                 <FormControl component="fieldset">
                                     {/* <FormLabel component="legend">Gender</FormLabel> */}
@@ -282,10 +296,15 @@ function Student_details() {
                                         <p>Shorter the duration, more the applications</p>
                                         <div className='course_duration'>
                                             <div className='course_duration_num'>
-                                                <ThemeDropdown  options={['1','2','3','4']} placeHolder={'Choose duration '} name="duration" onChange={changehandler}></ThemeDropdown>     
-                                            </div>
-                                            <div  className='course_duration_period'>
-                                                <ThemeDropdown options={['weeks','months','years']} placeHolder={'Period type'} name="period_type" onChange={changehandler}></ThemeDropdown>     
+                                                <OutlinedInput
+                                                    id="outlined-adornment-amount"  
+                                                    onChange={changehandler}
+                                                    name="duration"
+                                                    placeholder="Duration (in days)"
+                                                    type="number"
+                                                    min="1"
+                                                    error
+                                                />
                                             </div>
                                         </div> 
                                     </div>
@@ -309,31 +328,47 @@ function Student_details() {
                                                 </RadioGroup>
                                             </FormControl>
                                         </div>
-                                        {
-                                            formData.stipend==="Fixed"?( 
-                                            <div>
-                                                <p className="for_heading_name">Stipend provided by your Organization:</p>
-                                                <FormControl fullWidth  variant="outlined">
-                                                    <OutlinedInput
-                                                        id="outlined-adornment-amount"  
-                                                        onChange={changehandler}
-                                                        name="amount"
-                                                        placeholder="e.g. 1000"
-                                                        type="number"
-                                                        min="1"
-                                                        error
-                                                    />
-                                                </FormControl>
-                                            </div>):null
-                                        }
-                                       
+                                        <div>
+                                            <FormControl fullWidth style={{display: 'flex', flexDirection: 'row', gap: 50}} variant="outlined">
+                                                <OutlinedInput
+                                                    id="outlined-adornment-amount"  
+                                                    onChange={changehandler}
+                                                    name="min_stipend"
+                                                    placeholder="Min Stipend"
+                                                    type="number"
+                                                    min="1"
+                                                    error
+                                                />
+                                                <OutlinedInput
+                                                    id="outlined-adornment-amount"  
+                                                    onChange={changehandler}
+                                                    name="max_stipend"
+                                                    placeholder="Max Stipend"
+                                                    type="number"
+                                                    min="1"
+                                                    error
+                                                />
+                                            </FormControl>
+                                        </div>
+                                        <div style={{marginTop: 20}}>
+                                            <FormControl fullWidth variant="outlined">
+                                                <OutlinedInput
+                                                    id="outlined-adornment-amount"  
+                                                    onChange={changehandler}
+                                                    name="short_description"
+                                                    placeholder="TagLine"
+                                                    type="text"
+                                                    error
+                                                />
+                                            </FormControl>
+                                        </div>
                                     </div>
                                     <div className="post_parts">
                                         <p className="for_heading_name">Intern’s responsibilities</p>
                                         <p>Internship posts with detailed job description receive significantly more applications.</p>
                                         <a className="help_link">See tips and sample JD</a>
                                         <div>
-                                            <textarea  className="textarea_response"  rows="8" cols="100"  onChange={changehandler} name="responsibilities">  Selected intern's day-to-day responsibilities include: </textarea>
+                                            <textarea  className="textarea_response"  rows="8" cols="100"  onChange={changehandler} placeholder="Selected intern's day-to-day responsibilities include:" name="responsibilities" />
                                         </div>
                                     </div>
                                 </div>
@@ -405,7 +440,7 @@ function Student_details() {
                                                     id="outlined-adornment-amount"  
                                                     onChange={changehandler}
                                                     name="skills"
-                                                    placeholder="e.g. Java"
+                                                    placeholder="e.g. Java, Spring, AWS"
                                                     error
                                                 />
                                             </FormControl>
@@ -426,15 +461,24 @@ function Student_details() {
                         </div>
                     </div>  
                 </div>
-                <div className="for_next_in_p3">        
-                    <button className="card_btn" 
-                    onClick={() => setSection("post2")}>
-                        <GoChevronLeft
-                            style={{ marginBottom: "2px", fontSize: "17px" }}
-                        />{" "}
-                            Back
-                    </button>
-                </div>
+                <div className="for_next_in_p2">
+                        <button className="card_btn" 
+                        onClick={() => setSection("post1")}>
+                            <GoChevronLeft
+                                style={{ marginBottom: "2px", fontSize: "17px" }}
+                            />{" "}
+                                Back
+                        </button>
+                        <button
+                            className="apply_btn card_btn"
+                            onClick={() => PostIntern(formData)}
+                            >
+                                Submit{" "}
+                                <GoChevronRight
+                                    style={{ marginBottom: "2px", fontSize: "17px" }}
+                                />
+                        </button>
+                    </div>
             </section>
             )}        
         </div>
@@ -443,3 +487,46 @@ function Student_details() {
 }
 
 export default Student_details;
+
+const PostIntern = (data) => {
+    let currDate = new Date();
+    let currDateMonth = currDate.getMonth();
+    let currDateDate = currDate.getDate();
+    let currDateYear = currDate.getFullYear();
+
+    currDate = currDateYear + '-' + currDateMonth + '-' + currDateDate;
+
+    let skill = data.skills.split(', ');
+
+    let arraayy = [];
+    skill.map(sk => (
+        arraayy.push({
+                name : sk
+            })
+    ))
+
+    const postInternData = {
+        title: data.title,
+        city: data.city,
+        company_location: {
+            location: "Hyderabad, Near Panja Gutta, Imerial Plaza"
+        },
+        category: data.category,
+        max_stipend: data.max_stipend,
+        min_stipend: data.min_stipend,
+        kind: data.internType,
+        short_description: data.short_description,
+        description: data.responsibilities,
+        days: data.duration,
+        posted_date: currDate,
+        apply_by: data.apply_by,
+        start_date: data.date,
+        skills: arraayy
+    }
+
+    console.log(postInternData);
+
+    AdminService.postInternship(postInternData.json())
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+}

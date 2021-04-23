@@ -5,6 +5,7 @@ const initialState = {
     authenticate:false,
     message:'',
     loading:false,
+    signedUp:false,
 }
 
   export default  (state=initialState,action)=>{
@@ -31,6 +32,28 @@ const initialState = {
           authenticate:false,
           message:action.payload.message, 
           loading:false
+        }
+        break;
+      case authConstants.SIGNUP_REQUEST : 
+        state = {
+          ...state,
+          loading:true,
+          signedUp:false,
+        }
+        break;
+      case authConstants.SIGNUP_SUCCESS : 
+        state = {
+          ...state,
+          loading:false,
+          signedUp:true,
+        }
+        break;
+      case authConstants.SIGNUP_FAILURE : 
+        state = {
+          ...initialState,
+          loading:false,
+          message:action.payload.message,
+          signedUp:false,
         }
         break;
       case authConstants.SIGNOUT_REQUEST:

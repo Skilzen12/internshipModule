@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { BiCheckCircle, BsArrowLeft, BsArrowRight, BsDashCircleFill, BsPlusCircle, FaCheckCircle } from "react-icons/all";
 import logoOnly from "../../../images/Group.png";
-import { TextField, makeStyles } from "@material-ui/core";
+import { TextField, makeStyles,CircularProgress } from "@material-ui/core";
 import { useForm } from "react-hooks-helper";
 
 import Notification from '../Notification.js'
@@ -41,18 +41,68 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     gridGap: "10px",
   },
+  whiteLoading:{
+    color:'#fff !important',
+    width:'20px !important',
+    height:'20px !important',
+  },
+  redLoading:{
+    color:'#ec1f28 !important',
+    width:'20px !important',
+    height:'20px !important',
+  },
 }));
 
-const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,}) => {
+const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,id}) => {
   const [EduDetails1,setEduDetails1] = useForm(EduDetails)
-  const [saved,setSaved]=useState(0)
+  const [saved,setSaved]=useState(false);
+  const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
+
+  const dispatch = useDispatch();
 
   const classes = useStyles();
   
   const ChangeHandler=(e)=>{
-    setSaved(1);
     setEduDetails1(e);
   }
+
+  const saveClicked = async()=>{
+    const {school,degree,startDate,endDate,location} = EduDetails1;
+
+    if(school===""||degree===""||startDate===""||endDate===""||location===""){
+      setnotify({message:'Fields cannot be empty!',isOpen:true,type:'error'});
+      setTimeout(()=>{
+        setnotify({message:'',isOpen:false,type:''})
+      },2500)
+    }
+    else{
+      const new_obj = {
+        college_name:school,
+        college_id:id+1,
+        degree:degree,
+        start_date:startDate,
+        college_city:location,
+        end_date:endDate,
+      }
+      const res = await dispatch(addEducations(new_obj));
+      console.log(res,"res in Education");
+      if(res.error!==""){
+        setnotify({message:res.error,isOpen:true,type:'error'});
+        setTimeout(()=>{
+          setnotify({message:'',isOpen:false,type:''})
+        },1600)
+      }else{
+        setnotify({message:'Added Field Successfully..',isOpen:true,type:'success'});
+        setTimeout(()=>{
+          setnotify({message:'',isOpen:false,type:''})
+        },1600)
+        setSaved(true);
+        SaveThis({...EduDetails1,saved:true})
+      }
+    }
+
+  }
+  
   return (
     <>
       <TextField
@@ -61,6 +111,7 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,}) => {
         label="School/College/University"
         variant="outlined"
         name="school"
+        disabled={saved}
         value={EduDetails1.school}
         onChange={ChangeHandler}
       />
@@ -70,6 +121,7 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,}) => {
         label="Degree"
         variant="outlined"
         name="degree"
+        disabled={saved}
         value={EduDetails1.degree}
         onChange={ChangeHandler}
       />
@@ -78,6 +130,7 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,}) => {
         size="small"
         label="Specialization"
         variant="outlined"
+        disabled={saved}
         name="specialization"
         value={EduDetails1.specialization}
         onChange={ChangeHandler}
@@ -87,6 +140,7 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,}) => {
         size="small"
         label="Location"
         variant="outlined"
+        disabled={saved}
         name="location"
         value={EduDetails1.location}
         onChange={ChangeHandler}
@@ -101,6 +155,7 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,}) => {
           variant="outlined"
           size="small"
           name="startDate"
+          disabled={saved}
           value={EduDetails1.startDate}
           onChange={ChangeHandler}
         />
@@ -113,24 +168,42 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,}) => {
           variant="outlined"
           size="small"
           name="endDate"
+          disabled={saved}
           value={EduDetails1.endDate}
           onChange={ChangeHandler}
         />
       </div>
       <div className={`edu_footer my-2 d-flex ${!isFirst?'justify-content-between':'justify-content-end'}`}>
-        <div
-          style={{ cursor: "pointer",display:isFirst?'none':'unset' }}
-          onClick={RemoveThis}
-        >
-          <BsDashCircleFill style={{ fontSize: 20,marginTop: '-2px',color:'red' }} />{" "}
-          <p style={{ display: "inline-block",fontSize: 14 }}>Remove Education</p>
-        </div>
+        {
+          saved ?
+          <div
+            style={{ cursor:'disabled' ,visibility:'hidden' }}
+            onClick={RemoveThis}
+          >
+            <BsDashCircleFill style={{ fontSize: 20,marginTop: '-2px',color:'red' }} />{" "}
+            <p style={{ display: "inline-block",fontSize: 14 }}>Remove Education</p>
+          </div> 
+          :
+          <div
+            style={{ cursor: "pointer",display:isFirst?'none':'unset' }}
+            onClick={RemoveThis}
+          >
+            <BsDashCircleFill style={{ fontSize: 20,marginTop: '-2px',color:'red' }} />{" "}
+            <p style={{ display: "inline-block",fontSize: 14 }}>Remove Education</p>
+          </div>
+        }
         <div>
-          {saved===1?<FaCheckCircle style={{ fontSize: 20,color:'#00c600', marginBottom:'0px',cursor:'pointer'}} onClick={()=>{setSaved(2);SaveThis(EduDetails1)}} />
-          :(saved===2&&<p style={{transition:'all .3s',fontSize:14}}>Data Saved</p>)
+          {saved===false?<FaCheckCircle style={{ fontSize: 20,color:'#00c600', marginBottom:'0px',cursor:'pointer'}} onClick={saveClicked} />
+          :(saved===true&&<p style={{transition:'all .3s',fontSize:14}}>Data Saved</p>)
           }
         </div>
       </div>
+        {
+          notify.isOpen && 
+          <Notification
+            notify={notify}
+          />
+        }
       <hr />
     </>
   );
@@ -140,7 +213,7 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,}) => {
 export const Education = ({ navigation,setEduDetails,EduDetails }) => {
   const classes = useStyles();
   const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
-  const dispatch = useDispatch();
+
   const AddEduHandler = () => {
     setEduDetails((EduDetails) => {
       const newArray = EduDetails.concat({
@@ -150,6 +223,7 @@ export const Education = ({ navigation,setEduDetails,EduDetails }) => {
         location:"",
         startDate:"",
         endDate:"",
+        saved:false,
       });
       return newArray;
     });
@@ -175,7 +249,7 @@ export const Education = ({ navigation,setEduDetails,EduDetails }) => {
     let flag = false;
     EduDetails.map(obj=>{
       console.log(obj);
-      if(obj.school==="" || obj.degree==="" || obj.startDate===""|| obj.endDate===""||obj.specialization===""|| obj.location===""){
+      if(obj.saved==false){
         flag = true;
       }
     });
@@ -201,14 +275,17 @@ export const Education = ({ navigation,setEduDetails,EduDetails }) => {
             noValidate
             autoComplete="off"
           >
-            {EduDetails.map((edu,id) => (
-              <EducationFields
-                isFirst={id===0}
-                EduDetails={EduDetails[id]}
-                SaveThis={(data)=>{SaveEduHandler(id,data)}}
-                RemoveThis={()=>{RemoveEduHandler(id)}}
-              />
-            ))}
+            {
+              EduDetails.map((edu,id) => (
+                <EducationFields
+                  isFirst={id===0}
+                  EduDetails={EduDetails[id]}
+                  SaveThis={(data)=>{SaveEduHandler(id,data)}}
+                  RemoveThis={()=>{RemoveEduHandler(id)}}
+                  id={id}
+                />
+              ))
+            }
             <div
               style={{ margin: "10px 0", cursor: "pointer" }}
               onClick={AddEduHandler}
@@ -231,23 +308,12 @@ export const Education = ({ navigation,setEduDetails,EduDetails }) => {
                 onClick={(e) => {
                   e.preventDefault();
                   if(isEmpty()){
-                    const mess = "Fields cannot be empty!";
+                    const mess = "Save the Data !";
                     setnotify({message:mess,isOpen:true,type:'error'});
                     setTimeout(()=>{
                       setnotify({message:'',isOpen:false,type:''})
                     },3000)
                   }else{
-                    EduDetails.map((obj,id)=>{
-                      const new_obj = {
-                        college_name:obj.school,
-                        college_id:id,
-                        degree:obj.degree,
-                        start_date:obj.startDate,
-                        college_city:obj.location,
-                        end_date:obj.endDate,
-                      }
-                      dispatch(addEducations(new_obj));
-                    })
                     navigation.next();
                   }
                 }}

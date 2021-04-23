@@ -1,24 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./SignUp.css";
 import validator from 'validator';
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookSquare } from "react-icons/fa";
-import {
-  TextField,
-  makeStyles,
-} from "@material-ui/core";
+import {TextField,makeStyles,CircularProgress} from "@material-ui/core";
 import Notification from '../Notification.js'
 import logo from "../../../images/logo.png";
-import { OrganizationMultiStep } from "../OrganizationMultiStep";
-import { MultiStepForm } from "../MultiStepForm";
-import { BsFillPeopleFill, BsPersonFill } from "react-icons/bs";
-import axios from "axios";
-import {API_ENDPOINT} from '../../../AdminServices/baseURL';
-import { setItem } from "../../../utility/localStorageControl";
 
 import { useSelector , useDispatch } from 'react-redux'
 import { Redirect} from 'react-router';
-import {signIn} from '../../../redux/actions/auth.actions';
+import {signUp} from '../../../redux/actions/auth.actions';
 
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
@@ -100,48 +91,64 @@ const useStyles = makeStyles((theme) => ({
     fontSize:'15px',
     marginTop:'2px',
     marginLeft:"3px"
-}
+  },
+  whiteLoading:{
+    color:'#fff !important',
+    width:'20px !important',
+    height:'20px !important',
+  },
+  redLoading:{
+    color:'#ec1f28 !important',
+    width:'20px !important',
+    height:'20px !important',
+  }
 }));
 
 const SignUp_and_SetProfile = () => {
   const classes = useStyles();
+  
+  const [email,setemail] = useState("");
+  const [mobile,setmobile] = useState("");
+  const [password,setpassword] = useState("");
+  const [confirm,setconfirm] = useState("");
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
+  const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
+  const [btnHovered,setHovered] = useState(false);
 
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
 
   const SignUp = async (email, phone, password, confirm, fname, lname) => {
-      const SignUpStuff = {
-        email : email,
-        phone_number : phone,
-        password : password,
-        password_confirmation : confirm,
-      }
-
-      // await axios.post(`${API_ENDPOINT}/skilzen/v1/sign_up/`, SignUpStuff)
-      //   .then(res => {
-      //     if(res.statusText === 'Created'){
-      //       window.open('/VerifyOTP', '_self')
-      //     }
-      //   })
-      //   .catch(err => console.log(err))
-      window.open('/')
-
+    const SignUpStuff = {
+      email : email,
+      phone_number : phone,
+      password : password,
+      password_confirmation : confirm,
+    }
+    
+    await dispatch(signUp(SignUpStuff));
+    if(auth.signedUp){
+      setnotify({message:'SignedUp successfully ',isOpen:true, type:'success'});
+      setTimeout(()=>{
+        setnotify({message:'', isOpen:false, type:''})
+        window.open('/login','_self');
+      },1500)
+    }
+    else if(!auth.signedUp && !auth.loading){
+      setnotify({message:auth.message,isOpen:true, type:'error'});
+      setTimeout(()=>{
+        setnotify({message:'', isOpen:false, type:''})
+      },3000)
+    }
   }
+  
   if(auth.authenticate){
     return <Redirect to={'/'} />
   }
 
-  // ---------SignUp (asks credentials)
-  const SignUp1 = () => {
-    const [email,setemail] = useState("");
-    const [mobile,setmobile] = useState("");
-    const [password,setpassword] = useState("");
-    const [confirm,setconfirm] = useState("");
-    const [fname, setFname] = useState("");
-    const [lname, setLname] = useState("");
-    const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
-    
-    return (
+  return (
+    <div className='Login__Signup'>
       <div className="internship__container__centered">
         <div className="internship__content__card p-5 signup__container">
           <img
@@ -224,8 +231,8 @@ const SignUp_and_SetProfile = () => {
             </div>
             <div className='signup__btn d-flex justify-content-end'>
             <button
-              className="apply_btn card_btn"
-              onClick={(e) => {
+              className="apply_btn card_btn signInBtn"
+              onClick={async(e) => {
                 e.preventDefault();
                 if(!validator.isEmail(email)){
                   setnotify({message:'Wrong Format of Email address!',isOpen:true,type:'error'});
@@ -239,11 +246,16 @@ const SignUp_and_SetProfile = () => {
                   },3000)
                 }
                 else{
-                  SignUp(email, mobile, password, confirm, fname, lname);
+                   await SignUp(email, mobile, password, confirm, fname, lname);
                 }
               }}
+              onMouseEnter={(e) => {setHovered(true)}}
+              onMouseLeave={(e) => {setHovered(false)}}
             >
-              Sign Up
+              Sign Up{" "}
+              {
+                auth.loading&& <CircularProgress className={btnHovered? `${classes.redLoading}` : `${classes.whiteLoading}` } />
+              }
             </button>
             </div>
           </form>
@@ -255,56 +267,6 @@ const SignUp_and_SetProfile = () => {
           }
         </div>
       </div>
-    );
-  };
-
-  //----------Asks whether student or Organization
-  // const SignUp2 = () => (
-  //   <div className="d-flex justify-content-center align-items-center">
-  //     <div className="internship__content__card my-5 p-5 signup__container">
-  //       <img
-  //         className="mb-5"
-  //         src={logo}
-  //         style={{ width: "30%" }}
-  //         alt="skilzen logo"
-  //       />
-
-  //       <form noValidate autoComplete="off">
-  //         <div className='d-flex align-items-center'>
-  //           <button
-  //             className="select__type_btn apply_btn"
-  //             onClick={(e) => {
-  //               e.preventDefault();
-  //               setSection("Student");
-  //             }}
-  //           >
-  //             <BsPersonFill />
-  //             Student
-  //           </button>
-  //           <h4 className="w-100 text-center m-0">Or</h4>
-  //           <button
-  //             className="select__type_btn apply_btn"
-  //             onClick={(e) => {
-  //               e.preventDefault();
-  //               setSection("Org");
-  //             }}
-  //           >
-  //             <BsFillPeopleFill />
-  //             Organistion/Company
-  //           </button>
-  //         </div>
-  //       </form>
-  //     </div>
-  //   </div>
-  // );
-
-  // // ----------SignUP and SetProfile Merged Below---------
-
-  return (
-    <div className='Login__Signup'>
-      <SignUp1 />
-      {/* {section === "Student" && <MultiStepForm user={user} /> }
-      {section === "Org" && <OrganizationMultiStep user={user} />} */}
     </div>
   );
 };

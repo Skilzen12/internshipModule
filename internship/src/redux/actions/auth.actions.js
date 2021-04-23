@@ -1,30 +1,30 @@
 import { authConstants,getData } from "../actionTypes"
 import axios from '../helper_axios'
 
-import AdminService from '../../AdminServices/AdminService'
-
 export const signIn = (user)=>{
   return async (dispatch)=>{
     dispatch({
       type:authConstants.SIGNIN_REQUEST
     })
-    const res = await axios.post('/skilzen/v1/login/',user);
-
-    if(res.status===200){
-      const {token} = res.data;
-      localStorage.setItem('accessToken',token);
-      dispatch({
-        type:authConstants.SIGNIN_SUCCESS,
-        payload:{
-          token
-        }
-      })
-    }else{
-      console.log(res);
+    try{
+      const res = await axios.post('/skilzen/v1/login/',user);
+      console.log(res,'res from API login');
+      if(res.status===200){
+        const {token} = res.data;
+        localStorage.setItem('accessToken',token);
+        dispatch({
+          type:authConstants.SIGNIN_SUCCESS,
+          payload:{
+            token
+          }
+        })
+      }
+    }
+    catch(err){
       dispatch({
         type:authConstants.SIGNIN_FAILURE,
         payload:{
-          message: 'Error while signing in!'
+          message: 'Invalid Login Credentials!'
         }
       })
     }
@@ -42,14 +42,15 @@ export const isAdminLogged = ()=>{
           token
         }
       })
-    }else{
-      dispatch({
-        type:authConstants.SIGNIN_FAILURE,
-        payload:{
-          message:"Not logged in before"
-        }
-      })
     }
+    // else{
+    //   dispatch({
+    //     type:authConstants.SIGNIN_FAILURE,
+    //     payload:{
+    //       message:"Not logged in before"
+    //     }
+    //   })
+    // }
   }
 }
 export const logoutAdmin = ()=>{
@@ -69,5 +70,36 @@ export const logoutAdmin = ()=>{
         }
     })
     
+  }
+}
+export const signUp = (user)=>{
+  return async (dispatch)=>{
+    dispatch({
+      type:authConstants.SIGNUP_REQUEST
+    })
+    try{
+      const res = await axios.post('/skilzen/v1/sign_up/',user);
+      if(res.status===201){
+        dispatch({
+          type:authConstants.SIGNUP_SUCCESS,
+        })
+      }else{
+        dispatch({
+          type:authConstants.SIGNUP_FAILURE,
+          payload:{
+            message:'User already exists !'
+          }
+        })
+      }
+    }
+    catch(err){
+      dispatch({
+        type:authConstants.SIGNUP_FAILURE,
+        payload:{
+          message:'User already exists !'
+        }
+      })
+    }
+
   }
 }

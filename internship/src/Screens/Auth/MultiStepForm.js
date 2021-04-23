@@ -5,9 +5,8 @@ import { Education } from "./multistep/Education";
 import { Profile } from "./multistep/Profile";
 import { Otp } from "./stepForm/Otp";
 import { Experience } from "./multistep/Experience";
-import { useDispatch } from "react-redux";
-// import { storeProfile } from "../../redux/actions/auth.actions";
 
+import { useSelector , useDispatch } from 'react-redux'
 const defaultData = {
   fname: "",
   lname: "",
@@ -36,9 +35,12 @@ const steps = [
   { id: "otp" },
 ];
 
-export const MultiStepForm = ({user}) => {
+
+export const MultiStepForm = () => {
+  const user = useSelector(state => state.user);
+
   defaultData.email=user.email;
-  defaultData.mobileNo=user.mobile;
+  defaultData.mobileNo=user.phone_number;
   const [formData, setForm] = useForm( defaultData );
   const dispatch = useDispatch();
     //for Education array
@@ -50,6 +52,7 @@ export const MultiStepForm = ({user}) => {
       location: "",
       startDate: "",
       endDate: "",
+      saved:false,
     },
   ]);
 
@@ -62,6 +65,7 @@ export const MultiStepForm = ({user}) => {
       expStartDate: "",
       expEndDate: "",
       expDescription: "",
+      saved:false
     },
   ]);
 

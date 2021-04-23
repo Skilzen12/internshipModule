@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import logo from "../../../images/logo.png";
-import { Checkbox, FormControlLabel, makeStyles, TextField } from '@material-ui/core';
-import { useHistory } from 'react-router';
+import { Checkbox, FormControlLabel, makeStyles, TextField,CircularProgress } from '@material-ui/core';
+
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookSquare } from "react-icons/fa";
 import validator from 'validator';
@@ -93,7 +93,17 @@ const useStyles = makeStyles((theme) => ({
       fontSize:'15px',
       marginTop:'2px',
       marginLeft:"3px"
-  }
+    },
+    whiteLoading:{
+      color:'#fff !important',
+      width:'20px !important',
+      height:'20px !important',
+    },
+    redLoading:{
+      color:'#ec1f28 !important',
+      width:'20px !important',
+      height:'20px !important',
+    }
     
 }));
 
@@ -105,7 +115,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [showpassword,setshowpassword] = useState(false);
     const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
-
+    const [btnHovered,setHovered] = useState(false);
     const auth = useSelector(state => state.auth);
 
     const SignIn = async(email, pass, ) => {
@@ -114,19 +124,18 @@ const Login = () => {
         password : pass
       }
       
-      dispatch(signIn(loginStuff));
-      if(auth.loading){
-        setnotify({message:'loading...',isOpen:true, type:'error'});
-        setTimeout(()=>{
-          setnotify({message:'', isOpen:false, type:''})
-        },3000)
-      }
-      if(!auth.loading && !auth.authenticate){
+      await dispatch(signIn(loginStuff));
+
+      if(!auth.loading && !auth.authenticate && auth.message!==""){
         setnotify({message:auth.message,isOpen:true, type:'error'});
         setTimeout(()=>{
           setnotify({message:'', isOpen:false, type:''})
         },3000)
       }else{
+        setnotify({message:'Successfully signed in',isOpen:true, type:'success'});
+        setTimeout(()=>{
+          setnotify({message:'', isOpen:false, type:''})
+        },3000)
         dispatch(getUserData());
       }
     }
@@ -191,7 +200,7 @@ const Login = () => {
             </div>
             <div className={classes.for_login_adj}>
                 <button
-                  class="apply_btn card_btn"
+                  className="apply_btn card_btn signInBtn"
                   onClick={(e) => {
                     e.preventDefault();
                     if(!validator.isEmail(email)){
@@ -202,10 +211,16 @@ const Login = () => {
                     }
                     else{
                       SignIn(email, password);
-                    }  
+                    }
+                    
                   }}
+                  onMouseEnter={(e) => {setHovered(true)}}
+                  onMouseLeave={(e) => {setHovered(false)}}
                 >
-                  Log in
+                  Log in{" "}
+                  {
+                    auth.loading&& <CircularProgress className={btnHovered? `${classes.redLoading}` : `${classes.whiteLoading}` } />
+                  }
                 </button>
             </div>
           </form>

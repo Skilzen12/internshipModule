@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./SignUp.css";
 import validator from 'validator';
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookSquare } from "react-icons/fa";
-import {
-  TextField,
-  makeStyles,
-} from "@material-ui/core";
+import {TextField,makeStyles,CircularProgress} from "@material-ui/core";
 import Notification from '../Notification.js'
 import logo from "../../../images/logo.png";
 import { OrganizationMultiStep } from "../OrganizationMultiStep";
@@ -18,7 +15,7 @@ import { setItem } from "../../../utility/localStorageControl";
 
 import { useSelector , useDispatch } from 'react-redux'
 import { Redirect} from 'react-router';
-import {signIn} from '../../../redux/actions/auth.actions';
+import {signUp} from '../../../redux/actions/auth.actions';
 
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
@@ -100,33 +97,24 @@ const useStyles = makeStyles((theme) => ({
     fontSize:'15px',
     marginTop:'2px',
     marginLeft:"3px"
-}
+  },
+  whiteLoading:{
+    color:'#fff !important',
+    width:'20px !important',
+    height:'20px !important',
+  },
+  redLoading:{
+    color:'#ec1f28 !important',
+    width:'20px !important',
+    height:'20px !important',
+  }
 }));
 
 const SignUp_and_SetProfile = () => {
   const classes = useStyles();
-
-  const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
 
-  const SignUp = async (email, phone, password, confirm, fname, lname) => {
-      const SignUpStuff = {
-        email : email,
-        phone_number : phone,
-        password : password,
-        password_confirmation : confirm,
-      }
-
-      // await axios.post(`${API_ENDPOINT}/skilzen/v1/sign_up/`, SignUpStuff)
-      //   .then(res => {
-      //     if(res.statusText === 'Created'){
-      //       window.open('/VerifyOTP', '_self')
-      //     }
-      //   })
-      //   .catch(err => console.log(err))
-      window.open('/')
-
-  }
+  
   if(auth.authenticate){
     return <Redirect to={'/'} />
   }
@@ -140,6 +128,37 @@ const SignUp_and_SetProfile = () => {
     const [fname, setFname] = useState("");
     const [lname, setLname] = useState("");
     const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
+    const [btnHovered,setHovered] = useState(false);
+
+    const dispatch = useDispatch();
+    const auth = useSelector(state => state.auth);
+    useEffect(()=>{
+      if(auth.signedUp){
+        setnotify({message:'SignedUp successfully ',isOpen:true, type:'success'});
+        setTimeout(()=>{
+          setnotify({message:'', isOpen:false, type:''})
+          window.open('/login','_self')
+        },1500)
+      }
+    },[auth.signedUp])
+
+    const SignUp = async (email, phone, password, confirm, fname, lname) => {
+      const SignUpStuff = {
+        email : email,
+        phone_number : phone,
+        password : password,
+        password_confirmation : confirm,
+      }
+      
+      await dispatch(signUp(SignUpStuff));
+
+      if(!auth.signedUp && !auth.loading){
+        setnotify({message:auth.message,isOpen:true, type:'error'});
+        setTimeout(()=>{
+          setnotify({message:'', isOpen:false, type:''})
+        },3000)
+      }
+    }
     
     return (
       <div className="internship__container__centered">
@@ -224,8 +243,8 @@ const SignUp_and_SetProfile = () => {
             </div>
             <div className='signup__btn d-flex justify-content-end'>
             <button
-              className="apply_btn card_btn"
-              onClick={(e) => {
+              className="apply_btn card_btn signInBtn"
+              onClick={async(e) => {
                 e.preventDefault();
                 if(!validator.isEmail(email)){
                   setnotify({message:'Wrong Format of Email address!',isOpen:true,type:'error'});
@@ -239,11 +258,16 @@ const SignUp_and_SetProfile = () => {
                   },3000)
                 }
                 else{
-                  SignUp(email, mobile, password, confirm, fname, lname);
+                   await SignUp(email, mobile, password, confirm, fname, lname);
                 }
               }}
+              onMouseEnter={(e) => {setHovered(true)}}
+              onMouseLeave={(e) => {setHovered(false)}}
             >
-              Sign Up
+              Sign Up{" "}
+              {
+                auth.loading&& <CircularProgress className={btnHovered? `${classes.redLoading}` : `${classes.whiteLoading}` } />
+              }
             </button>
             </div>
           </form>

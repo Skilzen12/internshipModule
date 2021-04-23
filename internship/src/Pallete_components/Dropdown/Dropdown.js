@@ -98,7 +98,7 @@ export const Dropdown = (props) => {
 
 
 
-export const Updated_DropDown = ({options, placeHolder,onUpdate})=>{
+export const Updated_DropDown = ({options, placeHolder, onUpdate})=>{
   const classes = useStyles();
   const [dropdownValue, setDropDownValue] = React.useState('');
   const [open, setOpen] = React.useState(false);

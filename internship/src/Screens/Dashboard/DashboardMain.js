@@ -10,6 +10,7 @@ import logo from '../../images/logo-main-black.png';
 import {F3_1} from '../../utility/DummyData/CompanyProfile';
 import Team from '../../Components/TeamMembersCard/team_members';
 import {navCollection, defaultJobs, CardCollection, applicants, jobs} from '../../utility/DummyData/DashboardData';
+import { useSelector , useDispatch } from 'react-redux'
 
 const DashboardCard = ({name, color, darkcolor, Icon, number, content, decimal}) => {
     return(
@@ -282,6 +283,7 @@ const DashboardNav = ({name, Icon, number, setTab}) => {
 }
 
 function DashboardMain() {
+    const user = useSelector(state => state.user);
     const [tab, setTab] = useState('Dashboard');
     return (
         <div>
@@ -289,7 +291,11 @@ function DashboardMain() {
             <div className="dashboard__container">
                 <div className="dashboard___slider">
                     <div className="dashboard__sidebarButtonArea">
-                        <button className="category__label dashboard__sidebarButton">+ Add New</button>
+                        <button onClick={() => {
+                            user.recruits_for !== null ? 
+                            window.open('/postInternship', '_self')
+                            : window.open('/applyRecruiterForm', '_self')
+                        }} className="category__label dashboard__sidebarButton">+ Add New</button>
                     </div>
                     <div className="dashboard__sliderNavs">
                         {navCollection.map(nav => (
@@ -300,7 +306,11 @@ function DashboardMain() {
                 <div className="dashboard__slider">
                     <img className="dashboard__sliderlogo" src={logo} alt="skilzen_log" />
                     <div className="dashboard__sidebarButtonArea">
-                        <button className="category__label dashboard__sidebarButton">+ Add New</button>
+                        <button onClick={() => {
+                            user.recruits_for === null ? 
+                            window.open('/postInternship', '_self')
+                            : window.open('/applyRecruiterForm', '_self')
+                        }} className="category__label dashboard__sidebarButton">+ Add New</button>
                     </div>
                     <div className="dashboard__sliderNavs">
                         {navCollection.map(nav => (
@@ -313,63 +323,7 @@ function DashboardMain() {
                 ) : tab === 'Applicants' ? (
                     <div className="dashboard__content"><ApplicantList /></div> 
                 ) : tab=== 'Profile' ? (
-                    <div className="dashboard__content">
-                        <div className="box2">
-                            <div className='adjusting_card'>
-                                <div className="company_card" style={{boxShadow: 'none', border: 'none'}}>
-                                    <div className="for_margin_inside">
-                                        <div className='img_n_name'>
-                                            <div className='cmp_main_img'>
-                                                <img src={F3_1.cmp_img} className="main_img" ></img>
-                                            </div>
-                                            <div style={{marginLeft:'15px',marginTop:'5px'}}>
-                                                <p className='company_main_name'>{F3_1.company_name}</p>
-                                                <p className='company_cat_type' >{F3_1.company_cat}</p>
-                                            </div>
-                                        </div>
-                                        <p style={{marginTop:'50px',marginBottom:'20px',fontFamily: 'Gordita',fontStyle: 'normal',fontWeight: 'normal',fontSize: '13px',lineHeight: '26px',letterSpacing: '0.26px',textTransform: 'uppercase',color: '#6B6E6F'}}>COMPANY</p>
-                                        <hr></hr>
-                                        <div className="short_details">
-                                            <div className="each_short_detail">
-                                                <p className="specification">Company size</p>
-                                                <p className="specification_ans">{F3_1.compsny_size}</p>
-                                            </div>
-                                            <div className="each_short_detail">
-                                                <p className="specification">Type of Corporation</p>
-                                                <p className="specification_ans">{F3_1.type_of_corp}</p>
-                                            </div>
-                                            <div className="each_short_detail">
-                                                <p className="specification">Location</p>
-                                                <p className="specification_ans">{F3_1.location}</p>
-                                            </div>
-                                            <div className="each_short_detail">
-                                                <p className="specification">Est.Since</p>
-                                                <p className="specification_ans">{F3_1.est_Since}</p>
-                                            </div>
-                                            <div className="each_short_detail">
-                                                <p className="specification">Social Media</p>
-                                                <div class="for_media_icons">
-                                                    <a href="#" className="mediaIcons"><i className="fab fa-linkedin-in adj_icon" aria-hidden="true"></i></a>
-                                                    <a href="#" className="mediaIcons"><i className="fab fa-facebook-f adj_icon " aria-hidden="true"></i></a>
-                                                    <a href="#" className="mediaIcons"><i className="fab fa-twitter adj_icon" aria-hidden="true"></i></a>
-                                                    <a href="#" className="mediaIcons"><i className="fab fa-dribbble adj_icon" aria-hidden="true"></i></a>
-                                                    <a href="#" className="mediaIcons"><i className="fab fa-behance adj_icon" aria-hidden="true"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <p className="company_heading">{F3_1.heading}</p>
-                                        <p className="content_area">{F3_1.text}</p>
-                                        <hr className="hr_for_TM"></hr>
-                                        <p className="team_members_heading">Team Members:</p>
-                                        <div>
-                                            <Team/>
-                                        </div>
-                                    </div>                                              
-                                </div>        
-                            </div>
-                        </div>
-                    </div>               
+                    <CompanyProfile />
                 ) : (
                     <div className="dashboard__content" style={{boxShadow: 'none', border: 'none'}}>
                         <div className="dashboard__ContentCards">
@@ -384,4 +338,66 @@ function DashboardMain() {
     )
 }
 
-export default DashboardMain
+export default DashboardMain;
+
+const CompanyProfile = () => {
+    return(
+        <div className="dashboard__content">
+            <div className="box2">
+                <div className='adjusting_card'>
+                    <div className="company_card" style={{boxShadow: 'none', border: 'none'}}>
+                        <div className="for_margin_inside">
+                            <div className='img_n_name'>
+                                <div className='cmp_main_img'>
+                                    <img src={F3_1.cmp_img} className="main_img" ></img>
+                                </div>
+                                <div style={{marginLeft:'15px',marginTop:'5px'}}>
+                                    <p className='company_main_name'>{F3_1.company_name}</p>
+                                    <p className='company_cat_type' >{F3_1.company_cat}</p>
+                                </div>
+                            </div>
+                            <p style={{marginTop:'50px',marginBottom:'20px',fontFamily: 'Gordita',fontStyle: 'normal',fontWeight: 'normal',fontSize: '13px',lineHeight: '26px',letterSpacing: '0.26px',textTransform: 'uppercase',color: '#6B6E6F'}}>COMPANY</p>
+                            <hr></hr>
+                            <div className="short_details">
+                                <div className="each_short_detail">
+                                    <p className="specification">Company size</p>
+                                    <p className="specification_ans">{F3_1.compsny_size}</p>
+                                </div>
+                                <div className="each_short_detail">
+                                    <p className="specification">Type of Corporation</p>
+                                    <p className="specification_ans">{F3_1.type_of_corp}</p>
+                                </div>
+                                <div className="each_short_detail">
+                                    <p className="specification">Location</p>
+                                    <p className="specification_ans">{F3_1.location}</p>
+                                </div>
+                                <div className="each_short_detail">
+                                    <p className="specification">Est.Since</p>
+                                    <p className="specification_ans">{F3_1.est_Since}</p>
+                                </div>
+                                <div className="each_short_detail">
+                                    <p className="specification">Social Media</p>
+                                    <div class="for_media_icons">
+                                        <a href="#" className="mediaIcons"><i className="fab fa-linkedin-in adj_icon" aria-hidden="true"></i></a>
+                                        <a href="#" className="mediaIcons"><i className="fab fa-facebook-f adj_icon " aria-hidden="true"></i></a>
+                                        <a href="#" className="mediaIcons"><i className="fab fa-twitter adj_icon" aria-hidden="true"></i></a>
+                                        <a href="#" className="mediaIcons"><i className="fab fa-dribbble adj_icon" aria-hidden="true"></i></a>
+                                        <a href="#" className="mediaIcons"><i className="fab fa-behance adj_icon" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p className="company_heading">{F3_1.heading}</p>
+                            <p className="content_area">{F3_1.text}</p>
+                            <hr className="hr_for_TM"></hr>
+                            <p className="team_members_heading">Team Members:</p>
+                            <div>
+                                <Team/>
+                            </div>
+                        </div>                                              
+                    </div>        
+                </div>
+            </div>
+        </div> 
+    )
+}

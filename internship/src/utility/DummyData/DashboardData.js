@@ -14,7 +14,7 @@ import imgP5 from "../../images/table-one-profile-image-5.png";
 export const navCollection = [
     {name: "Dashboard", icon : RiLayout4Fill}, 
     {name: "Posted Internships", icon : BsFillBagFill},
-    {name: "Applicants", icon : FaUserAlt, number : 14}, 
+    {name: "Applicants", icon : FaUserAlt}, 
     {name: "Profile", icon : AiFillProfile},
 ];
 

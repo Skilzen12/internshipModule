@@ -12,7 +12,8 @@ const initialState = {
   educLoading:false,
   expLoading: false,
   skillsLoading: false,
-  profileLoading:false
+  profileLoading:false,
+  recruits_for: null
 }
 
 export const userReducer = (state=initialState,action)=>{

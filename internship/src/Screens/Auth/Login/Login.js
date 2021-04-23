@@ -3,7 +3,7 @@ import logo from "../../../images/logo.png";
 import { Checkbox, FormControlLabel, makeStyles, TextField,CircularProgress } from '@material-ui/core';
 
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebookSquare } from "react-icons/fa";
+import { FaGithubSquare,FaLinkedin,FaFacebookSquare } from "react-icons/fa";
 import validator from 'validator';
 import Notification from '../Notification.js'
 
@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     fullWidth: {
       width: "100%",
     },
+    
     rightInputField: {
       marginLeft: "10%",
     },
@@ -47,33 +48,42 @@ const useStyles = makeStyles((theme) => ({
     },
     for_auth_div:{
       display:"flex",
-      flexDirection:"column",
+      flexDirection:"row",
+      justifyContent:"left",
+      flexWrap:"wrap",
       width:"100%"
     },
     for_auth_btn:{
       width: "100%",
       background: "transparent",
       color: "#848383",
-      height: "45px",
+      height: "42px",
       borderRadius:"10px",
       border: "#b6b2b2 solid 1px",
-      margin:"10px 0px",
       display: "flex",
       flexDirection: "row",
       justifyContent: "center",
-      paddingTop: "10px"   
+      paddingTop: "6px",  
+      display:"flex" ,
+      flexDirection:"row",
+      flexWrap:"nowrap",
+      "&:hover":{
+        border:"#ec1f28 solid 1px"
+      } 
     },
+    
     for_auth_fb_icons:{
-      marginTop:"0px",
-      marginBottom:"1px",
-      marginRight:"10px",
+      margin:"0px 2px",
       fontSize:"25px",
       color:"#3838e9",
     },
+    for_auth_gh_icons:{
+      margin:"0px 2px",
+      fontSize:"25px",
+      color:"black",
+    },
     for_auth_icons:{
-      marginTop:"0px",
-      marginBottom:"1px",
-      marginRight:"10px",
+      margin:"0px 2px",
       fontSize:"25px"
     },
     for_hr_line:{
@@ -103,6 +113,16 @@ const useStyles = makeStyles((theme) => ({
       color:'#ec1f28 !important',
       width:'20px !important',
       height:'20px !important',
+    },
+    for_btn_margin:{
+      margin:"15px 15px"
+    },
+    for_login_font:{
+      fontSize: "1rem",
+    fontFamily: "Roboto",
+    fontWeight: "400",
+    lineHeight: "1.5",
+    letterSpacing: "0.00938em",
     }
     
 }));
@@ -182,17 +202,34 @@ const Login = () => {
               />
             </div>
             <hr className={classes.for_hr_line}></hr>
+            <p className={classes.for_login_font}>Login with:</p>
             <div className={classes.for_auth_div}>
-              <div>
+              <div className={classes.for_btn_margin}>
                 <button className={classes.for_auth_btn}>
-                    <FcGoogle className={classes.for_auth_icons}/> Join with Google
+                    <div ><FcGoogle className={classes.for_auth_icons}/></div>
+                     
                 </button>
               </div>
-              <div>
+              <div className={classes.for_btn_margin}>
                 <button className={classes.for_auth_btn}>
-                    <FaFacebookSquare className={classes.for_auth_fb_icons}/> Join with Facebook
+                <div ><FaFacebookSquare className={classes.for_auth_fb_icons}/></div>
+                
                 </button>
               </div>
+              <div className={classes.for_btn_margin}>
+                <button className={classes.for_auth_btn}>
+                <div ><FaGithubSquare className={classes.for_auth_gh_icons}/></div>
+                 
+                
+                </button>
+              </div>
+              <div className={classes.for_btn_margin}>
+                <button className={classes.for_auth_btn}>
+                <div ><FaLinkedin className={classes.for_auth_fb_icons}/></div>
+                
+                </button>
+              </div>
+              
             </div>
             <div className={classes.for_newUser}>
               <p> New User? <a href="/signup" className={classes.for_signup_redirect}>Click here to Sign Up!</a></p>

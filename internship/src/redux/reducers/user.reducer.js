@@ -1,6 +1,4 @@
-import { getData,addEducation as Edu,addWorkExperience as Exp } from "../actionTypes";
-/* eslint-disable default-case */
-/* eslint-disable import/no-anonymous-default-export */
+import { getData,addEducation as Edu,addWorkExperience as Exp, addSkills, addProfile } from "../actionTypes";
 
 const initialState = {
   first_name: "",
@@ -14,10 +12,11 @@ const initialState = {
   educLoading:false,
   expLoading: false,
   skillsLoading: false,
+  profileLoading:false,
   recruits_for: null
 }
 
-export default (state=initialState,action)=>{
+export const userReducer = (state=initialState,action)=>{
   console.log(action);
   switch(action.type){
     case getData.GETDATA_REQUEST : 
@@ -74,6 +73,50 @@ export default (state=initialState,action)=>{
         expLoading:false,
       }
       break;
+    case addSkills.ADD_SKILL_REQUEST:
+      state={
+        ...state,
+        skillsLoading:true
+      }
+      break;
+    case addSkills.ADD_SKILL_SUCCESS:
+      state={
+        ...state,
+        user_skills:[...state.user_skills,action.payload],
+        skillsLoading:false
+      }
+      break;
+    case addSkills.ADD_SKILL_FAIL:
+      state={
+        ...state,
+        skillsError:action.payload,
+        skillsLoading:false
+      }
+      break;
+    case addProfile.ADD_PROFILE_REQUEST:
+      state={
+        ...state,
+        profileLoading:true,
+        profileError:null
+      }
+      break;
+    case addProfile.ADD_PROFILE_SUCCESS:
+      state={
+        ...state,
+        profileLoading:false,
+        profile:action.payload
+      }
+      break;
+    case addProfile.ADD_PROFILE_FAIL:
+      state={
+        ...state,
+        profileLoading:false,
+        profileError:action.payload
+      }
+      break;
+    default:
   }
+
   return state;
+  
 }

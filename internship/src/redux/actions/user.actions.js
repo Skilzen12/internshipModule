@@ -91,15 +91,3 @@ export const addWorkExperience = (data) => {
     }
   }
 }
-// {
-//   "meta": {
-//       "degree": "Btech Chemical",
-//       "college_id": "1",
-//       "college_name": "NIT",
-//       "college_city": "Warangal",
-//       "start_date": "2017-08-02",
-//       "end_date": "2022-08-21",
-//       "location": ""
-      
-//       }
-// }

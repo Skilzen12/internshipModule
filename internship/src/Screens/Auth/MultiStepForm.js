@@ -52,6 +52,7 @@ export const MultiStepForm = () => {
       location: "",
       startDate: "",
       endDate: "",
+      saved:false,
     },
   ]);
 
@@ -64,6 +65,7 @@ export const MultiStepForm = () => {
       expStartDate: "",
       expEndDate: "",
       expDescription: "",
+      saved:false
     },
   ]);
 

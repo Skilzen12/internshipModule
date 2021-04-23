@@ -65,6 +65,7 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,id}) => {
   const ChangeHandler=(e)=>{
     setEduDetails1(e);
   }
+
   const saveClicked = async()=>{
     const {school,degree,startDate,endDate,location} = EduDetails1;
 
@@ -101,6 +102,7 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,id}) => {
     }
 
   }
+  
   return (
     <>
       <TextField

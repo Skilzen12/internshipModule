@@ -73,7 +73,10 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "6px",  
     display:"flex" ,
     flexDirection:"row",
-    flexWrap:"nowrap",   
+    flexWrap:"nowrap",  
+    "&:hover":{
+      border:"#ec1f28 solid 1px"
+    } 
   },
   for_auth_fb_icons:{
     margin:"0px 2px",

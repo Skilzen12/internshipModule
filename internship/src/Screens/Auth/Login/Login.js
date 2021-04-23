@@ -67,6 +67,9 @@ const useStyles = makeStyles((theme) => ({
       display:"flex" ,
       flexDirection:"row",
       flexWrap:"nowrap",
+      "&:hover":{
+        border:"#ec1f28 solid 1px"
+      } 
     },
     
     for_auth_fb_icons:{

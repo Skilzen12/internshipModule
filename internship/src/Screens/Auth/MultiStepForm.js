@@ -41,6 +41,7 @@ export const MultiStepForm = () => {
 
   defaultData.email=user.email;
   defaultData.mobileNo=user.phone_number;
+  
   const [formData, setForm] = useForm( defaultData );
   const dispatch = useDispatch();
     //for Education array

@@ -42,14 +42,15 @@ export const isAdminLogged = ()=>{
           token
         }
       })
-    }else{
-      dispatch({
-        type:authConstants.SIGNIN_FAILURE,
-        payload:{
-          message:"Not logged in before"
-        }
-      })
     }
+    // else{
+    //   dispatch({
+    //     type:authConstants.SIGNIN_FAILURE,
+    //     payload:{
+    //       message:"Not logged in before"
+    //     }
+    //   })
+    // }
   }
 }
 export const logoutAdmin = ()=>{
@@ -71,7 +72,6 @@ export const logoutAdmin = ()=>{
     
   }
 }
-
 export const signUp = (user)=>{
   return async (dispatch)=>{
     dispatch({
@@ -79,7 +79,6 @@ export const signUp = (user)=>{
     })
     try{
       const res = await axios.post('/skilzen/v1/sign_up/',user);
-      console.log(res,"res in signup");
       if(res.status===201){
         dispatch({
           type:authConstants.SIGNUP_SUCCESS,

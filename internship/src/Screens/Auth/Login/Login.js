@@ -126,7 +126,7 @@ const Login = () => {
       
       await dispatch(signIn(loginStuff));
 
-      if(!auth.loading && !auth.authenticate){
+      if(!auth.loading && !auth.authenticate && auth.message!==""){
         setnotify({message:auth.message,isOpen:true, type:'error'});
         setTimeout(()=>{
           setnotify({message:'', isOpen:false, type:''})

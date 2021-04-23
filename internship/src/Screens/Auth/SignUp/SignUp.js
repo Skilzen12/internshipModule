@@ -6,12 +6,6 @@ import { FaFacebookSquare } from "react-icons/fa";
 import {TextField,makeStyles,CircularProgress} from "@material-ui/core";
 import Notification from '../Notification.js'
 import logo from "../../../images/logo.png";
-import { OrganizationMultiStep } from "../OrganizationMultiStep";
-import { MultiStepForm } from "../MultiStepForm";
-import { BsFillPeopleFill, BsPersonFill } from "react-icons/bs";
-import axios from "axios";
-import {API_ENDPOINT} from '../../../AdminServices/baseURL';
-import { setItem } from "../../../utility/localStorageControl";
 
 import { useSelector , useDispatch } from 'react-redux'
 import { Redirect} from 'react-router';
@@ -112,55 +106,49 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp_and_SetProfile = () => {
   const classes = useStyles();
+  
+  const [email,setemail] = useState("");
+  const [mobile,setmobile] = useState("");
+  const [password,setpassword] = useState("");
+  const [confirm,setconfirm] = useState("");
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
+  const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
+  const [btnHovered,setHovered] = useState(false);
+
+  const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
 
+  const SignUp = async (email, phone, password, confirm, fname, lname) => {
+    const SignUpStuff = {
+      email : email,
+      phone_number : phone,
+      password : password,
+      password_confirmation : confirm,
+    }
+    
+    await dispatch(signUp(SignUpStuff));
+    if(auth.signedUp){
+      setnotify({message:'SignedUp successfully ',isOpen:true, type:'success'});
+      setTimeout(()=>{
+        setnotify({message:'', isOpen:false, type:''})
+        window.open('/login','_self');
+      },1500)
+    }
+    else if(!auth.signedUp && !auth.loading){
+      setnotify({message:auth.message,isOpen:true, type:'error'});
+      setTimeout(()=>{
+        setnotify({message:'', isOpen:false, type:''})
+      },3000)
+    }
+  }
   
   if(auth.authenticate){
     return <Redirect to={'/'} />
   }
 
-  // ---------SignUp (asks credentials)
-  const SignUp1 = () => {
-    const [email,setemail] = useState("");
-    const [mobile,setmobile] = useState("");
-    const [password,setpassword] = useState("");
-    const [confirm,setconfirm] = useState("");
-    const [fname, setFname] = useState("");
-    const [lname, setLname] = useState("");
-    const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
-    const [btnHovered,setHovered] = useState(false);
-
-    const dispatch = useDispatch();
-    const auth = useSelector(state => state.auth);
-    useEffect(()=>{
-      if(auth.signedUp){
-        setnotify({message:'SignedUp successfully ',isOpen:true, type:'success'});
-        setTimeout(()=>{
-          setnotify({message:'', isOpen:false, type:''})
-          window.open('/login','_self')
-        },1500)
-      }
-    },[auth.signedUp])
-
-    const SignUp = async (email, phone, password, confirm, fname, lname) => {
-      const SignUpStuff = {
-        email : email,
-        phone_number : phone,
-        password : password,
-        password_confirmation : confirm,
-      }
-      
-      await dispatch(signUp(SignUpStuff));
-
-      if(!auth.signedUp && !auth.loading){
-        setnotify({message:auth.message,isOpen:true, type:'error'});
-        setTimeout(()=>{
-          setnotify({message:'', isOpen:false, type:''})
-        },3000)
-      }
-    }
-    
-    return (
+  return (
+    <div className='Login__Signup'>
       <div className="internship__container__centered">
         <div className="internship__content__card p-5 signup__container">
           <img
@@ -279,56 +267,6 @@ const SignUp_and_SetProfile = () => {
           }
         </div>
       </div>
-    );
-  };
-
-  //----------Asks whether student or Organization
-  // const SignUp2 = () => (
-  //   <div className="d-flex justify-content-center align-items-center">
-  //     <div className="internship__content__card my-5 p-5 signup__container">
-  //       <img
-  //         className="mb-5"
-  //         src={logo}
-  //         style={{ width: "30%" }}
-  //         alt="skilzen logo"
-  //       />
-
-  //       <form noValidate autoComplete="off">
-  //         <div className='d-flex align-items-center'>
-  //           <button
-  //             className="select__type_btn apply_btn"
-  //             onClick={(e) => {
-  //               e.preventDefault();
-  //               setSection("Student");
-  //             }}
-  //           >
-  //             <BsPersonFill />
-  //             Student
-  //           </button>
-  //           <h4 className="w-100 text-center m-0">Or</h4>
-  //           <button
-  //             className="select__type_btn apply_btn"
-  //             onClick={(e) => {
-  //               e.preventDefault();
-  //               setSection("Org");
-  //             }}
-  //           >
-  //             <BsFillPeopleFill />
-  //             Organistion/Company
-  //           </button>
-  //         </div>
-  //       </form>
-  //     </div>
-  //   </div>
-  // );
-
-  // // ----------SignUP and SetProfile Merged Below---------
-
-  return (
-    <div className='Login__Signup'>
-      <SignUp1 />
-      {/* {section === "Student" && <MultiStepForm user={user} /> }
-      {section === "Org" && <OrganizationMultiStep user={user} />} */}
     </div>
   );
 };

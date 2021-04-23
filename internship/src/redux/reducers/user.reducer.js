@@ -8,7 +8,11 @@ const initialState = {
   user_education: [],
   user_work_experience: [],
   user_profile: null,
-  user_skills: []
+  user_skills: [],
+  educLoading:false,
+  expLoading: false,
+  skillsLoading: false,
+
 }
 
 export default (state=initialState,action)=>{
@@ -33,33 +37,39 @@ export default (state=initialState,action)=>{
     case Edu.ADD_EDUCATION_REQUEST : 
       state = {
         ...state,
+        educLoading:true,
       }
       break;
     case Edu.ADD_EDUCATION_SUCCESS : 
       state = {
         ...state,
-        ...action.payload
+        ...action.payload,
+        educLoading:false,
       }
       break;
     case Edu.ADD_EDUCATION_FAILURE : 
       state = {
-        ...initialState,
+        ...state,
+        educLoading:false,
       }
       break;
     case Exp.ADD_WORK_EXP_REQUEST : 
       state = {
         ...state,
+        expLoading:true,
       }
       break;
     case Exp.ADD_WORK_EXP_SUCCESS : 
       state = {
         ...state,
-        ...action.payload
+        ...action.payload,
+        expLoading:false,
       }
       break;
     case Exp.ADD_WORK_EXP_FAILURE : 
       state = {
-        ...initialState,
+        ...state,
+        expLoading:false,
       }
       break;
   }

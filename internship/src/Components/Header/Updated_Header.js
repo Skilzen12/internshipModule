@@ -7,7 +7,7 @@ import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import NotificationsOutlinedIcon from '@material-ui/icons/NotificationsOutlined';
 
-
+import {Link} from "react-router-dom";
 
 import { useSelector , useDispatch } from 'react-redux'
 import { logoutAdmin } from '../../redux/actions/auth.actions';
@@ -57,9 +57,9 @@ function Updated_Header() {
                         auth.authenticate===false?
                         (
                             <>
-                            <a href="/login" className="nav-item nav-link signIn">Sign In</a>
+                            <Link to="/login" className="nav-item nav-link signIn">Sign In</Link>
                             <div className="form-inline" style={{marginRight:'14px'}} >
-                                <a href="/signUp" className="btn btn-sm btn-dark header__signup">Sign Up</a>
+                                <Link to="/signUp" className="btn btn-sm btn-dark header__signup">Sign Up</Link>
                             </div>
                             </>
                         ):

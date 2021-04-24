@@ -14,11 +14,13 @@ export const signIn = (user)=>{
           type:authConstants.SIGNIN_SUCCESS,
           payload:{token:token}
         })
+        return {error:''}
       }else{
         dispatch({
           type:authConstants.SIGNIN_FAILURE,
           payload:{message: 'Invalid Login Credentials!'}
         })
+        return {error:'Invalid Login Credentials!'}
       }
     }
     catch(err){
@@ -26,6 +28,7 @@ export const signIn = (user)=>{
         type:authConstants.SIGNIN_FAILURE,
         payload:{message: 'Invalid Login Credentials!'}
       })
+      return {error:'Invalid Login Credentials!'}
     }
   }
 }

@@ -57,11 +57,10 @@ const Landing2 = () => {
     getCategories();
     getFeaturedJobs();
     if(!auth.authenticate){
-      await dispatch(isAdminLogged());
+      dispatch(isAdminLogged());
     }
-    if(window.localStorage.getItem('accessToken')){
+    if(auth.token){
       dispatch(getUserData());
-      // getProfile();
     }
   },[]);
   

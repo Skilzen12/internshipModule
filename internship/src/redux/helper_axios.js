@@ -1,9 +1,7 @@
 import axios from 'axios';
 import {API_ENDPOINT} from '../AdminServices/baseURL'
 
-import { getItem } from '../utility/localStorageControl';
-
-const token = getItem('accessToken');
+const token = window.localStorage.getItem('accessToken')
 
 const axiosInstance = axios.create({
   baseURL : API_ENDPOINT,

@@ -14,8 +14,6 @@ const initialState = {
   skillsLoading: false,
   profileLoading:false,
   recruits_for: null,
-  is_phone_valid: false,
-  is_email_valid: false,
 }
 
 export const userReducer = (state=initialState,action)=>{

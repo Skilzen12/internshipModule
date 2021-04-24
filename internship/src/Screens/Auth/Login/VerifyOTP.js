@@ -1,6 +1,7 @@
+import React, { useState,useEffect } from "react";
+
 import { Button, makeStyles, TextField } from "@material-ui/core";
-import React, { useState } from "react";
-import { BsArrowLeft } from "react-icons/bs";
+import { useSelector , useDispatch } from 'react-redux'
 
 import AdminService from "../../../AdminServices/AdminService";
 import logoOnly from '../../../images/Group.png'
@@ -76,6 +77,13 @@ const VerifyOTP = () => {
   const [emailVerification, setEmailVerification]=useState('');
   const [outputPhone, setoutputP] = useState(false);
   const [outputEmail, setoutputM] = useState(false);
+
+  const user = useSelector(state => state.user);
+  useEffect(() => {
+    if(user.is_phone_verified && user.is_email_verified){
+      window.open('/', '_self');
+    }
+  }, [])
     return (
       <div className="d-flex justify-content-center align-items-center">
           <div className="internship__content__card my-5 p-5 signup__container" style={{width: 500}}>

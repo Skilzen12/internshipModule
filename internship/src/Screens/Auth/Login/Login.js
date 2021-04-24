@@ -129,11 +129,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
   const dispatch = useDispatch();
-  useEffect(()=>{
-    if(auth.authenticate){
-      return <Redirect to={'/'} />
+  useEffect(() => {
+    if(window.localStorage.getItem('accessToken')){
+      window.open('/', '_self');
     }
-  },[])
+  }, [])
 
     const classes=useStyles();
     const [email, setEmail] = useState("");

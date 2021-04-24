@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react'
 import './App.css';
 import { useSelector , useDispatch } from 'react-redux'
@@ -30,7 +31,6 @@ function App() {
     if(!auth.authenticate){
       await dispatch(isAdminLogged());
     }
-    await dispatch(getUserData());
   },[])
 
   return (

@@ -1,3 +1,4 @@
+import { getItem } from "../../utility/localStorageControl"
 import {getData,addEducation as Edu , addWorkExperience as Exp,addNewRecruiter as Rec,addSkills as skillTypes,addProfile as profileTypes } from "../actionTypes"
 import axios from '../helper_axios'
 
@@ -6,8 +7,8 @@ export const getUserData = ()=>{
   return async (dispatch)=>{
     dispatch({type:getData.GETDATA_REQUEST,})
     try{
+      console.log('Before', getItem('accessToken'));
       const res = await axios.get('/skilzen/v1/profile/');
-      console.log(res,"efsfa");
       if(res.statusText === 'OK'){
         dispatch({
           type:getData.GETDATA_SUCCESS,
@@ -15,7 +16,7 @@ export const getUserData = ()=>{
             ...res.data.results[0]
           }
         })
-      }else if(res.status == 400){
+      }else if(res.status === 400){
         console.log(res);
         dispatch({
           type:getData.GETDATA_FAILURE,

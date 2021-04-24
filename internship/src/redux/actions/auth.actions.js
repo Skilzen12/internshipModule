@@ -1,4 +1,5 @@
-import { authConstants,getData } from "../actionTypes"
+import { getItem, setItem } from "../../utility/localStorageControl"
+import { authConstants } from "../actionTypes"
 import axios from '../helper_axios'
 
 export const signIn = (user)=>{
@@ -8,7 +9,7 @@ export const signIn = (user)=>{
       const res = await axios.post('/skilzen/v1/login/',user);
       if(res.status===200){
         const {token} = res.data;
-        localStorage.setItem('accessToken',token);
+        setItem('accessToken',token);
         dispatch({
           type:authConstants.SIGNIN_SUCCESS,
           payload:{token:token}
@@ -32,7 +33,7 @@ export const signIn = (user)=>{
 export const isAdminLogged = ()=>{
   console.log("called isAdminLogged");
   return (dispatch)=>{
-    const token = localStorage.getItem('accessToken');
+    const token = getItem('accessToken');
     if(token){
       dispatch({
         type:authConstants.SIGNIN_SUCCESS,

@@ -11,6 +11,11 @@ import Content from "../../Components/LandingPage/Content1/Content1";
 import FeaturedCards from "../../Components/LandingPage/FeaturedCards/FeaturedCards";
 import CareerCard from "../../Components/LandingPage/CareerCard/CareerCard";
 import CityCards from "../../Components/LandingPage/CityCard/CityCards";
+import {API_ENDPOINT} from '../../AdminServices/baseURL'
+import {getUserData} from '../../redux/actions/user.actions'
+import axios from "axios";
+import axios1 from "../../redux/helper_axios";
+import { getItem } from "../../utility/localStorageControl";
 import AdminService from "../../AdminServices/AdminService";
 
 import {getUserData} from '../../redux/actions/user.actions'
@@ -24,7 +29,7 @@ const Landing2 = () => {
   const auth = useSelector(state => state.auth);
 
   const getCategories = async () => {
-    await AdminService.getInternshipsCategories()
+    await axios.get(`${API_ENDPOINT}/internship/v1/internships/stats/`)
     .then(res => {
       setCategories(res.data.category);
     })
@@ -32,19 +37,29 @@ const Landing2 = () => {
   }
 
   const getFeaturedJobs = async () => {
-    AdminService.getInternshipsList()
+    await axios.get(`${API_ENDPOINT}/internship/v1/internships/`)
     .then(res => {
       setCount(res.data.count);
       setInternships(res.data.results);
     })
     .catch(err => console.log(err));
   } 
+  const token = getItem('accessToken');
+  const getProfile = async () => {
+    await AdminService.getUserProfile()
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => console.log('2nnddd', err));
+  } 
 
   useEffect(async() => {
     getCategories();
     getFeaturedJobs();
-    await dispatch(isAdminLogged());
-    await dispatch(getUserData(auth.token));
+    if(token){
+      dispatch(getUserData());
+      getProfile();
+    }    
   },[]);
   
   return (

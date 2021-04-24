@@ -1,12 +1,14 @@
 import axios from 'axios';
 import {API_ENDPOINT} from '../AdminServices/baseURL'
 
-const token = window.localStorage.getItem('accessToken');
+import { getItem } from '../utility/localStorageControl';
+
+const token = getItem('accessToken');
 
 const axiosInstance = axios.create({
   baseURL : API_ENDPOINT,
-  headers:{
-    'Authorization': token?`Token ${token}`:'',
-  }
+  headers: token ? {
+    'Authorization': `Token ${token}`,
+  } : null
 });
 export default axiosInstance;

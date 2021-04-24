@@ -146,7 +146,7 @@ const Login = () => {
       }
       await dispatch(signIn(loginStuff));
 
-      if(auth.authenticate==false ){
+      if(auth.authenticate === false ){
         setnotify({message:'Invalid Credentials ! ',isOpen:true, type:'error'});
         setTimeout(()=>{
           setnotify({message:'', isOpen:false, type:''})

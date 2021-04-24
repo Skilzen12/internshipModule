@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react'
 import './App.css';
 import { useSelector , useDispatch } from 'react-redux'
@@ -27,9 +28,11 @@ function App() {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
   const user = useSelector(state => state.user);
-  useEffect(async()=>{   
-    await dispatch(isAdminLogged());
-    await dispatch(getUserData(auth.token));
+  
+  useEffect(async()=>{    
+    if(!auth.authenticate){
+      await dispatch(isAdminLogged());
+    }
   },[])
 
   return (

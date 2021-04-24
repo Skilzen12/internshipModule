@@ -5,35 +5,68 @@ import axios from '../helper_axios'
 export const getUserData = ()=>{
   return async (dispatch)=>{
     dispatch({type:getData.GETDATA_REQUEST})
-    try{
-      console.log('Before', getItem('accessToken'));
-      const res = await axios.get('/skilzen/v1/profile/');
-      if(res.statusText === 'OK'){
-        console.log(res.data.results[0]);
-        dispatch({
-          type:getData.GETDATA_SUCCESS,
-          payload:{
-            ...res.data.results[0]
-          }
-        })
-      }else if(res.status === 400){
-        console.log(res);
+    // try{
+    //   console.log('Before', getItem('accessToken'));
+    //   const res = await axios.get('/skilzen/v1/profile/');
+    //   if(res.statusText === 'OK'){
+    //     console.log(res.data.results[0]);
+    //     dispatch({
+    //       type:getData.GETDATA_SUCCESS,
+    //       payload:{
+    //         ...res.data.results[0]
+    //       }
+    //     })
+    //   }else if(res.status === 400){
+    //     console.log(res);
+    //     dispatch({
+    //       type:getData.GETDATA_FAILURE,
+    //       payload:{
+    //         message: 'Error while accessing data!'
+    //       }
+    //     })
+    //   }
+    // }catch(err){
+    //   console.log(err,"error");
+    //   dispatch({
+    //     type:getData.GETDATA_FAILURE,
+    //     payload:{
+    //       message: 'Error while accessing data!'
+    //     }
+    //   })
+    // }
+
+
+    await axios.get('/skilzen/v1/profile/').
+      then(res=>{
+        if(res.statusText === 'OK'){
+          console.log(res.data.results[0]);
+          dispatch({
+            type:getData.GETDATA_SUCCESS,
+            payload:{
+              ...res.data.results[0]
+            }
+          })
+        }else if(res.status === 400){
+          console.log(res);
+          dispatch({
+            type:getData.GETDATA_FAILURE,
+            payload:{
+              message: 'Error while accessing data!'
+            }
+          })
+        }
+      }).
+      catch(err=>{
+        console.log(err,"error");
         dispatch({
           type:getData.GETDATA_FAILURE,
           payload:{
             message: 'Error while accessing data!'
           }
         })
-      }
-    }catch(err){
-      console.log(err,"error");
-      dispatch({
-        type:getData.GETDATA_FAILURE,
-        payload:{
-          message: 'Error while accessing data!'
-        }
       })
-    }
+
+
   }
 }
 export const addEducations = (data) => {

@@ -159,6 +159,7 @@ const Login = () => {
       }
     }
     if(auth.authenticate){
+      dispatch(getUserData());
       return <Redirect to={'/'} />
     }
     

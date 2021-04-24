@@ -31,10 +31,10 @@ function App() {
   
   useEffect(async()=>{    
     if(!auth.authenticate){
-      dispatch(isAdminLogged());
+      await dispatch(isAdminLogged());
     }
-    if(auth.token && auth.authenticate){
-      dispatch(getUserData());
+    if(window.localStorage.getItem('accessToken')){
+      await dispatch(getUserData());
     }
   },[])
 

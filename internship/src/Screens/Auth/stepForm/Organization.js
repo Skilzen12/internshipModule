@@ -6,6 +6,7 @@ import logo from "../../../images/logo.png";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import validator from 'validator'
 
 import Notification from '../Notification.js'
 const useStyles = makeStyles((theme) => ({
@@ -77,6 +78,7 @@ export const Organization = ({ formData, setForm, navigation }) => {
           onChange={setForm}
           margin="normal"
           variant="outlined"
+          disabled
           autoComplete="off"
           fullWidth
           size="small"

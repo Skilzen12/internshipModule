@@ -50,7 +50,6 @@ const initialState = {
           loading:false,
           message:"",
         }
-        console.log("This is state after loggedinSuccess",state);
         break;
       case authConstants.LOGGEDIN_FAILURE : 
         state = {

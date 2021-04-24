@@ -1,9 +1,13 @@
 /* eslint-disable default-case */
-import React from "react";
+import React,{useEffect} from "react";
 import { useForm, useStep } from "react-hooks-helper";
 import { Organization } from "./stepForm/Organization";
 import { Organization2 } from "./stepForm/Organization2";
 import { useSelector , useDispatch } from 'react-redux'
+
+// --------------DELETE THIS AFTER FIX BUG OF LOGIN------------------------//
+import {setTrue} from '../../redux/actions/fake.actions'
+
 
 const steps = [{ id: "organization" }, { id: "organization2" }];
 
@@ -12,11 +16,11 @@ const defaultData = {
   email:"",
   mobile: "",
   established: "",
-  strength: "",
+  strength: "10-50",
   city: "",
   type: "",
   description:"",
-  socialLinks:{},
+  socialLinks:[],
   website: "",
   company_uid: "",
   official_doc: "",
@@ -25,6 +29,11 @@ const defaultData = {
 
 export const OrganizationMultiStep = () => {
   const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setTrue());
+  },[]);
 
   defaultData.email = user.email;
   defaultData.mobile=user.phone_number;

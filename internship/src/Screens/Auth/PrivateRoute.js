@@ -1,9 +1,10 @@
 import React from 'react'
 import {Route, Redirect} from 'react-router-dom'
-import { useSelector , useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const PrivateRoute = ({ component:Component , ...rest})=>{
   const auth = useSelector(state => state.auth);
+  console.log(auth,"checkit");
   return(
     <Route {...rest} component={(props)=>{
       if(auth.authenticate){
@@ -11,7 +12,7 @@ const PrivateRoute = ({ component:Component , ...rest})=>{
       }else{
         return <Redirect to={'/login'} />
       }
-    }} />
+    }}/>
   )
 }
 export default PrivateRoute;

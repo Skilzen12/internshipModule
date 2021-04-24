@@ -12,9 +12,9 @@ import FeaturedCards from "../../Components/LandingPage/FeaturedCards/FeaturedCa
 import CareerCard from "../../Components/LandingPage/CareerCard/CareerCard";
 import CityCards from "../../Components/LandingPage/CityCard/CityCards";
 import {API_ENDPOINT} from '../../AdminServices/baseURL'
-import {getUserData} from '../../redux/actions/user.actions'
+
 import axios from "axios";
-import axios1 from "../../redux/helper_axios";
+
 import { getItem } from "../../utility/localStorageControl";
 import AdminService from "../../AdminServices/AdminService";
 
@@ -51,15 +51,18 @@ const Landing2 = () => {
       console.log(res);
     })
     .catch(err => console.log('2nnddd', err));
-  } 
+  }
 
   useEffect(async() => {
     getCategories();
     getFeaturedJobs();
-    if(token){
+    if(!auth.authenticate){
+      dispatch(isAdminLogged());
+    }
+    if(token && auth.authenticate){
       dispatch(getUserData());
       getProfile();
-    }    
+    }
   },[]);
   
   return (

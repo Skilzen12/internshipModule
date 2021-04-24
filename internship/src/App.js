@@ -31,7 +31,10 @@ function App() {
   
   useEffect(async()=>{    
     if(!auth.authenticate){
-      await dispatch(isAdminLogged());
+      dispatch(isAdminLogged());
+    }
+    if(auth.token && auth.authenticate){
+      dispatch(getUserData());
     }
   },[])
 
@@ -41,7 +44,7 @@ function App() {
         <Switch>
           <Route exact path='/' component={LandingPage} />
           <Route exact path='/login' component={Login} />
-          <Route exact path='/VerifyOTP' component={VerifyOTP} />
+          <PrivateRoute exact path='/VerifyOTP' component={VerifyOTP} />
           <Route exact path='/signup' component={SignUp} />
           <Route exact path='/postInternship' component={PostInternship} />
           <Route exact path='/jobGrid' component={JobGrid} />
@@ -52,7 +55,7 @@ function App() {
           <Route exact path='/adminDashboard' component={AdminDashboardMain} />
           <Route exact path='/companyspam' component={CompanySpam} />
           <Route exact path='/applyForm' component={MultiStepForm} />
-          <Route exact path='/applyRecruiterForm' component={(user.has_phone_verified && user.has_email_verified)?OrganizationMultiStep:VerifyOTP } />
+          <Route exact path='/applyRecruiterForm' component={OrganizationMultiStep } />
         </Switch>
       </Router>
     </div>

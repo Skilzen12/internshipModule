@@ -9,7 +9,7 @@ export const signIn = (user)=>{
       const res = await axios.post('/skilzen/v1/login/',user);
       if(res.status===200){
         const {token} = res.data;
-        window.localStorage.setItem('accessToken',token);
+        setItem('accessToken',token);
         dispatch({
           type:authConstants.SIGNIN_SUCCESS,
           payload:{token:token}
@@ -32,8 +32,7 @@ export const signIn = (user)=>{
 export const isAdminLogged = ()=>{
   console.log("called isAdminLogged");
   return (dispatch)=>{
-    const token = window.localStorage.getItem('accessToken');
-    console.log(window.localStorage.getItem('accessToken'),"THis is the accesstoken in admin logged?");
+    const token = getItem('accessToken');
     dispatch({type:authConstants.LOGGEDIN_REQUEST});
     if(token){
       console.log("dispatch sucess in admin logged");

@@ -8,7 +8,6 @@ export const getUserData = ()=>{
     console.log("calling getUserData");
     await AdminService.getUserProfile().
       then(res=>{
-          console.log(res.data.results[0]);
           dispatch({
             type:getData.GETDATA_SUCCESS,
             payload:{

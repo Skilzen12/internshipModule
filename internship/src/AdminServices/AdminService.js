@@ -113,4 +113,7 @@ export default {
   updateCompanyLocationDetails: async(data, id) => {
     return DataService.put(`/skilzen/v1/profile/company_location/${id}/`, data);
   },
+  getCompanyList: async() => {
+    return DataService.get('/internship/v1/company-recruiters');
+  }
 }

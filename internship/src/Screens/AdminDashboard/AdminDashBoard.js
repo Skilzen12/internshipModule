@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../Dashboard/DashboardMain.css";
 import Header from "../../Components/Header/Updated_Header";
 import SearchIcon from "@material-ui/icons/Search";
@@ -25,6 +25,7 @@ import {IoFingerPrint} from "react-icons/io5";
 import { HiDocumentDownload } from "react-icons/hi";
 import { useHistory } from "react-router";
 import { CgCloseO } from "react-icons/cg";
+import AdminService from "../../AdminServices/AdminService";
 
 const navCollection = [
   { name: "Dashboard", icon: RiLayout4Fill },
@@ -1496,7 +1497,15 @@ const DashboardNav = ({ name, Icon, number, setTab }) => {
 };
 
 function AdminDashboardMain() {
+  const [listCompanies, setList] = useState();
   const [tab, setTab] = useState("Dashboard");
+
+  useEffect(() => {
+    AdminService.getCompanyList()
+      .then(res => setList(res.data.results))
+      .catch(err => console.log(err))
+  }, [])
+
   return (
     <div>
       <Header />
@@ -1533,7 +1542,7 @@ function AdminDashboardMain() {
         </div>
         {tab === "Companies" ? (
           <div className="dashboard__content">
-            <CompaniesTable />
+            <CompaniesTable data={listCompanies} />
           </div>
         ) : tab === "Internships" ? (
           <div className="dashboard__content">

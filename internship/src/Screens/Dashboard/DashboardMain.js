@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import './DashboardMain.css';
 import Header from "../../Components/Header/Updated_Header";
 import {ThemeDropdown} from '../../Pallete_components/Dropdown/Dropdown';
@@ -9,8 +9,13 @@ import CountUp from "react-countup";
 import logo from '../../images/logo-main-black.png';
 import {F3_1} from '../../utility/DummyData/CompanyProfile';
 import Team from '../../Components/TeamMembersCard/team_members';
-import {navCollection, defaultJobs, CardCollection, applicants, jobs} from '../../utility/DummyData/DashboardData';
+import {navCollection, defaultJobs, applicants, jobs} from '../../utility/DummyData/DashboardData';
 import { useSelector , useDispatch } from 'react-redux'
+import {AiFillProfile} from 'react-icons/ai';
+import {BsFillBagFill} from 'react-icons/bs'
+import {RiLayout4Fill} from 'react-icons/ri'
+import {FaUserAlt} from 'react-icons/fa'
+import AdminService from '../../AdminServices/AdminService';
 
 const DashboardCard = ({name, color, darkcolor, Icon, number, content, decimal}) => {
     return(
@@ -183,7 +188,7 @@ const ApplicantList = () => {
     );
 }
 
-const JobsPosted = () => {
+const JobsPosted = ({data}) => {
     const [action, setAction] = useState('normal');
     return (
         <div className="dashboard__jobsPosted">
@@ -282,9 +287,31 @@ const DashboardNav = ({name, Icon, number, setTab}) => {
     )
 }
 
-function DashboardMain() {
+
+function DashboardMain(props) {
+    var localCards = props.location.state.loadCards;
     const user = useSelector(state => state.user);
     const [tab, setTab] = useState('Dashboard');
+    const[listInternship, setList] = useState();
+    const [company, setProfile] = useState();
+
+    useEffect(() => {
+        AdminService.getCompanyInternship()
+            .then(res => setList(res.data))
+            .catch(err => console.log(err)) 
+            
+        AdminService.getCompanyProfile()
+            .then(res => setProfile(res.data))
+            .catch(err => console.log(err)) 
+    }, [])
+    
+    
+    const CardCollection = [
+        {name: "Posted Internships", color: 'rgba(71, 67, 219, 0.1)', decimal : false, darkcolor: 'rgb(71, 67, 219)', number: localCards.active_internships, icon : BsFillBagFill},
+        {name: "Total Applicants", color: 'rgba(252, 73, 128, 0.1)', decimal : false, darkcolor: 'rgb(252, 73, 128)', icon : FaUserAlt, number : localCards.active_applicants}, 
+        {name: "Jobs View", color: 'rgba(250, 95, 28, 0.1)', decimal : false, darkcolor: 'rgb(250, 95, 28)', number: localCards.active_internship_views, icon : AiFillProfile},
+        // {name: "Applied Rate", color: 'rgba(2, 191, 213, 0.1)', decimal : true, darkcolor: 'rgb(2, 191, 213)', number: 18.5, content: '%', icon : RiLayout4Fill}, 
+    ];
     return (
         <div>
             <Header />
@@ -319,17 +346,19 @@ function DashboardMain() {
                     </div>
                 </div>
                 {tab === 'Posted Internships' ? (
-                    <div className="dashboard__content"><JobsPosted /></div>
+                    <div className="dashboard__content"><JobsPosted data={listInternship} /></div>
                 ) : tab === 'Applicants' ? (
                     <div className="dashboard__content"><ApplicantList /></div> 
                 ) : tab=== 'Profile' ? (
-                    <CompanyProfile />
+                    <CompanyProfile data={company} />
                 ) : (
                     <div className="dashboard__content" style={{boxShadow: 'none', border: 'none'}}>
                         <div className="dashboard__ContentCards">
-                            {CardCollection.map(card => (
-                                <DashboardCard decimal={card.decimal} name={card.name} color={card.color} darkcolor={card.darkcolor} Icon={card.icon} number={card.number} content={card.content} />
-                            ))}
+                            {
+                                CardCollection.map(card => (
+                                    <DashboardCard decimal={card.decimal} name={card.name} color={card.color} darkcolor={card.darkcolor} Icon={card.icon} number={card.number} content={card.content} />
+                                ))                     
+                            }
                         </div>
                     </div>
                 )}
@@ -340,7 +369,7 @@ function DashboardMain() {
 
 export default DashboardMain;
 
-const CompanyProfile = () => {
+const CompanyProfile = ({data}) => {
     return(
         <div className="dashboard__content">
             <div className="box2">

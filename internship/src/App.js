@@ -26,11 +26,11 @@ import { OrganizationMultiStep } from './Screens/Auth/OrganizationMultiStep';
 function App() {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
-  useEffect(()=>{    
+  useEffect(async()=>{    
     if(!auth.authenticate){
-      dispatch(isAdminLogged());
+      await dispatch(isAdminLogged());
     }
-    dispatch(getUserData());
+    await dispatch(getUserData());
   },[])
 
   return (

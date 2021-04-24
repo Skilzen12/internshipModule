@@ -3,37 +3,27 @@ import axios from '../helper_axios'
 
 export const signIn = (user)=>{
   return async (dispatch)=>{
-    dispatch({
-      type:authConstants.SIGNIN_REQUEST
-    })
+    dispatch({type:authConstants.SIGNIN_REQUEST})
     try{
       const res = await axios.post('/skilzen/v1/login/',user);
-      console.log(res,'res from API login');
       if(res.status===200){
         const {token} = res.data;
         localStorage.setItem('accessToken',token);
         dispatch({
           type:authConstants.SIGNIN_SUCCESS,
-          payload:{
-            token
-          }
+          payload:{token:token}
         })
       }else{
         dispatch({
           type:authConstants.SIGNIN_FAILURE,
-          payload:{
-            message: 'Invalid Login Credentials!'
-          }
+          payload:{message: 'Invalid Login Credentials!'}
         })
       }
     }
     catch(err){
-      console.log(err,"err");
       dispatch({
         type:authConstants.SIGNIN_FAILURE,
-        payload:{
-          message: 'Invalid Login Credentials!'
-        }
+        payload:{message: 'Invalid Login Credentials!'}
       })
     }
 

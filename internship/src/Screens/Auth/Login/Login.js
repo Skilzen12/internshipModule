@@ -137,6 +137,7 @@ const Login = () => {
     const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
     const [btnHovered,setHovered] = useState(false);
     const auth = useSelector(state => state.auth);
+    const user = useSelector(state => state.user);
 
     const SignIn = async(email, pass, ) => {
       const loginStuff = {
@@ -152,7 +153,6 @@ const Login = () => {
         },3000)
       }else{
         setnotify({message:'Successfully signed in',isOpen:true, type:'success'});
-        dispatch(getUserData());
         setTimeout(()=>{
           setnotify({message:'', isOpen:false, type:''})
         },3000)

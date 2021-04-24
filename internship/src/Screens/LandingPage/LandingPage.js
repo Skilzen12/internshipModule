@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useSelector , useDispatch } from 'react-redux'
+
 import Header from "../../Components/Header/Updated_Header";
 import SearchIcon from "@material-ui/icons/Search";
 import Brands from "../../Components/LandingPage/BrandCard/Brands";
@@ -10,13 +12,13 @@ import FeaturedCards from "../../Components/LandingPage/FeaturedCards/FeaturedCa
 import CareerCard from "../../Components/LandingPage/CareerCard/CareerCard";
 import CityCards from "../../Components/LandingPage/CityCard/CityCards";
 import AdminService from "../../AdminServices/AdminService";
-import { getItem } from "../../utility/localStorageControl";
 
-import axios from '../../redux/helper_axios'
+import {getUserData} from '../../redux/actions/user.actions'
 const Landing2 = () => {
   const [internCategories, setCategories] = useState([]);
   const [internships, setInternships] = useState([]);
   const [count, setCount] = useState(0);
+  const dispatch = useDispatch();
 
   const getCategories = async () => {
     await AdminService.getInternshipsCategories()
@@ -38,6 +40,7 @@ const Landing2 = () => {
   useEffect(() => {
     getCategories();
     getFeaturedJobs();
+    dispatch(getUserData());
   },[]);
   
   return (

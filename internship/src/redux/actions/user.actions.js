@@ -3,24 +3,29 @@ import axios from '../helper_axios'
 
 
 export const getUserData = ()=>{
-  console.log("getUserData");
   return async (dispatch)=>{
-    dispatch({
-      type:getData.GETDATA_REQUEST,
-      payload:{
-        message:'requesting to get data'
-      },
-    })
-    const res = await axios.get('/skilzen/v1/profile/');
-    if(res.statusText === 'OK'){
-      dispatch({
-        type:getData.GETDATA_SUCCESS,
-        payload:{
-          ...res.data.results[0]
-        }
-      })
-    }else if(res.status == 400){
-      console.log(res);
+    dispatch({type:getData.GETDATA_REQUEST,})
+    try{
+      const res = await axios.get('/skilzen/v1/profile/');
+      console.log(res,"efsfa");
+      if(res.statusText === 'OK'){
+        dispatch({
+          type:getData.GETDATA_SUCCESS,
+          payload:{
+            ...res.data.results[0]
+          }
+        })
+      }else if(res.status == 400){
+        console.log(res);
+        dispatch({
+          type:getData.GETDATA_FAILURE,
+          payload:{
+            message: 'Error while accessing data!'
+          }
+        })
+      }
+    }catch(err){
+      console.log(err,"error");
       dispatch({
         type:getData.GETDATA_FAILURE,
         payload:{

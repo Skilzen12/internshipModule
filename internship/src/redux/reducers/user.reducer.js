@@ -17,7 +17,6 @@ const initialState = {
 }
 
 export const userReducer = (state=initialState,action)=>{
-  console.log(action);
   switch(action.type){
     case getData.GETDATA_REQUEST : 
       state = {

@@ -14,11 +14,14 @@ import CityCards from "../../Components/LandingPage/CityCard/CityCards";
 import AdminService from "../../AdminServices/AdminService";
 
 import {getUserData} from '../../redux/actions/user.actions'
+import {isAdminLogged} from '../../redux/actions/auth.actions'
+
 const Landing2 = () => {
   const [internCategories, setCategories] = useState([]);
   const [internships, setInternships] = useState([]);
   const [count, setCount] = useState(0);
   const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
 
   const getCategories = async () => {
     await AdminService.getInternshipsCategories()
@@ -37,10 +40,11 @@ const Landing2 = () => {
     .catch(err => console.log(err));
   } 
 
-  useEffect(() => {
+  useEffect(async() => {
     getCategories();
     getFeaturedJobs();
-    dispatch(getUserData());
+    await dispatch(isAdminLogged());
+    await dispatch(getUserData(auth.token));
   },[]);
   
   return (
@@ -85,7 +89,6 @@ const Landing2 = () => {
               </div>
             </div>
           </div>
-
           <CategoryCard data={internCategories} />
         </div>
         <div className="my-5">

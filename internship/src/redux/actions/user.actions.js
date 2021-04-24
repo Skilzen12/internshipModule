@@ -1,14 +1,13 @@
 import {getData,addEducation as Edu , addWorkExperience as Exp,addNewRecruiter as Rec,addSkills as skillTypes,addProfile as profileTypes } from "../actionTypes"
 import axios from '../helper_axios'
 
-
 export const getUserData = ()=>{
   return async (dispatch)=>{
-    dispatch({type:getData.GETDATA_REQUEST,})
+    dispatch({type:getData.GETDATA_REQUEST})
     try{
       const res = await axios.get('/skilzen/v1/profile/');
-      console.log(res,"efsfa");
       if(res.statusText === 'OK'){
+        console.log(res.data.results[0]);
         dispatch({
           type:getData.GETDATA_SUCCESS,
           payload:{

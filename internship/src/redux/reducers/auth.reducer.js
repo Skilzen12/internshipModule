@@ -10,7 +10,6 @@ const initialState = {
 }
 
   export default  (state=initialState,action)=>{
-    console.log(action)
     switch(action.type){
       case authConstants.SIGNIN_REQUEST : 
         state = {
@@ -36,6 +35,31 @@ const initialState = {
           loading:false
         }
         console.log(state)
+        break;
+      case authConstants.LOGGEDIN_REQUEST : 
+        state = {
+          ...state,
+          loading:true
+        }
+        break;
+      case authConstants.LOGGEDIN_SUCCESS : 
+        state = {
+          ...state,
+          token:action.payload.token,
+          authenticate:true,
+          loading:false,
+          message:"",
+        }
+        console.log("This is state after loggedinSuccess",state);
+        break;
+      case authConstants.LOGGEDIN_FAILURE : 
+        state = {
+          ...state,
+          token:null,
+          authenticate:false,
+          message:action.payload.message, 
+          loading:false
+        }
         break;
       case authConstants.SIGNUP_REQUEST : 
         state = {

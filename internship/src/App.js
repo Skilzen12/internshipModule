@@ -26,11 +26,10 @@ import { OrganizationMultiStep } from './Screens/Auth/OrganizationMultiStep';
 function App() {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
-  useEffect(async()=>{    
-    if(!auth.authenticate){
-      await dispatch(isAdminLogged());
-    }
-    await dispatch(getUserData());
+  const user = useSelector(state => state.user);
+  useEffect(async()=>{   
+    await dispatch(isAdminLogged());
+    await dispatch(getUserData(auth.token));
   },[])
 
   return (
@@ -50,7 +49,7 @@ function App() {
           <Route exact path='/adminDashboard' component={AdminDashboardMain} />
           <Route exact path='/companyspam' component={CompanySpam} />
           <Route exact path='/applyForm' component={MultiStepForm} />
-          <Route exact path='/applyRecruiterForm' component={OrganizationMultiStep} />
+          <Route exact path='/applyRecruiterForm' component={(user.has_phone_verified && user.has_email_verified)?OrganizationMultiStep:VerifyOTP } />
         </Switch>
       </Router>
     </div>

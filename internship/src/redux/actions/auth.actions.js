@@ -1,4 +1,4 @@
-import { authConstants,getData } from "../actionTypes"
+import { authConstants } from "../actionTypes"
 import axios from '../helper_axios'
 
 export const signIn = (user)=>{
@@ -8,7 +8,7 @@ export const signIn = (user)=>{
       const res = await axios.post('/skilzen/v1/login/',user);
       if(res.status===200){
         const {token} = res.data;
-        localStorage.setItem('accessToken',token);
+        window.localStorage.setItem('accessToken',token);
         dispatch({
           type:authConstants.SIGNIN_SUCCESS,
           payload:{token:token}
@@ -26,29 +26,30 @@ export const signIn = (user)=>{
         payload:{message: 'Invalid Login Credentials!'}
       })
     }
-
   }
 }
 export const isAdminLogged = ()=>{
   console.log("called isAdminLogged");
   return (dispatch)=>{
-    const token = localStorage.getItem('accessToken');
+    const token = window.localStorage.getItem('accessToken');
+    console.log(window.localStorage.getItem('accessToken'),"THis is the accesstoken in admin logged?");
+    dispatch({type:authConstants.LOGGEDIN_REQUEST});
     if(token){
+      console.log("dispatch sucess in admin logged");
       dispatch({
-        type:authConstants.SIGNIN_SUCCESS,
+        type:authConstants.LOGGEDIN_SUCCESS,
         payload:{
-          token
+          token:token
+        }
+      })
+    }else{
+      dispatch({
+        type:authConstants.LOGGEDIN_FAILURE,
+        payload:{
+          message: 'Not Logged in Before!',
         }
       })
     }
-    // else{
-    //   dispatch({
-    //     type:authConstants.SIGNIN_FAILURE,
-    //     payload:{
-    //       message:"Not logged in before"
-    //     }
-    //   })
-    // }
   }
 }
 export const logoutAdmin = ()=>{

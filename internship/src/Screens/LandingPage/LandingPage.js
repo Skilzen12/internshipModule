@@ -41,7 +41,7 @@ const Landing2 = () => {
     await axios.get(`${API_ENDPOINT}/internship/v1/internships/`)
     .then(res => {
       setCount(res.data.count);
-      setInternships(res.data.results);
+      setInternships(res.data.results.splice(0,4));
     })
     .catch(err => console.log(err));
   } 

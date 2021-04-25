@@ -43,8 +43,8 @@ function FeaturedCards({data}) {
           <div className="col-md-12">
             <div className="media" style={{flexDirection: 'column', }}>
               <div className="square-72 d-block mr-3">
-                {featured.company.logo.link ? (
-                  <img src={LogoMap.get(featured.company.name)?.url} className="companyLogo__featuredCards" alt="" />
+                {featured.company.logo.link && LogoMap.get(featured.company.name) ? (
+                  <img src={LogoMap.get(featured.company.name).url} className="companyLogo__featuredCards" alt="" />
                 ) : <HiUserGroup style={{fontSize: 40}} /> }
               </div>
               <div className="roww">
@@ -52,7 +52,7 @@ function FeaturedCards({data}) {
                   <Link to={{
                     pathname: `/internship`,
                     search: `?id=${featured.uuid}`,
-                    state: { uuid : featured.uuid }
+                    state: { uuid : featured.uuid, dashboard: false }
                   }}>
                     <a className="" style={{ fontFamily: "Gordita", fontSize: 20 }}>{featured.title ? featured.title : 'XYZ Company'}</a>
                   </Link>

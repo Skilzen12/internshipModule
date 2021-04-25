@@ -10,8 +10,11 @@ import {BsBookmark as Mark, BsFillBookmarkFill} from "react-icons/bs";
 import AdminService from '../../AdminServices/AdminService';
 import {LogoMap} from '../../utility/Maps/LandingPageMaps';
 import { HiUserGroup } from 'react-icons/hi';
+import { useSelector , useDispatch } from 'react-redux'
 
-const InternshipProfile = ({obj, uuid, Apply, Bookmark}) => {
+
+const InternshipProfile = ({obj, uuid, Apply, BookMark, applyStatus, bookmarkStatus}) => {
+    const user = useSelector(state => state.user);
     function getDate(date){
         var postedDate = date.split('T')[0];
         var PostedDate = postedDate.split('-')[2];
@@ -41,17 +44,19 @@ const InternshipProfile = ({obj, uuid, Apply, Bookmark}) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="btn_row">
-                            <div className="adj_btn_comp">
-                                <button className="btn_for_apply btn_for_card" disabled={obj.is_applied} onClick={() => Apply(uuid)}>{obj.is_applied ? 'Applied' : 'Apply Now'}</button>
+                        {user.recruits_for ?  null : (
+                            <div className="btn_row">
+                                <div className="adj_btn_comp">
+                                    <button className="btn_for_apply btn_for_card" disabled={applyStatus} onClick={() => Apply(uuid)}>{applyStatus ? 'Applied' : 'Apply Now'}</button>
+                                </div>
+                                <div className="adj_btn_comp">
+                                    <button className="btn_for_apply btn_for_card" disabled={bookmarkStatus} onClick={() => BookMark(uuid)}>
+                                        {bookmarkStatus ? <BsFillBookmarkFill style={{fontSize:17,paddingBottom:'2px', marginRight: 5}}/> : <Mark style={{fontSize:17, marginRight: 5, paddingBottom:'2px'}}/>}
+                                        {bookmarkStatus ? 'Saved' : 'Bookmark it'}
+                                    </button>
+                                </div>
                             </div>
-                            <div className="adj_btn_comp">
-                                <button className="btn_for_apply btn_for_card" disabled={obj.is_marked} onClick={() => Bookmark(uuid)}>
-                                    {obj.is_marked ? <BsFillBookmarkFill style={{fontSize:17,paddingBottom:'2px', marginRight: 5}}/> : <Mark style={{fontSize:17, marginRight: 5, paddingBottom:'2px'}}/>}
-                                    {obj.is_marked ? 'Saved' : 'Bookmark it'}
-                                </button>
-                            </div>
-                        </div>
+                        )}
                         
                         <hr></hr>
                         <div className="short_details">
@@ -103,9 +108,11 @@ const InternshipProfile = ({obj, uuid, Apply, Bookmark}) => {
                             <h3 className="company_heading2">Job Description</h3>
                             <p className="content_area2">{obj.description}</p>
                             <hr className="hr_for_TM"></hr>
-                            <div className="adj_btn_comp">
-                                <button className="btn_for_apply btn_for_card" disabled={obj.is_applied} onClick={() => Apply(uuid)}>{obj.is_applied ? 'Applied' : 'Apply Now'}</button>
-                            </div>
+                            {user.recruits_for ?  null : (
+                                <div className="adj_btn_comp">
+                                    <button className="btn_for_apply btn_for_card" disabled={obj.is_applied} onClick={() => Apply(uuid)}>{obj.is_applied ? 'Applied' : 'Apply Now'}</button>
+                                </div>
+                            )}
                         </div>
                     </div>                                            
                 </div>        
@@ -133,33 +140,51 @@ const TagsIcons =({list})=>{
 function AboutCmp (props){    
     const [data, setData] = useState([]);
     var uuid = (props.location.state.uuid);
+    var dashboard = props.location.state.dashboard;
+    const user = useSelector(state => state.user);
+    let [bookmark, setBookmark] = useState(false);
+    let [apply, setApply] = useState(false);
 
     const Apply = async (uuid) => {
-        window.open('/applyForm', '_self');
+        if(user.user_profile){
+            AdminService.InternshipsApply(uuid)
+                .then(res => {
+                    if(res.status === 200){
+                        setApply(true);
+                    }
+                })
+        .catch(err => console.log(err))
+        } else{
+            window.open('/applyForm', '_self');
+        }        
     }
 
     const Bookmark = async (uuid) => {
         AdminService.InternshipsBookmark(uuid)
         .then(res => {
-            if(res.data.status === 200){
-                getDetails(uuid);
+            if(res.status === 200){
+                setBookmark(true);
             }
         })
         .catch(err => console.log(err))
     }
     
     const getDetails = async (id) => {
-        AdminService.getInternshipsDetail(id)
-            .then(res => {
-                setData(res.data);
-            })
-            .catch(err => console.log(err))
-    }   
+        if(dashboard){
+            AdminService.getIndividualInternship(id)
+                .then(res => setData(res.data))
+                .catch(err => console.log(err))
+        } else {
+            AdminService.getInternshipsDetail(id)
+                .then(res => {
+                    setData(res.data);
+                })
+                .catch(err => console.log(err))
+            }
+        }   
     useEffect(() => {
         getDetails(uuid);
     }, [uuid])
-
-    console.log(data);
     return(
         <>
             <div style={{background: '#CDCDCD1F',height:'100%',overflow:'auto'}}>
@@ -169,7 +194,7 @@ function AboutCmp (props){
                             <div className='adjusting_card_back'>
                                 <Back/>
                             </div>
-                            {data ? <InternshipProfile obj={data} uuid={uuid} Apply={Apply} BookMark={Bookmark} /> : null }          
+                            {data ? <InternshipProfile obj={data} uuid={uuid} Apply={Apply} BookMark={Bookmark} applyStatus={apply} bookmarkStatus={bookmark} /> : null }          
                         </div>
                         <Footer></Footer>
                     </div>

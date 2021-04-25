@@ -24,7 +24,6 @@ const DashboardCard = ({name, color, darkcolor, Icon, number, content, decimal})
 
 
 const DashboardSeva = ({localCards}) => {
-    console.log(localCards);
     const CardCollection = [
         {name: "Posted Internships", color: 'rgba(71, 67, 219, 0.1)', decimal : false, darkcolor: 'rgb(71, 67, 219)', number: localCards.active_internships, icon : BsFillBagFill},
         {name: "Total Applicants", color: 'rgba(252, 73, 128, 0.1)', decimal : false, darkcolor: 'rgb(252, 73, 128)', icon : FaUserAlt, number : localCards.active_applicants}, 

@@ -14,26 +14,28 @@ import {navCollection, defaultJobs, applicants, jobs} from '../../utility/DummyD
 import { useSelector , useDispatch } from 'react-redux'
 import AdminService from '../../AdminServices/AdminService';
 import {LogoMap, IconMap} from '../../utility/Maps/LandingPageMaps';
-import { HiUserGroup } from 'react-icons/hi';
+import { HiUser, HiUserGroup } from 'react-icons/hi';
 import DashboardSeva from './DashboardSeva';
 
 const ApplicantNormal = ({job}) => {
     return(
         <>
             <td className="jobsPosted__row applicationsUser p20 mv200">
-                <img src={job.image} className="applicantUser__image" alt="user_image" />
+                {job.user.image  ? (
+                  <img src={job.user.image} className="applicantUser__image" alt="user" />
+                ) : <HiUser style={{fontSize: 40}} /> }
                 <h3 className="jobsPostedtable_cell m20">
-                    <b>{job.name}</b>
+                    <b>{job.user.first_name ? job.user.first_name + ' ' + job.user.last_name : 'Abra kaDabra'}</b>
                 </h3>
             </td>
             <td  className="jobsPosted__row">
                 <h3 className="jobsPostedtable_cell m20 mv150">
-                    {job.appliedAs}
+                    {job.applied_as}
                 </h3>
             </td>
             <td className="jobsPosted__row">
                 <h3 className="jobsPostedtable_cell m20 mv150">
-                    {job.appliedOn}
+                    {job.applied_on.split('T')[0]}
                 </h3>
             </td>
             <td className="jobsPosted__row">
@@ -120,14 +122,14 @@ const ApplicantTable = ({job, action}) => {
     );
 }
 
-const ApplicantList = () => {
+const ApplicantList = ({data}) => {
     const [action, setAction] = useState('normal');
     return (
         <div className="dashboard__jobsPosted">
             <div className="dashboard__jobsPostedHeader">
                 <div className="dashboard__jobsTags">
                     <p className="dashboard__jobsPostedheading">
-                        Applicants (12)
+                        Applicants ({data.count})
                     </p>
                     <div className="dashboard__jobstags">
                         {[{name: "Accepted", color: 'rgba(45,132,90,1)'}, {name: "Rejected", color: 'rgba(211,46,46,1)'}, {name: 'Shortlisted', color: 'orange'}].map(tag => (
@@ -159,7 +161,7 @@ const ApplicantList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {applicants.map(job => (
+                            {data.results.map(job => (
                                 <ApplicantTable job={job} action={action} />
                             ))}
                         </tbody>
@@ -170,14 +172,26 @@ const ApplicantList = () => {
     );
 }
 
-const JobsPosted = ({data}) => {
-    const [action, setAction] = useState('normal');
+const Edit = (id) => {
+    const EditData = {}
+    AdminService.EditInternship(id, EditData)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+} 
+
+const Deactivate = (id) => {
+    AdminService.DeactivateInternship(id)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+} 
+
+const JobsPosted = ({data, setAction, count}) => {
     return (
         <div className="dashboard__jobsPosted">
             <div className="dashboard__jobsPostedHeader">
                 <div className="dashboard__jobsTags">
                     <p className="dashboard__jobsPostedheading">
-                        Posted Jobs (5)
+                        Posted Jobs ({data.count})
                     </p>
                     <div className="dashboard__jobstags">
                         {[{name: "Active", color: 'rgba(45,132,90,1)'}, {name: "Inactive", color: 'rgba(211,46,46,1)'}].map(tag => (
@@ -209,22 +223,29 @@ const JobsPosted = ({data}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {jobs.map(job => (
-                                <tr style={{backgroundColor: job.color ? '#F4F5F8' : '#FFFFFF', border: '1px solid #E5E5E5'}}>
+                            {data.results.map((job, index) => {
+                                let toggle = true;
+                                if(index%2 === 0){
+                                    toggle = false;
+                                } else{
+                                    toggle = true;
+                                }
+                                return(
+                                <tr style={{backgroundColor: toggle ? '#F4F5F8' : '#FFFFFF', border: '1px solid #E5E5E5'}}>
                                     <td className="jobsPosted__row">
                                         <Link to={{
                                             pathname: `/internship`,
                                             search: `?id=${job.uuid}`,
-                                            state: { uuid : job.uuid }
+                                            state: { uuid : job.uuid, dashboard : true }
                                         }}>
                                             <h3 className="jobsPostedtable_cell p20 m20 mv200">
-                                                <b>{job.name}</b>
+                                                <b>{job.title}</b>
                                             </h3>
                                         </Link>                                        
                                     </td>
                                     <td  className="jobsPosted__row">
                                         <h3 className="jobsPostedtable_cell m20 mv100">
-                                            {job.type}
+                                            {job.kind}
                                         </h3>
                                     </td>
                                     <td className="jobsPosted__row">
@@ -234,26 +255,27 @@ const JobsPosted = ({data}) => {
                                     </td>
                                     <td className="jobsPosted__row">
                                         <h3 className="jobsPostedtable_cell m20 mv150">
-                                            {job.created}
+                                            {job.created_at.split('T')[0]}
                                         </h3>
                                     </td>
                                     <td className="jobsPosted__row">
                                         <h3 className="jobsPostedtable_cell textalign__right mv100">
-                                            <b>{job.applicants}</b>
+                                            <b>{job.total_applicants}</b>
                                         </h3>
                                     </td>
                                     <td className="jobsPosted__row">
-                                        <h3 className="jobsPostedtable_cell edit mv75">
+                                        <h3 onClick={() => Edit(job.uuid)} className="jobsPostedtable_cell edit mv75">
                                             EDIT
                                         </h3>
                                     </td>
                                     <td className="jobsPosted__row">
-                                        <h3 className="jobsPostedtable_cell deactivate mv75">
+                                        <h3 onClick={() => Deactivate(job.uuid)} className="jobsPostedtable_cell deactivate mv75">
                                             DEACTIVATE
                                         </h3>
                                     </td>
                                 </tr>
-                            ))}
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
@@ -280,20 +302,37 @@ function DashboardMain(props) {
     const user = useSelector(state => state.user);
     const [tab, setTab] = useState('Dashboard');
     const[listInternship, setList] = useState();
+    const[ActivelistInternship, setActiveList] = useState();
+    const[InActivelistInternship, setInActiveList] = useState();
     const [company, setProfile] = useState();
+    const [companyApplicants, setApplicants] = useState();
+    const [action, setAction] = useState('normal');
 
     useEffect(() => {
 
+        AdminService.getActiveCompanyInternship()
+            .then(res => setActiveList(res.data))
+            .catch(err => console.log(err)) 
+
+        AdminService.getInactiveCompanyInternship()
+            .then(res => setInActiveList(res.data))
+            .catch(err => console.log(err)) 
+
         AdminService.getCompanyInternship()
-            .then(res => setList(res.data))
+            .then(res => {
+                setList(res.data)
+            })
             .catch(err => console.log(err)) 
             
         AdminService.getCompanyProfile()
             .then(res => setProfile(res.data))
             .catch(err => console.log(err)) 
-    }, [])
-    
 
+        AdminService.ApplicantsCompany('fc5c6f90-23c2-46e4-a990-9471f8061b61')
+            .then(res => setApplicants(res.data))
+            .catch(err => console.log(err))
+
+    }, []) 
     var localCards = props.location.state.loadCards;
 
     return (
@@ -303,7 +342,7 @@ function DashboardMain(props) {
                 <div className="dashboard___slider">
                     <div className="dashboard__sidebarButtonArea">
                         <button onClick={() => {
-                            user.recruits_for !== null ? 
+                            user.recruits_for ? 
                             window.open('/postInternship', '_self')
                             : window.open('/applyRecruiterForm', '_self')
                         }} className="category__label dashboard__sidebarButton">+ Add New</button>
@@ -318,7 +357,7 @@ function DashboardMain(props) {
                     <img className="dashboard__sliderlogo" src={logo} alt="skilzen_log" />
                     <div className="dashboard__sidebarButtonArea">
                         <button onClick={() => {
-                            user.recruits_for === null ? 
+                            user.recruits_for ? 
                             window.open('/postInternship', '_self')
                             : window.open('/applyRecruiterForm', '_self')
                         }} className="category__label dashboard__sidebarButton">+ Add New</button>
@@ -330,9 +369,11 @@ function DashboardMain(props) {
                     </div>
                 </div>
                 {tab === 'Posted Internships' ? (
-                    <div className="dashboard__content"><JobsPosted data={listInternship} /></div>
+                    <div className="dashboard__content"><JobsPosted data={
+                        action === 'Active' ? ActivelistInternship : action === 'Inactive' ? InActivelistInternship : listInternship
+                    } setAction={setAction} /></div>
                 ) : tab === 'Applicants' ? (
-                    <div className="dashboard__content"><ApplicantList /></div> 
+                    <div className="dashboard__content"><ApplicantList data={companyApplicants} /></div> 
                 ) : tab=== 'Profile' ? (
                     <CompanyProfile data={company} />
                 ) : (
@@ -358,7 +399,7 @@ const CompanyProfile = ({data}) => {
                         <div className="for_margin_inside">
                             <div className='img_n_name'>
                                 <div className='cmp_main_img'>
-                                    {data.logo.link || LogoMap.get(data.name) ?  (
+                                    {data.logo.link && LogoMap.get(data.name) ?  (
                                         <img src={LogoMap.get(data.name).url} className="companyLogo__featuredCards" alt="" />
                                     ) : <HiUserGroup style={{fontSize: 40}} /> }
                                 </div>
@@ -380,7 +421,11 @@ const CompanyProfile = ({data}) => {
                                 </div>
                                 <div className="each_short_detail">
                                     <p className="specification">Location</p>
-                                    <p className="specification_ans">{data.company_locations}</p>
+                                    <p className="specification_ans">{data.company_locations.map(location => {
+                                        return(
+                                            location.is_head_office ? location.location : null
+                                        );
+                                    })}</p>
                                 </div>
                                 <div className="each_short_detail">
                                     <p className="specification">Estb. Since</p>

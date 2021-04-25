@@ -192,8 +192,8 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,id}) => {
             <p style={{ display: "inline-block",fontSize: 14 }}>Remove Education</p>
           </div>
         }
-        <div>
-          {saved===false?<FaCheckCircle style={{ fontSize: 20,color:'#00c600', marginBottom:'0px',cursor:'pointer'}} onClick={saveClicked} />
+        <div className="save__edu__btn" onClick={saveClicked}>
+          {saved===false?<><FaCheckCircle style={{ fontSize: 20,color:'#00c600', marginTop:'-5px',cursor:'pointer'}}  /><p>Save</p></>
           :(saved===true&&<p style={{transition:'all .3s',fontSize:14}}>Data Saved</p>)
           }
         </div>

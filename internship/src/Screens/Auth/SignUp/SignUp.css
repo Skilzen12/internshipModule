@@ -48,3 +48,13 @@
 .select__type_btn:hover{
   transform: scale(1.05);
 }
+
+.save__edu__btn{
+  padding: 5px;
+  /* background-color: beige; */
+  cursor: pointer;
+}
+.save__edu__btn p{
+  display: inline-block;
+  margin-left: 10px;
+}

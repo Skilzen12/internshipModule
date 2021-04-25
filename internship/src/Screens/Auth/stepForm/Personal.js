@@ -55,7 +55,7 @@ export const Personal = ({ formData, setForm, navigation }) => {
         <TextField
           label="Phone"
           name="mobile"
-          value={mobile}
+          value={phone}
           disabled
           margin="normal"
           variant="outlined"

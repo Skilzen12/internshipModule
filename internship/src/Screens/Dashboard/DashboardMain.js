@@ -388,8 +388,8 @@ const CompanyProfile = ({data}) => {
                         <div className="for_margin_inside">
                             <div className='img_n_name'>
                                 <div className='cmp_main_img'>
-                                    {data.logo.link ? (
-                                    <img src={LogoMap.get(data.name).url} className="companyLogo__featuredCards" alt="" />
+                                    {data.logo.link || LogoMap.get(data.name) ?  (
+                                        <img src={LogoMap.get(data.name).url} className="companyLogo__featuredCards" alt="" />
                                     ) : <HiUserGroup style={{fontSize: 40}} /> }
                                 </div>
                                 <div style={{marginLeft:'15px',marginTop:'5px'}}>

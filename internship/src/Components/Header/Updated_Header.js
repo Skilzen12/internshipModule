@@ -26,6 +26,7 @@ function Updated_Header() {
     }
 
     let [loadCards, setLoadCards] = useState();
+    let [userProfile, setUser] = useState();
     useEffect(() => {
         AdminService.getCompanyDashboard()
             .then(resp => setLoadCards(resp.data))
@@ -58,7 +59,11 @@ function Updated_Header() {
                 {
                     auth.authenticate === true ? (
                         <div className="navbar-nav">
-                            <a href="/candidate" className="nav-item nav-link active">Profile</a>
+                            <Link to={{
+                                pathname: `/profile`,
+                            }}>
+                                <a href="" className="nav-item nav-link active">Profile</a>
+                            </Link>
                         </div>
                     ) : null
                 }

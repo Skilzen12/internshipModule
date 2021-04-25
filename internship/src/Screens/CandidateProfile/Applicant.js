@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import Header from '../../Components/Header/Updated_Header'
 import "./Candidate.css";
@@ -6,15 +5,9 @@ import Back from '../../Components/GoBack/Back_comp'
 import {TagsIcons} from '../../Components/LandingPage/FeaturedCards/FeaturedCards'
 import {BsBookmark as Mark} from "react-icons/bs";
 import {savedInternships,appliedInternships} from '../../utility/DummyData/CandidateData';
-import { useSelector , useDispatch } from 'react-redux'
 
-function Candidate() {
-  const user = useSelector(state => state.user);
-  const [activeSection, setActiveSection] = useState("Overview");
-  const navBarClickHandler = (e) => {
-    setActiveSection(e.target.innerText);
-  };
 
+function Applicant() {
   return (
     <>
     <Header />
@@ -28,8 +21,8 @@ function Candidate() {
               src="https://i.pinimg.com/736x/92/3a/6f/923a6f02844215b0ab6393783f8090ec.jpg"
               alt="DP"
             />
-            <h3 className="candidate__name">{user.first_name} {" "} {user.last_name}</h3>
-            <p className="candidate__role">{user.title}</p>
+            <h3 className="candidate__name">David Henricks</h3>
+            <p className="candidate__role">Product Designer</p>
             <div className="icon-link d-flex align-items-center justify-content-center my-3 flex-wrap">
               <a href="#">
                 <i className="fab fa-linkedin-in"></i>
@@ -66,33 +59,6 @@ function Candidate() {
         </div>
         <div className="candidate__content__container">
           <div className="internship__content__card candidate__content">
-            <div className={"candidate__navBar"}>
-              <p
-                className={`candidate__nav ${
-                  activeSection === "Overview" ? "active-tab" : ""
-                }`}
-                onClick={navBarClickHandler}
-              >
-                Overview
-              </p>
-              <p
-                className={`candidate__nav ${
-                  activeSection === "Saved Internships" ? "active-tab" : ""
-                }`}
-                onClick={navBarClickHandler}
-              >
-                Saved Internships
-              </p>
-              <p
-                className={`candidate__nav ${
-                  activeSection === "Applied Internships" ? "active-tab" : ""
-                }`}
-                onClick={navBarClickHandler}
-              >
-                Applied Internships
-              </p>
-            </div>
-            {activeSection === "Overview" && (
               <>
                 <div className="candidate__about">
                   <p className="overview__subsection__heading">About</p>
@@ -201,8 +167,7 @@ function Candidate() {
                   </div>
                 </div>
               </>
-            )}
-            {activeSection === "Saved Internships" && (
+            {/* {activeSection === "Saved Internships" && (
               <>
                 <div className="saved__internships__cards">
                   {savedInternships.map((card)=>(
@@ -219,7 +184,7 @@ function Candidate() {
                   ))}
                 </div>
               </>
-            )}
+            )} */}
           </div>
         </div>
       </section>
@@ -228,76 +193,76 @@ function Candidate() {
   );
 }
 
-export default Candidate;
+export default Applicant;
 
 
 
-const SavedInternshipCard = ({imgSrc,com_name,role,tags_list,role_description})=>{
-  return (
-    <div className="saved__internships__card">
-      <img
-        className="company__img"
-        src={imgSrc}
-        alt=""
-      />
-      <p className="company__name">{com_name}</p>
-      <p className="internship__role">{role}</p>
-      {
-        <TagsIcons list={tags_list} />
-      }
-      <p className="internship__description">
-       {role_description}
-      </p>
-      <div className="internship__card__footer">
-        <button className="apply_btn card_btn">Apply Now</button>
-      </div>
-    </div>
-  )
-}
+// const SavedInternshipCard = ({imgSrc,com_name,role,tags_list,role_description})=>{
+//   return (
+//     <div className="saved__internships__card">
+//       <img
+//         className="company__img"
+//         src={imgSrc}
+//         alt=""
+//       />
+//       <p className="company__name">{com_name}</p>
+//       <p className="internship__role">{role}</p>
+//       {
+//         <TagsIcons list={tags_list} />
+//       }
+//       <p className="internship__description">
+//        {role_description}
+//       </p>
+//       <div className="internship__card__footer">
+//         <button className="apply_btn card_btn">Apply Now</button>
+//       </div>
+//     </div>
+//   )
+// }
 
-const AppliedInternshipCard = ({imgSrc,com_name,role,tags_list,role_description})=>{
-  return(
-    <div className="saved__internships__card">
-      <img
-        className="company__img"
-        src={imgSrc}
-        alt=""
-      />
-      <p className="company__name">{com_name}</p>
-      <p className="internship__role">{role}</p>
-      {
-        <TagsIcons list={tags_list} />
-      }
-      <p className="internship__description">
-       {role_description}
-      </p>
-      <div className="internship__card__footer">
-        <button className="apply_btn card_btn disabled">Awaiting!</button>
-      </div>
-    </div>
-  )
-}
+// const AppliedInternshipCard = ({imgSrc,com_name,role,tags_list,role_description})=>{
+//   return(
+//     <div className="saved__internships__card">
+//       <img
+//         className="company__img"
+//         src={imgSrc}
+//         alt=""
+//       />
+//       <p className="company__name">{com_name}</p>
+//       <p className="internship__role">{role}</p>
+//       {
+//         <TagsIcons list={tags_list} />
+//       }
+//       <p className="internship__description">
+//        {role_description}
+//       </p>
+//       <div className="internship__card__footer">
+//         <button className="apply_btn card_btn disabled">Awaiting!</button>
+//       </div>
+//     </div>
+//   )
+// }
 
-export const InternshipCard = ({imgSrc,com_name,role,tags_list,role_description})=>{
-  return(
-    <div className="saved__internships__card">
-      <img
-        className="company__img"
-        src={imgSrc}
-        alt=""
-      />
-      <p className="company__name">{com_name}</p>
-      <p className="internship__role">{role}</p>
-      {
-        <TagsIcons list={tags_list} />
-      }
-      <p className="internship__description">
-       {role_description}
-      </p>
-      <div className="internship__card__footer">
-        <button className="apply_btn card_btn">Apply Now</button>
-        <button className="save_btn card_btn"><Mark style={{fontSize:17}} />&nbsp;Save It</button>
-      </div>
-    </div>
-  )
-}
+// export const InternshipCard = ({imgSrc,com_name,role,tags_list,role_description})=>{
+//   return(
+//     <div className="saved__internships__card">
+//       <img
+//         className="company__img"
+//         src={imgSrc}
+//         alt=""
+//       />
+//       <p className="company__name">{com_name}</p>
+//       <p className="internship__role">{role}</p>
+//       {
+//         <TagsIcons list={tags_list} />
+//       }
+//       <p className="internship__description">
+//        {role_description}
+//       </p>
+//       <div className="internship__card__footer">
+//         <button className="apply_btn card_btn">Apply Now</button>
+//         <button className="save_btn card_btn"><Mark style={{fontSize:17}} />&nbsp;Save It</button>
+//       </div>
+//     </div>
+//   )
+// }

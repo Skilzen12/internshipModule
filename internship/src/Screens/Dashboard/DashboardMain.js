@@ -5,6 +5,7 @@ import React, {useEffect, useState} from 'react'
 import './DashboardMain.css';
 import Header from "../../Components/Header/Updated_Header";
 import {ThemeDropdown} from '../../Pallete_components/Dropdown/Dropdown';
+import {Link} from "react-router-dom";
 import CountUp from "react-countup";
 import logo from '../../images/logo-main-black.png';
 import {F3_1} from '../../utility/DummyData/CompanyProfile';
@@ -16,6 +17,8 @@ import {BsFillBagFill} from 'react-icons/bs'
 import {RiLayout4Fill} from 'react-icons/ri'
 import {FaUserAlt} from 'react-icons/fa'
 import AdminService from '../../AdminServices/AdminService';
+import {LogoMap, IconMap} from '../../utility/Maps/LandingPageMaps';
+import { HiUserGroup } from 'react-icons/hi';
 
 const DashboardCard = ({name, color, darkcolor, Icon, number, content, decimal}) => {
     return(
@@ -230,9 +233,15 @@ const JobsPosted = ({data}) => {
                             {jobs.map(job => (
                                 <tr style={{backgroundColor: job.color ? '#F4F5F8' : '#FFFFFF', border: '1px solid #E5E5E5'}}>
                                     <td className="jobsPosted__row">
-                                        <h3 className="jobsPostedtable_cell p20 m20 mv200">
-                                            <b>{job.name}</b>
-                                        </h3>
+                                        <Link to={{
+                                            pathname: `/internship`,
+                                            search: `?id=${job.uuid}`,
+                                            state: { uuid : job.uuid }
+                                        }}>
+                                            <h3 className="jobsPostedtable_cell p20 m20 mv200">
+                                                <b>{job.name}</b>
+                                            </h3>
+                                        </Link>                                        
                                     </td>
                                     <td  className="jobsPosted__row">
                                         <h3 className="jobsPostedtable_cell m20 mv100">
@@ -370,6 +379,7 @@ function DashboardMain(props) {
 export default DashboardMain;
 
 const CompanyProfile = ({data}) => {
+    console.log(data);
     return(
         <div className="dashboard__content">
             <div className="box2">
@@ -378,11 +388,13 @@ const CompanyProfile = ({data}) => {
                         <div className="for_margin_inside">
                             <div className='img_n_name'>
                                 <div className='cmp_main_img'>
-                                    <img src={F3_1.cmp_img} className="main_img" ></img>
+                                    {data.logo.link || LogoMap.get(data.name) ?  (
+                                        <img src={LogoMap.get(data.name).url} className="companyLogo__featuredCards" alt="" />
+                                    ) : <HiUserGroup style={{fontSize: 40}} /> }
                                 </div>
                                 <div style={{marginLeft:'15px',marginTop:'5px'}}>
-                                    <p className='company_main_name'>{F3_1.company_name}</p>
-                                    <p className='company_cat_type' >{F3_1.company_cat}</p>
+                                    <p className='company_main_name'>{data.name}</p>
+                                    <p className='company_cat_type' >{data.kind}</p>
                                 </div>
                             </div>
                             <p style={{marginTop:'50px',marginBottom:'20px',fontFamily: 'Gordita',fontStyle: 'normal',fontWeight: 'normal',fontSize: '13px',lineHeight: '26px',letterSpacing: '0.26px',textTransform: 'uppercase',color: '#6B6E6F'}}>COMPANY</p>
@@ -390,34 +402,36 @@ const CompanyProfile = ({data}) => {
                             <div className="short_details">
                                 <div className="each_short_detail">
                                     <p className="specification">Company size</p>
-                                    <p className="specification_ans">{F3_1.compsny_size}</p>
+                                    <p className="specification_ans">{data.strength}</p>
                                 </div>
                                 <div className="each_short_detail">
                                     <p className="specification">Type of Corporation</p>
-                                    <p className="specification_ans">{F3_1.type_of_corp}</p>
+                                    <p className="specification_ans">{data.kind}</p>
                                 </div>
                                 <div className="each_short_detail">
                                     <p className="specification">Location</p>
-                                    <p className="specification_ans">{F3_1.location}</p>
+                                    <p className="specification_ans">{data.company_locations}</p>
                                 </div>
                                 <div className="each_short_detail">
-                                    <p className="specification">Est.Since</p>
-                                    <p className="specification_ans">{F3_1.est_Since}</p>
+                                    <p className="specification">Estb. Since</p>
+                                    <p className="specification_ans">{data.meta.established}</p>
                                 </div>
                                 <div className="each_short_detail">
                                     <p className="specification">Social Media</p>
                                     <div class="for_media_icons">
-                                        <a href="#" className="mediaIcons"><i className="fab fa-linkedin-in adj_icon" aria-hidden="true"></i></a>
-                                        <a href="#" className="mediaIcons"><i className="fab fa-facebook-f adj_icon " aria-hidden="true"></i></a>
-                                        <a href="#" className="mediaIcons"><i className="fab fa-twitter adj_icon" aria-hidden="true"></i></a>
-                                        <a href="#" className="mediaIcons"><i className="fab fa-dribbble adj_icon" aria-hidden="true"></i></a>
-                                        <a href="#" className="mediaIcons"><i className="fab fa-behance adj_icon" aria-hidden="true"></i></a>
+                                        {data.meta.social_links.map(
+                                            link => {
+                                                return(
+                                                    <a href={link.link} className="mediaIcons"><i className={`fab ${IconMap.get(link.handle).url} adj_icon`} aria-hidden="true"></i></a>
+                                                );
+                                            }
+                                        )}
                                     </div>
                                 </div>
                             </div>
 
-                            <p className="company_heading">{F3_1.heading}</p>
-                            <p className="content_area">{F3_1.text}</p>
+                            <p className="company_heading">Join {data.name}</p>
+                            <p className="content_area" style={{marginTop: 20}}>{data.description}</p>
                             <hr className="hr_for_TM"></hr>
                             <p className="team_members_heading">Team Members:</p>
                             <div>

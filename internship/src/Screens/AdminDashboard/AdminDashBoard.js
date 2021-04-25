@@ -22,10 +22,12 @@ import imgP3 from "../../images/TieUps/TeslaLogo.png";
 import { BiBuildings, BiCaretDown, BiCaretUp } from "react-icons/bi";
 import { Checkbox } from "@material-ui/core";
 import {IoFingerPrint} from "react-icons/io5";
-import { HiDocumentDownload } from "react-icons/hi";
+import { HiDocumentDownload, HiUserGroup } from "react-icons/hi";
 import { useHistory } from "react-router";
 import { CgCloseO } from "react-icons/cg";
 import AdminService from "../../AdminServices/AdminService";
+import {Link} from 'react-router-dom';
+import { LogoMap } from "../../utility/Maps/LandingPageMaps";
 
 const navCollection = [
   { name: "Dashboard", icon: RiLayout4Fill },
@@ -1351,15 +1353,24 @@ const CompanyTableRow = ({company,action,even}) => {
           <td  className="jobsPosted__row">
               <Checkbox/>
           </td>
-          <td className="jobsPosted__row applicationsUser p20 mv200 cursor__pointer" onClick={()=>history.push('/company')}>
-              <img src={company.compImage} className="applicantUser__image" alt="user_image" />
-              <h3 className="jobsPostedtable_cell m20">
-                  {company.compName}
+          <Link to={{
+              pathname: `/company`,
+              search: `?id=${company.uuid}`,
+              state: { uuid : company.uuid }
+          }}>
+            <td className="jobsPosted__row applicationsUser p20 mv200 cursor__pointer" onClick={()=>history.push('/company')}>
+              {/* <img src={company.compImage} className="applicantUser__image" alt="user_image" /> */}
+              {company.logo.link ? (
+                <img src={LogoMap.get(company.name).url} className="applicantUser__image" alt="user_image" />
+              ) : <HiUserGroup style={{fontSize: 40}} /> }
+              <h3 className="jobsPostedtable_cell" style={{textAlign: 'left', marginLeft: 20}}>
+                  {company.name}
               </h3>
-          </td>
+            </td>
+          </Link>          
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell m20 mv150">
-                  {st===true?"active":"deactive"}
+              <h3 className="jobsPostedtable_cell m20 mv150" style={{textAlign: 'center'}}>
+                  {st===true?"active":"Deactive"}
               </h3>
           </td>
           <td  className="jobsPosted__row">
@@ -1400,7 +1411,7 @@ const CompanyTableRow = ({company,action,even}) => {
   );
 }
 
-const CompaniesTable = ()=>{
+const CompaniesTable = ({data})=>{
   const tags=[{name:"all",color:'black'},{name: "active", color: 'rgba(45,132,90,1)'}, {name: "inactive", color: 'rgba(211,46,46,1)'}, {name: 'expiring soon', color: 'orange'}]
   const [action, setAction] = useState('all');
   const [search,setSearch]=useState('');
@@ -1459,9 +1470,8 @@ const CompaniesTable = ()=>{
                           </tr>
                       </thead>
                       <tbody>
-                          {CompaniesData.map((company,_id) => (
-                              
-                                (company.compName.toLowerCase().includes(search.toLowerCase())&&(action==='all'||action===company.status))?
+                          {data.map((company,_id) => (                              
+                                (company.name.toLowerCase().includes(search.toLowerCase())&&(action==='all'||action===company.status))?
                                 <CompanyTableRow company={company} action={action} even={_id%2?false:true} />
                                 :null
                               )

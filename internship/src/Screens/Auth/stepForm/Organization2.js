@@ -60,6 +60,9 @@ const useStyles = makeStyles((theme) => ({
   for_socialIcon:{
     display:"flex",
     flexDirection:"row",
+    '& svg':{
+      marginTop:-15
+    }
   },
   for_adjfbIcon:{
     marginRight: '5px',
@@ -129,8 +132,8 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
           fullWidth
           size="small"
         />
-
-        <h6 style={{ marginTop: 30 }}>Social Media Links</h6>
+        {/* <hr /> */}
+        <h6 style={{ margin: '30px 0 10px',fontSize:18 }}>Social Media Links</h6>
         <div className={classes.for_socialIcon}>
           <div className={classes.for_adjfbIcon}>
             <AiFillLinkedin />
@@ -173,13 +176,13 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
             onChange={(e)=>{setfb(e.target.value)}}
           />
         </div>
-        <h6 style={{ marginTop: 30 }}>Organization Portfolio</h6>
+        <h6 style={{ margin: '30px 0 10px',fontSize:18 }}>Organization Website</h6>
         <div className={classes.for_socialIcon}>
           <div className={classes.for_adjgitIcon}>
             <AiOutlineGlobal />
           </div>
           <TextField
-            label="Portfolio"
+            label="Website"
             name="portfolio"
             variant="outlined"
             size="small"
@@ -188,46 +191,47 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
             onChange={(e)=>{setportfolio(e.target.value)}}
           />
         </div>
+        <div className='d-flex justify-content-between'>
+          <button
+            className="card_btn"
+            onClick={(e) => {
+              e.preventDefault();
+              navigation.previous();
+            }}
+          >
+            Back
+          </button>
 
-        <button
-          className="card_btn mx-2"
-          onClick={(e) => {
-            e.preventDefault();
-            navigation.previous();
-          }}
-        >
-          Back
-        </button>
-
-        <button
-          className="apply_btn card_btn"
-          onClick={(e) => {
-            e.preventDefault();
-            if (
-              formData.city === "" ||
-              formData.country === "" ||
-              formData.established === ""||
-              facebook===""||github==="" ||linkedIn===""||portfolio===""
-            ) {
-              setnotify({
-                message: "Fields cannot be empty!",
-                isOpen: true,
-                type: "error",
-              });
-              setTimeout(() => {
-                setnotify({ message: "", isOpen: false, type: "" });
-              }, 3000);
-            } else {
-              formData.socialLinks.github = github;
-              formData.socialLinks.facebook = facebook;
-              formData.socialLinks.linkedIn = linkedIn;
-              formData.socialLinks.portfolio = portfolio;
-              navigation.next();
-            }
-          }}
-        >
-          Next
-        </button>
+          <button
+            className="apply_btn card_btn"
+            onClick={(e) => {
+              e.preventDefault();
+              if (
+                formData.city === "" ||
+                formData.country === "" ||
+                formData.established === ""||
+                facebook===""||github==="" ||linkedIn===""||portfolio===""
+              ) {
+                setnotify({
+                  message: "Fields cannot be empty!",
+                  isOpen: true,
+                  type: "error",
+                });
+                setTimeout(() => {
+                  setnotify({ message: "", isOpen: false, type: "" });
+                }, 3000);
+              } else {
+                formData.socialLinks.github = github;
+                formData.socialLinks.facebook = facebook;
+                formData.socialLinks.linkedIn = linkedIn;
+                formData.socialLinks.portfolio = portfolio;
+                navigation.next();
+              }
+            }}
+          >
+            Next
+          </button>
+        </div>
         {notify.isOpen && <Notification notify={notify} />}
       </div>
     </div>

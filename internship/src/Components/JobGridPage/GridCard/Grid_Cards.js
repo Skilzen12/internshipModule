@@ -19,12 +19,11 @@ const Grid_Cards = ({obj}) => {
     .then(res => console.log(res))
     .catch(err => console.log(err))
   }
-  console.log(obj)
   return (
     <div className="col-12 col-xl-6 single_card_grid">
       <div className="px-8 pt-9 pb-7 rounded-4 mb-9 feature-cardOne-adjustments">
         <div className="d-block mb-2">
-          {obj.company.logo.link ? (
+          {obj.company.logo.link && LogoMap.get(obj.company.name.toString()) ? (
             <img src={LogoMap.get(obj.company.name.toString()).url} alt="" style={{maxWidth: 200, maxHeight: 100}} />
             ) : <HiUserGroup style={{fontSize: 40}} /> }
         </div>

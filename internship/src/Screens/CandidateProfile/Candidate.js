@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import Header from '../../Components/Header/Updated_Header'
@@ -7,6 +8,8 @@ import {TagsIcons} from '../../Components/LandingPage/FeaturedCards/FeaturedCard
 import {BsBookmark as Mark} from "react-icons/bs";
 import {savedInternships,appliedInternships} from '../../utility/DummyData/CandidateData';
 import { useSelector , useDispatch } from 'react-redux'
+import {LogoMap, IconMap} from '../../utility/Maps/LandingPageMaps';
+import { HiUser, HiUserGroup } from "react-icons/hi";
 
 function Candidate() {
   const user = useSelector(state => state.user);
@@ -14,6 +17,8 @@ function Candidate() {
   const navBarClickHandler = (e) => {
     setActiveSection(e.target.innerText);
   };
+
+  console.log(user)
 
   return (
     <>
@@ -33,21 +38,14 @@ function Candidate() {
             </h3>
             <p className="candidate__role">{user.title ? user.title : 'ASWERDSE'}</p>
             <div className="icon-link d-flex align-items-center justify-content-center my-3 flex-wrap">
-              <a href="#">
-                <i className="fab fa-linkedin-in"></i>
-              </a>
-              <a href="#">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a href="#">
-                <i className="fab fa-twitter"></i>
-              </a>
-              <a href="#">
-                <i className="fab fa-dribbble"></i>
-              </a>
-              <a href="#">
-                <i className="fab fa-behance"></i>
-              </a>
+            {user.user_profile ?
+                user.user_profile.meta.social_links.map(
+                  link => {
+                      return(
+                          <a href={link.link} className="mediaIcons"><i className={`fab ${IconMap.get(link.handle).url} adj_icon`} aria-hidden="true"></i></a>
+                      );
+                  }
+              ) : null}
             </div>
           </div>
           <hr />
@@ -55,14 +53,14 @@ function Candidate() {
             <h4 style={{ fontSize: 19, fontWeight: 500 }}>Contact Info</h4>
             <br />
             <p className="candidate__detail__heading">Location</p>
-            <p className="candidate__detail__value">New York , USA</p>
+            <p className="candidate__detail__value">{user.user_profile ? user.user_profile.meta.location : 'XYZ City'}</p>
             <p className="candidate__detail__heading">E-mail</p>
-            <p className="candidate__detail__value">name_ac@gmail.com</p>
+            <p className="candidate__detail__value">{user.email}</p>
             <p className="candidate__detail__heading">Phone</p>
-            <p className="candidate__detail__value">+999 565 562</p>
+            <p className="candidate__detail__value">{user.phone_number}</p>
             <p className="candidate__detail__heading">Website Linked</p>
             <a href="" className="candidate__detail__value link">
-              www.nameac.com
+              {user.user_profile ? user.user_profile.meta.linked_website : 'abc@gmail.com'}
             </a>
           </div>
         </div>
@@ -99,23 +97,14 @@ function Candidate() {
                 <div className="candidate__about">
                   <p className="overview__subsection__heading">About</p>
                   <p className="overview__subsection__subheading">
-                    A talented professional with an academic background in IT
-                    and proven commercial development experience as C++
-                    developer since 1999. Has a sound knowledge of the software
-                    development life cycle. Was involved in more than 140
-                    software development outsourcing projects.
-                  </p>
-                  <br />
-                  <p className="overview__subsection__subheading">
-                    Programming Languages: C/C++, .NET C++, Python, Bash, Shell,
-                    PERL, Regular expressions, Python, Active-script.
+                    {user.user_profile ? user.user_profile.description : 'XYZABCD'}
                   </p>
                 </div>
                 <hr />
                 <div className="candidate__skills">
                   <p className="overview__subsection__heading">Skills</p>
                   {
-                    <TagsIcons list={['Agile','Wireframing','Prototyping','Information','Waterfall Model','New Layout','Browsing']} />
+                    <TagsIcons1 list={user.user_skills ? user.user_skills : []} />
                   }
                 </div>
                 <hr />
@@ -123,84 +112,62 @@ function Candidate() {
                   <p className="overview__subsection__heading">
                     Work Experience
                   </p>
-                  <div className="candidate__experience__card">
-                    <img
-                      className="experience__company__photo"
-                      src="https://cturtle.co/wp-content/uploads/2020/12/1595528954632.jpg"
-                      alt="Co."
-                    />
-                    <div className="experience__details">
-                      <p className="experience__role">Lead Product Designer</p>
-                      <p className="experience__company">AirBnb</p>
-                      <div className="experience__duration__container">
-                        <p className="experience__duration">
-                          Jun 2017 - April 2020- 3 years
-                        </p>
-                        <p className="experience__duration ">New York, USA</p>
-                      </div>
-                    </div>
-                    {/* <div className="experience__place ml-auto">New York, USA</div> */}
-                  </div>
-                  <div className="candidate__experience__card">
-                    <img
-                      className="experience__company__photo"
-                      src="https://pbs.twimg.com/profile_images/1343584679664873479/Xos3xQfk.jpg"
-                      alt="Co."
-                    />
-                    <div className="experience__details">
-                      <p className="experience__role">Senior UI/UX Designer</p>
-                      <p className="experience__company">Google Inc</p>
-                      <div className="experience__duration__container">
-                        <p className="experience__duration">
-                          Jun 2017 - April 2020- 3 years
-                        </p>
-                        <p className="experience__duration ">New York, USA</p>
-                      </div>
-                    </div>
-                  </div>
+                  {
+                    user.user_work_experience.map(work => {
+                      const monthStart = work.meta.start_date.split('-')[1];
+                      const dayStart = work.meta.start_date.split('-')[2];
+                      const monthEnd = work.meta.end_date.split('-')[1];
+                      const dayEnd = work.meta.end_date.split('-')[2];
+                      return(
+                        <div className="candidate__experience__card">
+                          {work.company.logo.link && LogoMap.get(work.meta.company_name) ? (
+                            <img src={LogoMap.get(work.meta.company_name).url} className="experience__company__photo" alt="Co" />
+                          ) : <HiUserGroup style={{fontSize: 40}} /> }
+                          <div className="experience__details">
+                            <p className="experience__role">{work.meta.title}</p>
+                            <p className="experience__company">{work.meta.company_name}</p>
+                            <div className="experience__duration__container">
+                              <p className="experience__duration">
+                                {dayStart}{"/"}{monthStart} - {dayEnd}{"/"}{monthEnd}
+                              </p>
+                              <p className="experience__duration ">{work.meta.city}</p>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                  }
+                  
                 </div>
                 <hr />
                 <div className="candidate__education">
                   <p className="overview__subsection__heading">Education</p>
-                  <div className="candidate__experience__card">
-                    <img
-                      className="experience__company__photo"
-                      src="https://upload.wikimedia.org/wikipedia/en/thumb/2/29/Harvard_shield_wreath.svg/1200px-Harvard_shield_wreath.svg.png"
-                      alt="Co."
-                    />
-                    <div className="experience__details">
-                      <p className="experience__role">Masters in Art Design</p>
-                      <p className="experience__company">Harvard University</p>
-                      <div className="experience__duration__container">
-                        <p className="experience__duration">
-                          Jun 2017 - April 2020- 3 years
-                        </p>
-                        <p className="experience__duration ">Brylin, USA</p>
-                      </div>
-                    </div>
-                    {/* <div className="experience__place ml-auto">New York, USA</div> */}
-                  </div>
-                  <div className="candidate__experience__card">
-                    <img
-                      className="experience__company__photo"
-                      src="https://images.shiksha.com/mediadata/images/1602828916phpIjgYq2.jpeg"
-                      alt="Co."
-                    />
-                    <div className="experience__details">
-                      <p className="experience__role">
-                        Bachelor in Software Engineering
-                      </p>
-                      <p className="experience__company">
-                        Manipal Institute of Technology
-                      </p>
-                      <div className="experience__duration__container">
-                        <p className="experience__duration">
-                          Fed 2012 - April 2016 - 4 years
-                        </p>
-                        <p className="experience__duration ">New York, USA</p>
-                      </div>
-                    </div>
-                  </div>
+                  {
+                    user.user_education.map(work => {
+                      const monthStart = work.meta.start_date.split('-')[1];
+                      const dayStart = work.meta.start_date.split('-')[2];
+                      const monthEnd = work.meta.end_date.split('-')[1];
+                      const dayEnd = work.meta.end_date.split('-')[2];
+                      return(
+                        <div className="candidate__experience__card">
+                          {work.college.banner_image.link && LogoMap.get(work.meta.college_name) ? (
+                            <img src={LogoMap.get(work.meta.company_name).url} className="experience__company__photo" alt="Co" />
+                          ) : <HiUser style={{fontSize: 40}} /> }
+                          <div className="experience__details">
+                            <p className="experience__role">{work.meta.degree}</p>
+                            <p className="experience__company">{work.meta.college_name}</p>
+                            <div className="experience__duration__container">
+                              <p className="experience__duration">
+                                {dayStart}{"/"}{monthStart} - {dayEnd}{"/"}{monthEnd}
+                              </p>
+                              <p className="experience__duration ">{work.meta.college_city}</p>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                  }
+                  
                 </div>
               </>
             )}
@@ -256,6 +223,22 @@ const SavedInternshipCard = ({imgSrc,com_name,role,tags_list,role_description})=
     </div>
   )
 }
+
+const TagsIcons1 =({list})=>{ 
+  return (
+    <ul className="tags__featured">
+      {list.map(item=>(
+        <li className="mt-1">
+          <a className="bg-regent-opacity-15 min-width-px-96 text-center rounded-3 py-1"
+            style={{ fontFamily: "Gordita" }}
+          >
+            {item.skill.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+      }
 
 const AppliedInternshipCard = ({imgSrc,com_name,role,tags_list,role_description})=>{
   return(

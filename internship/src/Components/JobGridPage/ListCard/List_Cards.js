@@ -36,7 +36,7 @@ const List_Cards = ({obj}) => {
         <div className="col-md-6">
           <div className="media align-items-center">
             <div className="square-72 d-block mr-8">              
-              {obj.company.logo.link ? (
+              {obj.company.logo.link && LogoMap.get(obj.company.name) ? (
                 <img src={LogoMap.get(obj.company.name.toString()).url} alt="" style={{maxWidth: 140, maxHeight: 80}} />
                 ) : <HiUserGroup style={{fontSize: 40}} /> }
             </div>

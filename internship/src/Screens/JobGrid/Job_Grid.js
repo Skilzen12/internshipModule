@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-pascal-case */
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -39,9 +39,9 @@ const Job_Grid = () => {
   const [internships, setInternships] = useState([]);
   const MUIclasses = useStyles();
 
-  window.onload = () => {
+  useEffect(() => {
     getInternships();
-  }
+  }, [])
 
   const getInternships = async () => {
     AdminService.getInternshipsList()

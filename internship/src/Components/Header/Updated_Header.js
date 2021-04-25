@@ -26,7 +26,7 @@ function Updated_Header() {
     }
 
     let [loadCards, setLoadCards] = useState();
-    let [userProfile, setUser] = useState();
+
     useEffect(() => {
         AdminService.getCompanyDashboard()
             .then(resp => setLoadCards(resp.data))

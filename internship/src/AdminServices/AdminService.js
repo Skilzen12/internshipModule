@@ -51,13 +51,13 @@ export default {
     return DataService.get('/internship/v1/company-recruiters');
   },
   getCompanyDashboard: async() => {
-    return DataService.get('/internship/v1/company-recruiters/dashboard');
+    return DataService.get('/internship/v1/company-recruiters/dashboard/');
   },
   postInternship: async(data) => {
     return DataService.post('/internship/v1/company-recruiter/postings/', data);
   },
   getCompanyInternship: async() => {
-    return DataService.get('/internship/v1/company-recruiter/postings');
+    return DataService.get('/internship/v1/company-recruiter/postings/');
   },
   editInternship: async(data) => {
     return DataService.put('/internship/v1/company-recruiter/postings/', data);

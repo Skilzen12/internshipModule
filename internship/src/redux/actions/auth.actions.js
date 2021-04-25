@@ -1,56 +1,58 @@
-import { authConstants,getData } from "../actionTypes"
+import { getItem, setItem } from "../../utility/localStorageControl"
+import { authConstants } from "../actionTypes"
 import axios from '../helper_axios'
 
 export const signIn = (user)=>{
   return async (dispatch)=>{
-    dispatch({
-      type:authConstants.SIGNIN_REQUEST
-    })
+    dispatch({type:authConstants.SIGNIN_REQUEST})
     try{
       const res = await axios.post('/skilzen/v1/login/',user);
-      console.log(res,'res from API login');
       if(res.status===200){
         const {token} = res.data;
-        localStorage.setItem('accessToken',token);
+        setItem('accessToken',token);
         dispatch({
           type:authConstants.SIGNIN_SUCCESS,
-          payload:{
-            token
-          }
+          payload:{token:token}
         })
+        return {error:''}
+      }else{
+        dispatch({
+          type:authConstants.SIGNIN_FAILURE,
+          payload:{message: 'Invalid Login Credentials!'}
+        })
+        return {error:'Invalid Login Credentials!'}
       }
     }
     catch(err){
       dispatch({
         type:authConstants.SIGNIN_FAILURE,
-        payload:{
-          message: 'Invalid Login Credentials!'
-        }
+        payload:{message: 'Invalid Login Credentials!'}
       })
+      return {error:'Invalid Login Credentials!'}
     }
-
   }
 }
 export const isAdminLogged = ()=>{
   console.log("called isAdminLogged");
   return (dispatch)=>{
-    const token = localStorage.getItem('accessToken');
+    const token = getItem('accessToken');
+    dispatch({type:authConstants.LOGGEDIN_REQUEST});
     if(token){
+      console.log("dispatch sucess in admin logged");
       dispatch({
-        type:authConstants.SIGNIN_SUCCESS,
+        type:authConstants.LOGGEDIN_SUCCESS,
         payload:{
-          token
+          token:token
+        }
+      })
+    }else{
+      dispatch({
+        type:authConstants.LOGGEDIN_FAILURE,
+        payload:{
+          message: 'Not Logged in Before!',
         }
       })
     }
-    // else{
-    //   dispatch({
-    //     type:authConstants.SIGNIN_FAILURE,
-    //     payload:{
-    //       message:"Not logged in before"
-    //     }
-    //   })
-    // }
   }
 }
 export const logoutAdmin = ()=>{

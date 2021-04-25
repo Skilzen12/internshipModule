@@ -1,4 +1,4 @@
-import { getData,addEducation as Edu,addWorkExperience as Exp, addSkills, addProfile } from "../actionTypes";
+import { getData,addEducation as Edu,addWorkExperience as Exp, addSkills, addProfile , addNewRecruiter as Rec } from "../actionTypes";
 
 const initialState = {
   first_name: "",
@@ -13,12 +13,19 @@ const initialState = {
   expLoading: false,
   skillsLoading: false,
   profileLoading:false,
-  recruits_for: null
+  recruits_for: null,
 }
 
 export const userReducer = (state=initialState,action)=>{
-  console.log(action);
   switch(action.type){
+    case 'SET_TRUE_SUCCESS':
+      state = {
+        ...state,
+        is_phone_valid:true,
+        is_email_valid:true,
+        email:'fake@gm.com',
+        phone_number:'1111111111'
+      }
     case getData.GETDATA_REQUEST : 
       state = {
         ...state,
@@ -112,6 +119,26 @@ export const userReducer = (state=initialState,action)=>{
         ...state,
         profileLoading:false,
         profileError:action.payload
+      }
+      break;
+    case Rec.ADD_RECRUITER_REQUEST:
+      state={
+        ...state,
+        recruits_form_loading:true,
+      }
+      break;
+    case Rec.ADD_RECRUITER_SUCCESS:
+      state={
+        ...state,
+        recruiter_err_msg:'',
+        recruits_form_loading:false,
+      }
+      break;
+    case Rec.ADD_RECRUITER_FAILURE:
+      state={
+        ...state,
+        recruiter_err_msg:action.payload.message,
+        recruits_form_loading:false,
       }
       break;
     default:

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useSelector , useDispatch } from 'react-redux'
+
 import Header from "../../Components/Header/Updated_Header";
 import SearchIcon from "@material-ui/icons/Search";
 import Brands from "../../Components/LandingPage/BrandCard/Brands";
@@ -9,17 +11,25 @@ import Content from "../../Components/LandingPage/Content1/Content1";
 import FeaturedCards from "../../Components/LandingPage/FeaturedCards/FeaturedCards";
 import CareerCard from "../../Components/LandingPage/CareerCard/CareerCard";
 import CityCards from "../../Components/LandingPage/CityCard/CityCards";
-import AdminService from "../../AdminServices/AdminService";
-import { getItem } from "../../utility/localStorageControl";
+import {API_ENDPOINT} from '../../AdminServices/baseURL'
 
-import axios from '../../redux/helper_axios'
+import axios from "axios";
+
+import { getItem } from "../../utility/localStorageControl";
+import AdminService from "../../AdminServices/AdminService";
+
+import {getUserData} from '../../redux/actions/user.actions'
+import {isAdminLogged} from '../../redux/actions/auth.actions'
+
 const Landing2 = () => {
   const [internCategories, setCategories] = useState([]);
   const [internships, setInternships] = useState([]);
   const [count, setCount] = useState(0);
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
 
   const getCategories = async () => {
-    await AdminService.getInternshipsCategories()
+    await axios.get(`${API_ENDPOINT}/internship/v1/internships/stats/`)
     .then(res => {
       setCategories(res.data.category);
     })
@@ -27,17 +37,31 @@ const Landing2 = () => {
   }
 
   const getFeaturedJobs = async () => {
-    AdminService.getInternshipsList()
+    await axios.get(`${API_ENDPOINT}/internship/v1/internships/`)
     .then(res => {
       setCount(res.data.count);
       setInternships(res.data.results);
     })
     .catch(err => console.log(err));
   } 
+  const token = getItem('accessToken');
+  const getProfile = async () => {
+    await AdminService.getUserProfile()
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => console.log('2nnddd', err));
+  }
 
-  useEffect(() => {
+  useEffect(async() => {
     getCategories();
     getFeaturedJobs();
+    if(!auth.authenticate){
+      dispatch(isAdminLogged());
+    }
+    if(auth.token){
+      dispatch(getUserData());
+    }
   },[]);
   
   return (
@@ -82,7 +106,6 @@ const Landing2 = () => {
               </div>
             </div>
           </div>
-
           <CategoryCard data={internCategories} />
         </div>
         <div className="my-5">

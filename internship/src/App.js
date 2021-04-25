@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react'
 import './App.css';
 import { useSelector , useDispatch } from 'react-redux'
 import {getUserData} from './redux/actions/user.actions'
 import {isAdminLogged} from './redux/actions/auth.actions'
 import PrivateRoute from './Screens/Auth/PrivateRoute'
+import InternshipRoute from './Screens/Auth/InternshipRoute'
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LandingPage from './Screens/LandingPage/LandingPage';
@@ -25,11 +27,15 @@ import { OrganizationMultiStep } from './Screens/Auth/OrganizationMultiStep';
 function App() {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
-  useEffect(()=>{    
+  const user = useSelector(state => state.user);
+  
+  useEffect(async()=>{    
     if(!auth.authenticate){
-      dispatch(isAdminLogged());
+      await dispatch(isAdminLogged());
     }
-    dispatch(getUserData());
+    if(window.localStorage.getItem('accessToken')){
+      await dispatch(getUserData());
+    }
   },[])
 
   return (
@@ -38,18 +44,18 @@ function App() {
         <Switch>
           <Route exact path='/' component={LandingPage} />
           <Route exact path='/login' component={Login} />
-          <Route exact path='/VerifyOTP' component={VerifyOTP} />
+          <PrivateRoute exact path='/VerifyOTP' component={VerifyOTP} />
           <Route exact path='/signup' component={SignUp} />
           <Route exact path='/postInternship' component={PostInternship} />
           <Route exact path='/jobGrid' component={JobGrid} />
           <Route exact path='/candidate' component={CandidateProfile} />
           <Route exact path='/company' component={CompanyProfile} />
-          <PrivateRoute exact path='/internship' component={InternshipProfile} />
+          <InternshipRoute exact path='/internship' component={InternshipProfile} />
           <Route exact path='/dashboard' component={DashboardMain} />
           <Route exact path='/adminDashboard' component={AdminDashboardMain} />
           <Route exact path='/companyspam' component={CompanySpam} />
           <Route exact path='/applyForm' component={MultiStepForm} />
-          <Route exact path='/applyRecruiterForm' component={OrganizationMultiStep} />
+          <Route exact path='/applyRecruiterForm' component={OrganizationMultiStep } />
         </Switch>
       </Router>
     </div>

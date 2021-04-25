@@ -1,19 +1,16 @@
 import React from 'react'
 import {Route, Redirect} from 'react-router-dom'
-import { useSelector , useDispatch } from 'react-redux'
-
+import {getItem} from '../../utility/localStorageControl';
 const PrivateRoute = ({ component:Component , ...rest})=>{
-  const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth);
   return(
     <Route {...rest} component={(props)=>{
-      const token = auth.authenticate;
+      const token = getItem('accessToken');
       if(token){
         return <Component {...props} />
       }else{
         return <Redirect to={'/login'} />
       }
-    }} />
+    }}/>
   )
 }
 export default PrivateRoute;

@@ -6,7 +6,7 @@ const InternshipRoute = ({ component:Component , ...rest})=>{
   const user = useSelector(state =>state.user)
   return(
     <Route {...rest} component={(props)=>{
-      const token = window.localStorage.getItem('token');
+      const token = window.localStorage.getItem('accessToken');
       if(token){
         if(user.user_education.length==0){
           return <Redirect to="/applyForm" />

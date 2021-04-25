@@ -1,33 +1,31 @@
-import {getData,addEducation as Edu , addWorkExperience as Exp ,addSkills as skillTypes,addProfile as profileTypes} from "../actionTypes"
+import AdminService from "../../AdminServices/AdminService"
+import {getData,addEducation as Edu , addWorkExperience as Exp,addNewRecruiter as Rec,addSkills as skillTypes,addProfile as profileTypes } from "../actionTypes"
 import axios from '../helper_axios'
 
-
 export const getUserData = ()=>{
-  console.log("getUserData");
   return async (dispatch)=>{
-    dispatch({
-      type:getData.GETDATA_REQUEST,
-      payload:{
-        message:'requesting to get data'
-      },
-    })
-    const res = await axios.get('/skilzen/v1/profile/');
-    if(res.statusText === 'OK'){
-      dispatch({
-        type:getData.GETDATA_SUCCESS,
-        payload:{
-          ...res.data.results[0]
-        }
+    dispatch({type:getData.GETDATA_REQUEST})
+    console.log("calling getUserData");
+    await AdminService.getUserProfile().
+      then(res=>{
+          dispatch({
+            type:getData.GETDATA_SUCCESS,
+            payload:{
+              ...res.data.results[0]
+            }
+          })
+      }).
+      catch(err=>{
+        console.log(err,"error");
+        dispatch({
+          type:getData.GETDATA_FAILURE,
+          payload:{
+            message: 'Error while accessing data!'
+          }
+        })
       })
-    }else if(res.status == 400){
-      console.log(res);
-      dispatch({
-        type:getData.GETDATA_FAILURE,
-        payload:{
-          message: 'Error while accessing data!'
-        }
-      })
-    }
+
+
   }
 }
 export const addEducations = (data) => {
@@ -92,6 +90,68 @@ export const addWorkExperience = (data) => {
   }
 }
 
+export const addKYCDetails = (data)=>{
+  return async (dispatch)=>{
+    dispatch({type:Rec.ADD_RECRUITER_REQUEST})
+    const main_obj = {
+      "company_name": data.organization,
+      "owner_email": data.email,
+      "phone_no": data.mobile,
+      company_uid:{
+        link:data.company_uid,
+      },
+      "official_doc": {
+        "link": data.official_doc,
+      },
+      "logo": {
+        "link": data.logo
+      },
+      "meta": {
+        "social_links": [],
+        "company_url": data.website,
+        "established":data.established,
+      },
+      kind:data.type,
+      strength:data.strength,
+      description:data.description,
+    }
+    console.log(typeof main_obj.strength);
+    console.log(typeof "10");
+    main_obj.meta.social_links = [...data.socialLinks];
+    console.log(main_obj);
+    try{
+      const res = await axios.post('/internship/v1/company-recruiters/',main_obj);
+      if(res.status===201){
+        dispatch({type:Rec.ADD_RECRUITER_SUCCESS});
+        console.log("NO ERRORS");
+        return {error:[]};
+      }
+    }
+    catch(err){
+      console.log(err.response,"err in  addKYc details error");
+      if(err.response.status==403){
+        dispatch({
+          type:Rec.ADD_RECRUITER_FAILURE,
+          payload:{
+            message: 'Already your previous KYC is in processing !',
+          }
+        })
+      }
+      else{
+        const errors = [];
+        if(err.response.data.strength.length){
+          errors.push(err.response.data.strength[0]);
+        }
+        dispatch({
+          type:Rec.ADD_RECRUITER_FAILURE,
+          payload:{
+            message: 'Error while adding data ',
+          }
+        })
+      }
+    }
+  }
+}
 export const addProfile= (profileDesc,social_links,location,linked_website)=> async (dispatch)=>{
     dispatch({
       type:profileTypes.ADD_PROFILE_REQUEST

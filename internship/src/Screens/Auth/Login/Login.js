@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from "../../../images/logo.png";
 import { Checkbox, FormControlLabel, makeStyles, TextField,CircularProgress } from '@material-ui/core';
 
@@ -129,6 +129,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
   const dispatch = useDispatch();
+  useEffect(() => {
+    if(window.localStorage.getItem('accessToken')){
+      window.open('/', '_self');
+    }
+  }, [])
 
     const classes=useStyles();
     const [email, setEmail] = useState("");
@@ -137,32 +142,31 @@ const Login = () => {
     const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
     const [btnHovered,setHovered] = useState(false);
     const auth = useSelector(state => state.auth);
+    const user = useSelector(state => state.user);
 
     const SignIn = async(email, pass, ) => {
       const loginStuff = {
         username : email,
         password : pass
       }
-      await dispatch(signIn(loginStuff));
-
-      if(!auth.loading && !auth.authenticate && auth.message!==""){
-        setnotify({message:auth.message,isOpen:true, type:'error'});
+      const res = await dispatch(signIn(loginStuff));
+      console.log(res,"-------------------------");
+      if(res.error !== '' ){
+        setnotify({message:res.error,isOpen:true, type:'error'});
         setTimeout(()=>{
           setnotify({message:'', isOpen:false, type:''})
         },3000)
       }else{
+        console.log(window.localStorage.getItem('accessToken'),"tOKEN just before fn call");
+        dispatch(getUserData());
         setnotify({message:'Successfully signed in',isOpen:true, type:'success'});
         setTimeout(()=>{
           setnotify({message:'', isOpen:false, type:''})
-        },3000)
-        dispatch(getUserData());
+          window.open('/', '_self');
+        },1700)
       }
     }
-    if(auth.authenticate){
-      return <Redirect to={'/'} />
-    }
-    
-
+  
     return (
         <div className="internship__container__centered">
         <div className="internship__content__card p-5 signup__container">
@@ -232,7 +236,7 @@ const Login = () => {
               
             </div>
             <div className={classes.for_newUser}>
-              <p> New User? <a href="http://localhost:3000/signup" className={classes.for_signup_redirect}>Click here to Sign Up!</a></p>
+              <p> New User? <a href="/signup" className={classes.for_signup_redirect}>Click here to Sign Up!</a></p>
             </div>
             <div className={classes.for_login_adj}>
                 <button

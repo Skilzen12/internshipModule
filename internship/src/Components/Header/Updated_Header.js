@@ -1,17 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState }from 'react';
+import React, { useEffect, useState }from 'react';
 import './Header.css';
 import logo from '../../images/logo.png';
 import {IconButton,Badge} from '@material-ui/core';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import NotificationsOutlinedIcon from '@material-ui/icons/NotificationsOutlined';
-
-
-
+import {Link} from "react-router-dom";
 import { useSelector , useDispatch } from 'react-redux'
 import { logoutAdmin } from '../../redux/actions/auth.actions';
 import Notification from '../../Screens/Auth/Notification';
+import AdminService from '../../AdminServices/AdminService';
 
 function Updated_Header() {
     const dispatch = useDispatch();
@@ -25,6 +24,12 @@ function Updated_Header() {
             setnotify({message:'',isOpen:false,type:''})
         },3000)
     }
+
+    let [loadCards, setLoadCards] = useState();
+    useEffect(() => {
+        AdminService.getCompanyDashboard()
+            .then(resp => setLoadCards(resp.data))
+    }, [])
 
     const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
 
@@ -41,7 +46,12 @@ function Updated_Header() {
                 {
                     user.recruits_for !== null ? (
                         <div className="navbar-nav">
-                            <a href="/dashboard" className="nav-item nav-link active">Dashboard</a>
+                            <Link to={{
+                                pathname: `/dashboard`,
+                                state: { loadCards : loadCards }
+                            }}>
+                                <a className="nav-item nav-link active">Dashboard</a>
+                            </Link>                            
                         </div>
                     ) : null
                 }
@@ -57,9 +67,9 @@ function Updated_Header() {
                         auth.authenticate===false?
                         (
                             <>
-                            <a href="/login" className="nav-item nav-link signIn">Sign In</a>
+                            <Link to="/login" className="nav-item nav-link signIn">Sign In</Link>
                             <div className="form-inline" style={{marginRight:'14px'}} >
-                                <a href="/signUp" className="btn btn-sm btn-dark header__signup">Sign Up</a>
+                                <Link to="/signUp" className="btn btn-sm btn-dark header__signup">Sign Up</Link>
                             </div>
                             </>
                         ):

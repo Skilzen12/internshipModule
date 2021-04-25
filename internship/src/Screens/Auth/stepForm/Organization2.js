@@ -1,12 +1,17 @@
 import React,{useState} from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles} from "@material-ui/core/styles";
+import { CircularProgress} from "@material-ui/core";
 
 import TextField from "@material-ui/core/TextField";
 import logo from "../../../images/logo.png";
 import { AiOutlineGlobal,AiFillLinkedin,AiFillFacebook } from "react-icons/ai";
 import { FaGithubSquare } from "react-icons/fa";
+import validator from 'validator'
 
 import Notification from '../Notification.js'
+
+import {addKYCDetails} from '../../../redux/actions/user.actions'
+import { useSelector , useDispatch } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -77,17 +82,32 @@ const useStyles = makeStyles((theme) => ({
   for_fbIcon:{
     color:'#4040f8',
   },
+  whiteLoading:{
+    color:'#fff !important',
+    width:'20px !important',
+    height:'20px !important',
+  },
+  redLoading:{
+    color:'#ec1f28 !important',
+    width:'20px !important',
+    height:'20px !important',
+  },
 }));
 
 
 export const Organization2 = ({ formData, setForm, navigation }) => {
-  const { established, strength, city, country } = formData;
+  const { established, description, city, country,website } = formData;
   const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
+
+  const [btnHovered,setHovered] = useState(false);
+
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
 
   const [facebook,setfb] = useState("");
   const [github,setgit] = useState("");
   const [linkedIn,setlinkedin] = useState("");
-  const [portfolio,setportfolio] = useState("");
+ 
   const classes = useStyles();
   return (
     <div className="d-flex justify-content-center align-items-center">
@@ -121,13 +141,14 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
           fullWidth
           size="small"
         />
+        <h6 style={{ marginTop:10 }}>Established</h6>
         <TextField
-          label="Established"
           name="established"
           value={established}
           onChange={setForm}
           margin="normal"
           variant="outlined"
+          type="date"
           autoComplete="off"
           fullWidth
           size="small"
@@ -182,55 +203,126 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
             <AiOutlineGlobal />
           </div>
           <TextField
-            label="Website"
-            name="portfolio"
+            label="Portfolio"
+            name="website"
             variant="outlined"
             size="small"
             fullWidth
-            value={portfolio}
-            onChange={(e)=>{setportfolio(e.target.value)}}
+            value={website}
+            onChange={setForm}
           />
         </div>
-        <div className='d-flex justify-content-between'>
-          <button
-            className="card_btn"
-            onClick={(e) => {
-              e.preventDefault();
-              navigation.previous();
-            }}
-          >
-            Back
-          </button>
+        
+        <h6 style={{ margin: '30px 0 10px',fontSize:18 }}>Organization Description</h6>
+        <textarea id="description" rows={6} style={{ width: "100%" }} 
+          name="description"
+          value={description}
+          onChange={setForm} 
+        />
+        <hr />
+        <h6 style={{ marginTop: '30px',marginBottom: '6px'}}>Upload company UID</h6>
+        <div class="btn  float-left">  
+          <input type="file" name="company_uid" onChange={setForm} />
+        </div>
+        <br />
+        <h6 style={{ marginTop: '50px',marginBottom: '6px'}}>Upload company logo</h6>
+        <div class="btn  float-left">  
+          <input type="file" name="official_doc" onChange={setForm} />
+        </div>
+        <br />
+        <h6 style={{ marginTop: '50px',marginBottom: '6px'}}>Upload Official Document</h6>
+        <div class="btn  float-left">  
+          <input type="file" name="logo" onChange={setForm} />
+        </div>
+        <br />
+        <div className='signup__footer w-100 mt-3 d-flex justify-content-between'>
+        <button
+          className="card_btn mx-2"
+          onClick={(e) => {
+            e.preventDefault();
+            navigation.previous();
+          }}
+        >
+          Back
+        </button>
 
-          <button
-            className="apply_btn card_btn"
-            onClick={(e) => {
-              e.preventDefault();
-              if (
-                formData.city === "" ||
-                formData.country === "" ||
-                formData.established === ""||
-                facebook===""||github==="" ||linkedIn===""||portfolio===""
-              ) {
+        <button
+          className="apply_btn card_btn signInBtn"
+          onMouseEnter={(e) => {setHovered(true)}}
+          onMouseLeave={(e) => {setHovered(false)}}
+
+          onClick={(e) => {
+            e.preventDefault();
+            if (
+              formData.city === "" ||
+              formData.country === "" ||
+              formData.established === ""||
+              formData.company_uid === "" ||
+              formData.official_doc=== "" ||
+              formData.logo=== "" ||description===""||
+              (facebook===""&&github==="" &&linkedIn===""&&website==="")
+            ) {
+              setnotify({
+                message: "Fields cannot be empty!",
+                isOpen: true,
+                type: "error",
+              });
+              setTimeout(() => {
+                setnotify({ message: "", isOpen: false, type: "" });
+              }, 3000);
+            }
+            else if(!validator.isURL(facebook)||!validator.isURL(github)||!validator.isURL(linkedIn)||!validator.isURL(website)){
+              setnotify({
+                message: "Wrong format of URL's provided!",
+                isOpen: true,
+                type: "error",
+              });
+              setTimeout(() => {
+                setnotify({ message: "", isOpen: false, type: "" });
+              }, 3000);
+            }
+             else {
+               if(github!==""){
+                formData.socialLinks.push({handle:"Github",link:github})
+               }
+               if(facebook!==""){
+                formData.socialLinks.push({handle:"facebook",link:facebook})
+               }
+               if(linkedIn!==""){
+                formData.socialLinks.push({handle:"linkedIn",link:linkedIn})
+               }
+               if(website!==""){
+                formData.website = website;
+               }
+              dispatch(addKYCDetails(formData));
+              if(user.recruiter_err_msg===''){
                 setnotify({
-                  message: "Fields cannot be empty!",
+                  message: "Successfully send KYC details to server !",
+                  isOpen: true,
+                  type: "success",
+                });
+                setTimeout(() => {
+                  setnotify({ message: "", isOpen: false, type: "" });
+                  window.open('/', '_self');
+                }, 3000);
+              }else{
+                setnotify({
+                  message: user.recruiter_err_msg,
                   isOpen: true,
                   type: "error",
                 });
                 setTimeout(() => {
                   setnotify({ message: "", isOpen: false, type: "" });
                 }, 3000);
-              } else {
-                formData.socialLinks.github = github;
-                formData.socialLinks.facebook = facebook;
-                formData.socialLinks.linkedIn = linkedIn;
-                formData.socialLinks.portfolio = portfolio;
-                navigation.next();
               }
-            }}
-          >
-            Next
-          </button>
+            }
+          }}
+        >
+          Submit{" "}
+          {
+            user.recruits_form_loading&& <CircularProgress className={btnHovered? `${classes.redLoading}` : `${classes.whiteLoading}` } />
+          }
+        </button>
         </div>
         {notify.isOpen && <Notification notify={notify} />}
       </div>

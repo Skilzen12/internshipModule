@@ -42,9 +42,11 @@ const List_Cards = ({obj}) => {
             </div>
             <div style={{marginLeft: 20}}>
               <h3 className="mb-0">
-                <Link
-                  to={`/internship?id=${obj.uuid}`}
-                  className="font-size-6 heading-default-color"
+                <Link to={{
+                    pathname: `/internship`,
+                    search: `?id=${obj.uuid}`,
+                    state: { uuid : obj.uuid, dashboard: false }
+                  }}className="font-size-6 heading-default-color"
                 >
                   {obj.title ? obj.title : 'ABCD EFG'}
                 </Link>

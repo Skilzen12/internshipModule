@@ -52,7 +52,7 @@ function FeaturedCards({data}) {
                   <Link to={{
                     pathname: `/internship`,
                     search: `?id=${featured.uuid}`,
-                    state: { uuid : featured.uuid }
+                    state: { uuid : featured.uuid, dashboard: false }
                   }}>
                     <a className="" style={{ fontFamily: "Gordita", fontSize: 20 }}>{featured.title ? featured.title : 'XYZ Company'}</a>
                   </Link>

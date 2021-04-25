@@ -7,18 +7,37 @@ import {BsBookmark as Mark, BsFillBookmarkFill} from "react-icons/bs";
 import AdminService from '../../../AdminServices/AdminService';
 import {LogoMap} from '../../../utility/Maps/LandingPageMaps';
 import { HiUserGroup } from 'react-icons/hi';
+import { useSelector , useDispatch } from 'react-redux'
 
 const Grid_Cards = ({obj}) => {
-  const Apply = (id) => {
-    AdminService.InternshipsApply(id)
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
-  }
-  const Bookmark = (id) => {
-    AdminService.InternshipsApply(id)
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
-  }
+  const user = useSelector(state => state.user);
+    let [bookmark, setBookmark] = useState(false);
+    let [apply, setApply] = useState(false);
+
+    const Apply = async (uuid) => {
+        if(user.user_profile){
+            AdminService.InternshipsApply(uuid)
+                .then(res => {
+                    if(res.status === 200){
+                        setApply(true);
+                    }
+                })
+        .catch(err => console.log(err))
+        } else{
+            window.open('/applyForm', '_self');
+        }        
+    }
+
+    const Bookmark = async (uuid) => {
+        AdminService.InternshipsBookmark(uuid)
+        .then(res => {
+            if(res.status === 200){
+                setBookmark(true);
+            }
+        })
+        .catch(err => console.log(err))
+    }
+
   return (
     <div className="col-12 col-xl-6 single_card_grid">
       <div className="px-8 pt-9 pb-7 rounded-4 mb-9 feature-cardOne-adjustments">
@@ -32,7 +51,7 @@ const Grid_Cards = ({obj}) => {
           <Link to={{
                     pathname: `/internship`,
                     search: `?id=${obj.uuid}`,
-                    state: { uuid : obj.uuid }
+                    state: { uuid : obj.uuid, dashboard: false }
                   }} className="font-weight-bold font-size-5"> {obj.title ? obj.title : 'XYZ'} </Link>
         </h2>
         <ul className="tags__gridCard mb-2 card-tag-list">
@@ -56,10 +75,10 @@ const Grid_Cards = ({obj}) => {
         </ul>
         <p className="gordita mb-7 font-size-4 text-gray"> {obj.short_description} </p>
         <div className="card-btn-group" style={{display: 'flex', flexDirection: 'row'}}>
-          <button className="btn_for_apply btn_for_card" disabled={obj.is_applied} onClick={() => Apply(obj.uuid)}>{obj.is_applied ? 'Applied' : 'Apply Now'}</button>
-          <button className="btn_for_apply btn_for_card" disabled={obj.is_marked} onClick={() => Bookmark(obj.uuid)}>
-              {obj.is_marked ? <BsFillBookmarkFill style={{fontSize:17,paddingBottom:'2px', marginRight: 5}}/> : <Mark style={{fontSize:17, marginRight: 5, paddingBottom:'2px'}}/>}
-              {obj.is_marked ? 'Saved' : 'Bookmark it'}
+          <button className="btn_for_apply btn_for_card" disabled={apply} onClick={() => Apply(obj.uuid)}>{apply ? 'Applied' : 'Apply Now'}</button>
+          <button className="btn_for_apply btn_for_card" disabled={bookmark} onClick={() => Bookmark(obj.uuid)}>
+              {bookmark ? <BsFillBookmarkFill style={{fontSize:17,paddingBottom:'2px', marginRight: 5}}/> : <Mark style={{fontSize:17, marginRight: 5, paddingBottom:'2px'}}/>}
+              {bookmark ? 'Saved' : 'Bookmark it'}
           </button>
         </div>
       </div>

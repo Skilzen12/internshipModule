@@ -120,7 +120,7 @@ export const Profile = ({ formData, setForm, navigation }) => {
       }
     ]
     const linked_website=portfolio;
-    dispatch(addProfile(profileDesc,social_links,'HYD',linked_website))
+    dispatch(addProfile(profileDesc,social_links,formData.location,linked_website))
   }
   const saveSkills =  ()=>{
     // console.log('in saveskills')

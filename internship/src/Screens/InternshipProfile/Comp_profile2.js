@@ -15,6 +15,7 @@ import { useSelector , useDispatch } from 'react-redux'
 
 const InternshipProfile = ({obj, uuid, Apply, BookMark, applyStatus, bookmarkStatus}) => {
     const user = useSelector(state => state.user);
+    console.log(obj)
     function getDate(date){
         var postedDate = date.split('T')[0];
         var PostedDate = postedDate.split('-')[2];
@@ -110,7 +111,7 @@ const InternshipProfile = ({obj, uuid, Apply, BookMark, applyStatus, bookmarkSta
                             <hr className="hr_for_TM"></hr>
                             {user.recruits_for ?  null : (
                                 <div className="adj_btn_comp">
-                                    <button className="btn_for_apply btn_for_card" disabled={obj.is_applied} onClick={() => Apply(uuid)}>{obj.is_applied ? 'Applied' : 'Apply Now'}</button>
+                                    <button className="btn_for_apply btn_for_card" disabled={applyStatus} onClick={() => Apply(uuid)}>{applyStatus ? 'Applied' : 'Apply Now'}</button>
                                 </div>
                             )}
                         </div>

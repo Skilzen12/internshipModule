@@ -53,7 +53,7 @@ const Landing2 = () => {
       dispatch(isAdminLogged());
     }
     if(auth.token){
-      dispatch(getUserData());
+      dispatch(getUserData('landing page'));
     }
   },[]);
   

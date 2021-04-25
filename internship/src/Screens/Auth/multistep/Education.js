@@ -97,7 +97,11 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,id}) => {
           setnotify({message:'',isOpen:false,type:''})
         },1600)
         setSaved(true);
-        SaveThis({...EduDetails1,saved:true})
+        SaveThis((prev)=>{
+          return {...prev,saved:true};
+        })
+        // console.log('EduDetails.saved',EduDetails1.saved);
+
       }
     }
 
@@ -111,7 +115,7 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,id}) => {
         label="School/College/University"
         variant="outlined"
         name="school"
-        disabled={saved}
+        disabled={EduDetails1.saved||saved}
         value={EduDetails1.school}
         onChange={ChangeHandler}
       />
@@ -121,7 +125,7 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,id}) => {
         label="Degree"
         variant="outlined"
         name="degree"
-        disabled={saved}
+        disabled={EduDetails1.saved||saved}
         value={EduDetails1.degree}
         onChange={ChangeHandler}
       />
@@ -130,7 +134,7 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,id}) => {
         size="small"
         label="Specialization"
         variant="outlined"
-        disabled={saved}
+        disabled={EduDetails1.saved||saved}
         name="specialization"
         value={EduDetails1.specialization}
         onChange={ChangeHandler}
@@ -140,7 +144,7 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,id}) => {
         size="small"
         label="Location"
         variant="outlined"
-        disabled={saved}
+        disabled={EduDetails1.saved||saved}
         name="location"
         value={EduDetails1.location}
         onChange={ChangeHandler}
@@ -155,7 +159,7 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,id}) => {
           variant="outlined"
           size="small"
           name="startDate"
-          disabled={saved}
+          disabled={EduDetails1.saved||saved}
           value={EduDetails1.startDate}
           onChange={ChangeHandler}
         />
@@ -168,14 +172,14 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,id}) => {
           variant="outlined"
           size="small"
           name="endDate"
-          disabled={saved}
+          disabled={EduDetails1.saved||saved}
           value={EduDetails1.endDate}
           onChange={ChangeHandler}
         />
       </div>
       <div className={`edu_footer my-2 d-flex ${!isFirst?'justify-content-between':'justify-content-end'}`}>
         {
-          saved ?
+          (EduDetails1.saved||saved) ?
           <div
             style={{ cursor:'disabled' ,visibility:'hidden' }}
             onClick={RemoveThis}
@@ -193,8 +197,8 @@ const EducationFields = ({EduDetails,SaveThis,RemoveThis,isFirst,id}) => {
           </div>
         }
         <div className="save__edu__btn" onClick={saveClicked}>
-          {saved===false?<><FaCheckCircle style={{ fontSize: 20,color:'#00c600', marginTop:'-5px',cursor:'pointer'}}  /><p>Save</p></>
-          :(saved===true&&<p style={{transition:'all .3s',fontSize:14}}>Data Saved</p>)
+          {!(EduDetails1.saved||saved)?<><FaCheckCircle style={{ fontSize: 20,color:'#00c600', marginTop:'-5px',cursor:'pointer'}}  /><p>Save</p></>
+          :(<p style={{transition:'all .3s',fontSize:14}}>Data Saved</p>)
           }
         </div>
       </div>
@@ -248,7 +252,7 @@ export const Education = ({ navigation,setEduDetails,EduDetails }) => {
   function isEmpty(){ 
     let flag = false;
     EduDetails.map(obj=>{
-      console.log(obj);
+      // console.log(obj);
       if(obj.saved==false){
         flag = true;
       }

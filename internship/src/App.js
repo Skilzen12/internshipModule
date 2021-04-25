@@ -35,11 +35,13 @@ function App() {
       await dispatch(isAdminLogged());
     }
     if(window.localStorage.getItem('accessToken')){
-      await dispatch(getUserData());
+      await dispatch(getUserData('In App.js'));
     }
   },[])
-
+  // console.log('App route',user);
   return (
+    <>
+    {
     <div className="App">
       <Router>
         <Switch>
@@ -61,6 +63,9 @@ function App() {
         </Switch>
       </Router>
     </div>
+    
+    }
+    </>
   );
 }
 

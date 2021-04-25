@@ -37,14 +37,14 @@ function FeaturedCards({data}) {
             return (CurrentDate - PostedDate) + 30*(CurrentMonth - PostedMonth);
           }
         }
-
+        // console.log('featured.company.name',featured.company.name);
         return (
         <div className="rounded2 col-md-5">
           <div className="col-md-12">
             <div className="media" style={{flexDirection: 'column', }}>
               <div className="square-72 d-block mr-3">
                 {featured.company.logo.link ? (
-                  <img src={LogoMap.get(featured.company.name).url} className="companyLogo__featuredCards" alt="" />
+                  <img src={LogoMap.get(featured.company.name)?.url} className="companyLogo__featuredCards" alt="" />
                 ) : <HiUserGroup style={{fontSize: 40}} /> }
               </div>
               <div className="roww">

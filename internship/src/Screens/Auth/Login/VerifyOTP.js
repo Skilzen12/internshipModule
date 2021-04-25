@@ -19,7 +19,23 @@ const useStyles = makeStyles((theme) => ({
       marginBottom:'20px',
       cursor:'pointer'
     }
-  }
+  },
+  for_verify_helpertext:{
+    display:"flex",
+    flexDirection:"column",
+
+  },
+  for_resend:{
+      color:" #ec1f28 !important",
+      textDecoration:"underline !important",
+      fontSize:'12px',
+      marginTop:'2px'
+  },
+  for_ht:{
+    fontSize:'12px',
+    marginTop:'2px',
+    lineHeight:'20px'
+  },
 }));
 
 const SubmitOTP = (phone, email) => {
@@ -101,22 +117,34 @@ const VerifyOTP = () => {
                 
                 <form className={classes.rootSetProfile} noValidate autoComplete="off">
                 <p>Email ID Verification</p>
-
-                <TextField label="Verfication code" value={emailVerification} onChange={(e) => setEmailVerification(e.target.value)} id="email__verification" variant="outlined" size="small" style={{width:'70%'}} helperText={emailVerificationHelperText?"OTP has been Sent to your Email":""} />
+                <div className='d-flex justify-content-between'>
+                <TextField label="Verfication code" value={emailVerification} onChange={(e) => setEmailVerification(e.target.value)} id="email__verification" variant="outlined" size="small" style={{width:'70%'}}/>
                 {emailVerificationHelperText ? (
-                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}} onClick={()=>{VerifyEmail(emailVerification, setoutputM, setEmailHelperText)}} >Verify</Button>
+                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',minWidth:100,padding:'6.5px 15px'}}  disabled={outputEmail} onClick={()=>{VerifyEmail(emailVerification, setoutputM, setEmailHelperText)}} >{outputEmail?'Verified':'Verify'}</Button>
                 ) :
-                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}} onClick={()=>{setEmailHelperText(true); SendEmailOTP()}} >Send OTP</Button>
+                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',minWidth:100,padding:'6.5px 15px'}} onClick={()=>{setEmailHelperText(true); SendEmailOTP()}} >Send OTP</Button>
+                }
+                </div>
+                {
+                  (emailVerificationHelperText&&!outputEmail)
+                    ? <div className={classes.for_ht}>{"OTP has been sent to your email address."}{" Didn't receive?  "}<a className={classes.for_resend} onClick={()=>{setEmailHelperText(true); SendEmailOTP()}} >resend OTP</a></div>
+                    : ""
                 }
                 <br/><br/>
                 
                 <p>Phone No Verification</p>
-                
-                <TextField label="Verfication code" value={phoneVerification} onChange={(e) => setPhoneVerification(e.target.value)} id="phone__verification" variant="outlined" size="small" style={{width:'70%'}} helperText={phoneVerificationHelperText?"OTP has been Sent to your Phone":""}/>
+                <div className='d-flex justify-content-between'>
+                <TextField label="Verfication code" value={phoneVerification} onChange={(e) => setPhoneVerification(e.target.value)} id="phone__verification" variant="outlined" size="small" style={{width:'70%'}} />
                 {phoneVerificationHelperText ? (
-                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}} onClick={()=>{VerifyPhone(phoneVerification, setoutputP, setPhoneHelperText)}} >Verify</Button>
+                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',minWidth:100,padding:'6.5px 15px'}} disabled={outputPhone} onClick={()=>{VerifyPhone(phoneVerification, setoutputP, setPhoneHelperText)}} >{outputPhone?'Verified':'Verify'}</Button>
                 ) : 
-                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',padding:'6.5px 15px'}}  onClick={()=>{setPhoneHelperText(true); SendPhoneOTP();}} >Send OTP</Button>
+                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',minWidth:100,padding:'6.5px 15px'}}  onClick={()=>{setPhoneHelperText(true); SendPhoneOTP();}} >Send OTP</Button>
+                }
+                </div>
+                {
+                  (phoneVerificationHelperText&&!outputPhone)
+                    ? <div className={classes.for_ht}>{"OTP has been sent to your Phone Number."}{" Didn't receive?  "}<a className={classes.for_resend} onClick={()=>{setPhoneHelperText(true); SendPhoneOTP();}} >resend OTP</a></div>
+                    : ""
                 }
                 <div className="signup__footer mt-3 d-flex justify-content-end">
                     <button className="apply_btn card_btn" onClick={(e) =>{e.preventDefault(); SubmitOTP(outputPhone, outputEmail)}}>

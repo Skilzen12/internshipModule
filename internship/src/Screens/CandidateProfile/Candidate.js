@@ -28,8 +28,10 @@ function Candidate() {
               src="https://i.pinimg.com/736x/92/3a/6f/923a6f02844215b0ab6393783f8090ec.jpg"
               alt="DP"
             />
-            <h3 className="candidate__name">{user.first_name} {" "} {user.last_name}</h3>
-            <p className="candidate__role">{user.title}</p>
+            <h3 className="candidate__name">
+              {user.first_name ? user.first_name + ' ' + user.last_name : 'ABC XYZ'}
+            </h3>
+            <p className="candidate__role">{user.title ? user.title : 'ASWERDSE'}</p>
             <div className="icon-link d-flex align-items-center justify-content-center my-3 flex-wrap">
               <a href="#">
                 <i className="fab fa-linkedin-in"></i>

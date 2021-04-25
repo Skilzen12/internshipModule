@@ -18,8 +18,6 @@ function Candidate() {
     setActiveSection(e.target.innerText);
   };
 
-  console.log(user)
-
   return (
     <>
     <Header />
@@ -66,6 +64,7 @@ function Candidate() {
         </div>
         <div className="candidate__content__container">
           <div className="internship__content__card candidate__content">
+          {user.recruits_for ? null : (
             <div className={"candidate__navBar"}>
               <p
                 className={`candidate__nav ${
@@ -92,6 +91,7 @@ function Candidate() {
                 Applied Internships
               </p>
             </div>
+          )}            
             {activeSection === "Overview" && (
               <>
                 <div className="candidate__about">

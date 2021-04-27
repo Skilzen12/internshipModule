@@ -172,10 +172,10 @@ export const Basic_dropdown = ({placeHolder,options})=>{
 
 
 
-export const ThemeDropdown =({placeHolder,options,Icon,setOptionCB})=>{
+export const ThemeDropdown =({placeHolder,options,Icon,setOptionCB,defaultValue})=>{
   const dropdownRef = useRef(null);
   const [drpdwnState,setdrpdwnState]=useDetectOutsideClick(dropdownRef, false);
-  const [value,setValue]=useState("");
+  const [value,setValue]=useState(options.includes(defaultValue)?defaultValue:"");
   const [id,setId] =useState(0);
 
   if(placeHolder===undefined)placeHolder='Placeholder...';

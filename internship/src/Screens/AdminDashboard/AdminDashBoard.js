@@ -2,12 +2,20 @@ import React, { useState, useEffect } from "react";
 import "../Dashboard/DashboardMain.css";
 import Header from "../../Components/Header/Updated_Header";
 import SearchIcon from "@material-ui/icons/Search";
+import {ThemeDropdown} from '../../Pallete_components/Dropdown/Dropdown'; 
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import CountUp from "react-countup";
+import Team from '../../Components/TeamMembersCard/team_members';
 import logo from "../../images/logo-main-black.png";
+import { BsInfoCircleFill } from "react-icons/bs";
+import { RiTeamFill } from "react-icons/ri";
+import {TextField} from '@material-ui/core';
+import { AiFillCloseCircle } from "react-icons/ai";
+import validator from 'validator';
+import Notification from '../Auth/Notification.js';
 import {
   AiFillEye,
   AiFillMessage,
@@ -26,17 +34,22 @@ import { HiDocumentDownload } from "react-icons/hi";
 import { useHistory } from "react-router";
 import { CgCloseO } from "react-icons/cg";
 import AdminService from "../../AdminServices/AdminService";
-
+import PopupAuth from "./ActionAuth";
+import pr1 from '../../images/Landing2/gallery-img17.jpg';
+import pr2 from '../../images/Landing2/gallery-img3.jpg';
+import pr3 from '../../images/Landing2/gallery-img16.jpg';
+import pr4 from '../../images/Landing2/gallery-img24.jpg';
 const navCollection = [
   { name: "Dashboard", icon: RiLayout4Fill },
   { name: "Companies", icon: BiBuildings },
   { name: "Internships", icon: AiOutlineFileText },
   { name: "Spam", icon: CgCloseO },
-  { name: "KYC", icon: IoFingerPrint}
+  { name: "KYC", icon: IoFingerPrint},
+  { name: "Teams", icon: RiTeamFill}
+
 ];
 
 const options = ["On Hold", "Spam", "Delete"];
-
 const CardCollection = [
   {
     name: "No.of Companies",
@@ -150,21 +163,16 @@ const DashboardCard = ({
 };
 
 const CompaniesData=[
-  {
-    compName:'Manson Software',
-    compImage:'https://images-na.ssl-images-amazon.com/images/I/21wkQvrB5xL.png',
-    primaryContact:'Ashish',
-    status:'Active',
-    registeredOn:'01/04/2021',
-    activeInternshipsCount:'20'
-  },
+  
   {
     compName:'Big-Basket',
     compImage:'https://www.pinclipart.com/picdir/big/99-991436_prev-big-basket-logo-png-clipart.png',
     primaryContact:'Dexter',
-    status:'Deactive',
+    status:'Inactive',
     registeredOn:'01/04/2021',
-    activeInternshipsCount:'40'
+    activeInternshipsCount:'40',
+    no_of_applications:'50',
+
   },
   {
     compName:'Urban-Ladder',
@@ -172,23 +180,29 @@ const CompaniesData=[
     primaryContact:'Berlin',
     status:'Active',
     registeredOn:'21/02/2021',
-    activeInternshipsCount:'100'
+    activeInternshipsCount:'20',
+    no_of_applications:'40',
+
   },
   {
     compName:'BookMyShow',
     compImage:'https://img.favpng.com/14/7/14/bookmyshow-office-android-ticket-png-favpng-Ln9Hiu0AbwHTrfiCgNDa4h6ur_t.jpg',
     primaryContact:'Raghav',
-    status:'Active',
+    status:'Inactive',
     registeredOn:'10/02/2021',
-    activeInternshipsCount:'10'
+    activeInternshipsCount:'10',
+    no_of_applications:'15',
+
   },
   {
     compName:'Manson Software',
     compImage:'https://images-na.ssl-images-amazon.com/images/I/21wkQvrB5xL.png',
     primaryContact:'Vipin',
-    status:'Deactive',
+    status:'On hold',
     registeredOn:'01/04/2021',
-    activeInternshipsCount:'20'
+    activeInternshipsCount:'20',
+    no_of_applications:'30',
+
   },
   {
     compName:'BookMyShow',
@@ -196,101 +210,99 @@ const CompaniesData=[
     primaryContact:'Srinivas',
     status:'Active',
     registeredOn:'10/02/2021',
-    activeInternshipsCount:'20'
+    activeInternshipsCount:'20',
+    no_of_applications:'30',
+
   },
-  {
-    compName:'BookMyShow',
-    compImage:'https://img.favpng.com/14/7/14/bookmyshow-office-android-ticket-png-favpng-Ln9Hiu0AbwHTrfiCgNDa4h6ur_t.jpg',
-    primaryContact:'Ashish',
-    status:'Deactive',
-    registeredOn:'10/02/2021',
-    activeInternshipsCount:'20'
-  },
-  {
-    compName:'BookMyShow',
-    compImage:'https://img.favpng.com/14/7/14/bookmyshow-office-android-ticket-png-favpng-Ln9Hiu0AbwHTrfiCgNDa4h6ur_t.jpg',
-    primaryContact:'Michael',
-    status:'Active',
-    registeredOn:'10/02/2021',
-    activeInternshipsCount:'20'
-  }
+  
+  
 ]
 
 const internshipsData=[
   {
     compName:'Manson Software',
-    compImage:'https://images-na.ssl-images-amazon.com/images/I/21wkQvrB5xL.png',
     title:'Software Manager',
+    status:'Expired',
     category:'Programming',
     postedOn:'01/04/2021',
-    applicantsCount:'20'
+    expiryDate:'21/04/2021',
+    applicantsCount:'20',
+    info_link:'#'
   },
   {
     compName:'Big-Basket',
-    compImage:'https://www.pinclipart.com/picdir/big/99-991436_prev-big-basket-logo-png-clipart.png',
     title:'Software Developer',
+    status:'Not Expired',
     category:'Programming',
     postedOn:'01/04/2021',
-    applicantsCount:'40'
+    expiryDate:'01/05/2021',
+    applicantsCount:'40',
+    info_link:'#'
   },
   {
     compName:'Urban-Ladder',
-    compImage:'https://www.shopickr.com/wp-content/uploads/2018/04/urbanladder.png?v=200',
     title:'Sales Lead',
+    status:'On Hold',
     category:'Marketing',
     postedOn:'21/02/2021',
-    applicantsCount:'100'
+    expiryDate:'21/03/2021',
+    applicantsCount:'100',
+    info_link:'#'
   },
   {
     compName:'BookMyShow',
-    compImage:'https://img.favpng.com/14/7/14/bookmyshow-office-android-ticket-png-favpng-Ln9Hiu0AbwHTrfiCgNDa4h6ur_t.jpg',
     title:'Marketing Manager',
+    status:'Not Expired',
     category:'Marketing',
     postedOn:'10/02/2021',
-    applicantsCount:'10'
+    expiryDate:'10/03/2021',
+    applicantsCount:'10',
+    info_link:'#'
   },
   {
     compName:'Manson Software',
-    compImage:'https://images-na.ssl-images-amazon.com/images/I/21wkQvrB5xL.png',
     title:'Software Manager',
+    status:'Expired',
     category:'Programming',
     postedOn:'01/04/2021',
-    applicantsCount:'20'
+    expiryDate:'01/05/2021',
+    applicantsCount:'20',
+    info_link:'#'
   },
   {
     compName:'BookMyShow',
-    compImage:'https://img.favpng.com/14/7/14/bookmyshow-office-android-ticket-png-favpng-Ln9Hiu0AbwHTrfiCgNDa4h6ur_t.jpg',
     title:'Marketing Manager',
+    status:'On Hold',
     category:'Marketing',
     postedOn:'10/02/2021',
-    applicantsCount:'20'
+    expiryDate:'10/04/2021',
+    applicantsCount:'20',
+    info_link:'#'
   },
   {
     compName:'BookMyShow',
-    compImage:'https://img.favpng.com/14/7/14/bookmyshow-office-android-ticket-png-favpng-Ln9Hiu0AbwHTrfiCgNDa4h6ur_t.jpg',
     title:'Marketing Manager',
+    status:'Expired',
     category:'Marketing',
     postedOn:'10/02/2021',
-    applicantsCount:'20'
+    expiryDate:'10/03/2021',
+    applicantsCount:'20',
+    info_link:'#'
   },
   {
     compName:'BookMyShow',
-    compImage:'https://img.favpng.com/14/7/14/bookmyshow-office-android-ticket-png-favpng-Ln9Hiu0AbwHTrfiCgNDa4h6ur_t.jpg',
     title:'Marketing Manager',
+    status:'Not Expired',
     category:'Marketing',
     postedOn:'10/02/2021',
-    applicantsCount:'20'
+    expiryDate:'10/03/2021',
+    applicantsCount:'20',
+    info_link:'#'
   }
 ]
 
 const SpamData1=[
-  {
-    compName:'Manson Software',
-    compImage:'https://images-na.ssl-images-amazon.com/images/I/21wkQvrB5xL.png',
-    no_ofActiveInterns:'5',
-    no_ofSpamReports:'2',
-    recentSpamDate:'10/03/2021'
-  },
+  
   {
     compName:'Big-Basket',
     compImage:'https://www.pinclipart.com/picdir/big/99-991436_prev-big-basket-logo-png-clipart.png',
@@ -312,6 +324,13 @@ const SpamData1=[
     no_ofSpamReports:'0',
     recentSpamDate:'21/01/2021'
     },
+    {
+      compName:'Manson Software',
+      compImage:'https://images-na.ssl-images-amazon.com/images/I/21wkQvrB5xL.png',
+      no_ofActiveInterns:'5',
+      no_ofSpamReports:'2',
+      recentSpamDate:'10/03/2021'
+    }
   
 ]
 
@@ -500,16 +519,24 @@ const KycData=[
    }
 ]
 
-const InternshipColumnOrder=['Company','Title','Posted On','Category','No. of Applicants'];
+
+const InternshipColumnOrder=['Company','Title','Status','Posted On','Expiry date','Category','No. of Applicants','Informaion'];
 const SpamColumnOrder = ['Company','Title','Category','Posted by','Posted on','Reported by','Date of Reported'];
 const Spam1ColumnOrder=['Company','Total interns active','Total spam reports','Recent spam report date'];
 const KycColumnOrder = ['Company','Person','Email','Phone','Profile link','Document'];
 
 const KycRow = ({kyc,action,even}) => {
   const {status,setStatus}=kyc;
-
+  const [pop,setPop]=useState(false);
+  
+  const history=useHistory();
+  const changePage=()=>{
+    
+    history.push('/')
+  }
   
   return(
+    <>
       <tr  style={{backgroundColor: even ? '#F4F5F8' : '#FFFFFF', border: '1px solid #E5E5E5'}}>
           <td  className="jobsPosted__row">
               <Checkbox/>
@@ -555,17 +582,23 @@ const KycRow = ({kyc,action,even}) => {
           </td>
             {
               <>
-                  <td className="jobsPosted__row" onClick={() =>{} }>
-                      <h3 className="jobsPostedtable_cell edit">
+              {/* onClick={()=> (setPop(true), console.log(moveNext),()=>(moveNext===true?history.push('/companyspam'):null ))} */}
+                  <td className="jobsPosted__row" >
+                    
+                      
+                      <h3 className="jobsPostedtable_cell edit" onClick={
+                          ()=> (setPop(true))
+                        }>
                           Accept
                       </h3>
+                  
                   </td>
-                  <td className="jobsPosted__row" onClick={() =>{} }>
+                  <td className="jobsPosted__row" onClick={()=> (setPop(true) )}>
                       <h3 className="jobsPostedtable_cell shortlist">
                           Hold
                       </h3>
                   </td>
-                  <td className="jobsPosted__row" onClick={() =>{} }>
+                  <td className="jobsPosted__row" onClick={()=> (setPop(true) )}>
                       <h3 className="jobsPostedtable_cell deactivate">
                           Reject
                       </h3>
@@ -573,6 +606,14 @@ const KycRow = ({kyc,action,even}) => {
               </>
             }
       </tr>
+      <PopupAuth
+      openPopup={pop}
+      setPop={setPop}
+      setnext={()=>(changePage())}
+      >
+      </PopupAuth>
+    
+    </>
   );
 }
 
@@ -582,9 +623,6 @@ const SpamRow1 = ({spam1,action,even}) => {
   
   return(
       <tr  style={{backgroundColor: even ? '#F4F5F8' : '#FFFFFF', border: '1px solid #E5E5E5'}}>
-          <td  className="jobsPosted__row">
-              <Checkbox/>
-          </td>
           <td className="jobsPosted__row applicationsUser p20 mv200 cursor__pointer" onClick={()=>history.push('/companyspam')}>
               <img src={spam1.compImage} className="applicantUser__image" alt="user_image" />
               <h3 className="jobsPostedtable_cell ">
@@ -606,26 +644,6 @@ const SpamRow1 = ({spam1,action,even}) => {
                   {spam1.recentSpamDate}
               </h3>
           </td>
-          
-            {
-              <>
-                  <td className="jobsPosted__row" onClick={() =>{} }>
-                      <h3 className="jobsPostedtable_cell edit">
-                          View
-                      </h3>
-                  </td>
-                  <td className="jobsPosted__row" onClick={() =>{} }>
-                      <h3 className="jobsPostedtable_cell shortlist">
-                          On Hold
-                      </h3>
-                  </td>
-                  <td className="jobsPosted__row" onClick={() =>{} }>
-                      <h3 className="jobsPostedtable_cell deactivate">
-                          Delete
-                      </h3>
-                  </td>
-              </>
-            }
       </tr>
   );
 }
@@ -706,7 +724,6 @@ const InternshipRow = ({internship,action,even}) => {
               <Checkbox/>
           </td>
           <td className="jobsPosted__row applicationsUser p20 mv200">
-              <img src={internship.compImage} className="applicantUser__image" alt="user_image" />
               <h3 className="jobsPostedtable_cell ">
                   {internship.compName}
               </h3>
@@ -717,8 +734,18 @@ const InternshipRow = ({internship,action,even}) => {
               </h3>
           </td>
           <td  className="jobsPosted__row">
-              <h3 className="jobsPostedtable_cell ">
+              <h3 className="jobsPostedtable_cell mv150">
+                  {internship.status}
+              </h3>
+          </td>
+          <td  className="jobsPosted__row">
+              <h3 className="jobsPostedtable_cell mv150 ">
                   {internship.postedOn}
+              </h3>
+          </td>
+          <td  className="jobsPosted__row">
+              <h3 className="jobsPostedtable_cell mv150 ">
+                  {internship.expiryDate}
               </h3>
           </td>
           <td  className="jobsPosted__row">
@@ -731,25 +758,11 @@ const InternshipRow = ({internship,action,even}) => {
                   {internship.applicantsCount}
               </h3>
           </td>
-            {
-              <>
-                  <td className="jobsPosted__row" onClick={() =>{} }>
-                      <h3 className="jobsPostedtable_cell edit">
-                          View
-                      </h3>
-                  </td>
-                  <td className="jobsPosted__row" onClick={() =>{} }>
-                      <h3 className="jobsPostedtable_cell deactivate">
-                          Delete
-                      </h3>
-                  </td>
-                  <td className="jobsPosted__row" onClick={() =>{} }>
-                      <h3 className="jobsPostedtable_cell shortlist">
-                          Spam
-                      </h3>
-                  </td>
-              </>
-            }
+          <td  className="jobsPosted__row">
+              <h3 className="jobsPostedtable_cell ">
+                <a href={internship.info_link} className="for_info_icon"><BsInfoCircleFill/></a>
+              </h3>
+          </td>
       </tr>
   );
 }
@@ -812,10 +825,9 @@ sortHandler.column='name'
 
 const Internships = () => {
   const [action, setAction] = useState('all');
-  const tags=[{name:"all",color:'black'},{name: "active", color: 'rgba(45,132,90,1)'}, {name: "inactive", color: 'rgba(211,46,46,1)'}]
+  const tags=[{name:"all",color:'black'},{name: "not expired", color: 'rgba(45,132,90,1)'}, {name: "expired", color: 'rgba(211,46,46,1)'}]
 
   const [search,setSearch]=useState('');
-
   const [internships,setInternships]= useState([...internshipsData]);
 
   
@@ -827,32 +839,38 @@ const Internships = () => {
                   <p className="dashboard__jobsPostedheading">
                       Internships ({internships.length})
                   </p>
-                  <div
-                    className="searchbar__landing2"
-                    style={{
-                      maxWidth: "100%",
-                      width: "30%",
-                      minWidth:'320px',
-                      backgroundColor: "#fff",
-                    }}
-                  >
-                    <SearchIcon />
-                    <input
-                      type="text"
-                      class="form-control focus-input"
-                      placeholder="Type company name to search"
-                      onChange={(e) => setSearch(e.target.value)}
-                    />
-                  </div>
+
+                      <div
+                        className="searchbar__landing2"
+                        style={{
+                          maxWidth: "100%",
+                          width: "30%",
+                          minWidth:'320px',
+                          backgroundColor: "#fff",
+                        }}
+                      >
+                        <SearchIcon />
+                        <input
+                          type="text"
+                          class="form-control focus-input"
+                          placeholder="Type company name to search"
+                          onChange={(e) => setSearch(e.target.value)}
+                        />
+                      </div>
                   
               </div>
-              <div className="dashboard__jobstags">
+              <div className="for_search_dd">
+                  <div className="dashboard__jobstags">
                       {tags.map(tag => (
                           <div className="dashboard__jobsPostedTag" onClick={() => setAction(tag.name) } style={{color: tag.color}}>
-                              {tag.name}
+                            {tag.name}
                           </div>
                       ))}
                   </div>
+                  <div className='for_dropdown_intern'>
+                    <ThemeDropdown style={{margin:'10px'}} options={['On Hold','Not On Hold']} placeHolder={'select'} defaultValue="Not On Hold"></ThemeDropdown>     
+                  </div>
+              </div>  
 
           </div>
           <div className="dashboard__jobsPostedTaable">
@@ -866,7 +884,6 @@ const Internships = () => {
                               {InternshipColumnOrder.map(head => (
                                   <th className="jobsPosted__tableHead jobsPosted__row" onClick={()=>sortHandler(head,internships,setInternships)}>{head}&nbsp;{sortHandler.column===head?(sortHandler.isAscending?<BiCaretUp />:<BiCaretDown />):''}</th>
                               ))}
-                              <th className="jobsPosted__tableHead jobsPosted__row" style={{textAlign: 'center'}} colSpan={3}>Actions</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -962,20 +979,7 @@ const Spam = () => {
 
   return (
       <div className="dashboard__jobsPosted">
-          <div className="dashboard__jobsPostedHeader flex-column align-items-stretch">
-              {/* <div className="dashboard__jobsTags">
-                  <p className="dashboard__jobsPostedheading">
-                      Applicants (12)
-                  </p>
-                  <div className="dashboard__jobstags">
-                      {tags.map(tag => (
-                          <div className="dashboard__jobsPostedTag" onClick={() => setAction(tag.name) } style={{color: tag.color}}>
-                              {tag.name}
-                          </div>
-                      ))}
-                  </div>
-              </div> */}
-          {/* <h1 className="ml-4">Spams</h1> */}
+          <div className="dashboard__jobsPostedHeader flex-column align-items-stretch">              
           <div className="dashboard__jobsTags justify-content-between mb-2">
                   <h1 className="dashboard__jobsPostedheading">
                       Spam                      
@@ -1004,28 +1008,12 @@ const Spam = () => {
                   <table className="JobsPosted__table">
                       <thead>
                           <tr>
-                              <th className="jobsPosted__tableHead jobsPosted__row" style={{textAlign: 'center'}} >
-                                <Checkbox />
-                              </th>
-                              {/* {SpamColumnOrder.map(head => (
-                                  <th className="jobsPosted__tableHead jobsPosted__row" onClick={()=>sortHandler(head)}>{head}</th>
-                              ))} 
-                              <th className="jobsPosted__tableHead jobsPosted__row" style={{textAlign: 'center'}} colSpan={2}>Actions</th>
-                              */}
                               {Spam1ColumnOrder.map(head => (
                                   <th className="jobsPosted__tableHead jobsPosted__row" onClick={()=>sortHandler(head)}>{head}</th>
                               ))}
-                              <th className="jobsPosted__tableHead jobsPosted__row" style={{textAlign: 'center'}} colSpan={3}>Actions</th>
                           </tr>
                       </thead>
                       <tbody>
-                          {/* {spam.map((spam,_id) => (
-                              
-                                (action==='all'||action===spam.status)?
-                                <SpamRow spam={spam} action={action} even={_id%2?false:true} />
-                                :null
-                              )
-                          )} */}
                           {spam1.map((spam1,_id) => (
                               
                               (action==='all'||action===spam.status)?
@@ -1048,6 +1036,9 @@ const KYC = () => {
   const tags=[{name:"all",color:'black'},{name: "active", color: 'rgba(45,132,90,1)'}, {name: "inactive", color: 'rgba(211,46,46,1)'}, {name: 'expiring soon', color: 'orange'},{name: 'expiring soon', color: 'orange'}]
 
   const [kyc,setKyc]= useState(KycData);
+  
+  const history=useHistory();
+
 
   const sortHandler = (column)=>{
     if(sortHandler.isAscending===undefined){
@@ -1127,6 +1118,9 @@ const KYC = () => {
                   <h1 className="dashboard__jobsPostedheading">
                       KYC
                   </h1>
+                  <div>
+
+                  </div>
                   <div
                     className="searchbar__landing2"
                     style={{
@@ -1172,10 +1166,342 @@ const KYC = () => {
                   </table>
               </div>
           </div>
+         
       </div>
   );
 }
 
+const TeamsTab =()=>{
+  const [managerInputs,setManagerInputs]=useState(false);
+  const [adminInputs,setAdminInputs]=useState(false);
+  const [userInputs,setUserInputs]=useState(false);
+  const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
+  const [popManagerAuth,setPopManagerAuth]=useState(false);
+  const [popUserAuth,setPopUserAuth]=useState(false);
+  const [popAdminAuth,setPopAdminAuth]=useState(false);
+
+
+
+  const[admin,setAdmin]=useState([
+    {
+      name:"Skilzen",
+      userID:"8541256",
+      email:"ajay@gmail.com",
+      username:"skilzen_123",
+      contact:"9945621375",
+      img:logo
+    }
+  ])
+  const[managers,setManagers]=useState( [
+    {
+      name:"Richerd Peter",
+      userID:"1235987",
+      email:"richerdpeter@gmail.com",
+      username:"Richerd_Peter",
+      contact:"7989390131",
+      img:pr1
+     },
+     {
+      name:"James Robert",
+      userID:"1478523",
+      email:"jamesrobert@gmail.com",
+      username:"James Robert",
+      contact:"9569871235",
+      img:pr2
+     },
+     {
+      name:"Ben Thomas",
+      userID:"6547291",
+      email:"benthomas@gmail.com",
+      username:"Bent_Thomas",
+      contact:"9852446317",
+      img:pr3
+     },
+     {
+      name:"Steve",
+      userID:"5214638",
+      email:"steve@gmail.com",
+      username:"Steve",
+      contact:"9569871235",
+      img:pr4
+     }
+  ])
+  const [users,setUsers]=useState([
+    {
+      name:"Richie",
+      userID:"1235987",
+      email:"richerdpeter@gmail.com",
+      username:"Richerd_Peter",
+      contact:"7989390131",
+      img:pr3
+     },
+     {
+      name:"Reena",
+      userID:"1478523",
+      email:"jamesrobert@gmail.com",
+      username:"James Robert",
+      contact:"9569871235",
+      img:pr4
+     },
+     {
+      name:"Simon",
+      userID:"6547291",
+      email:"benthomas@gmail.com",
+      username:"Bent_Thomas",
+      contact:"9852446317",
+      img:pr1
+     },
+     {
+      name:"Nancy",
+      userID:"5214638",
+      email:"steve@gmail.com",
+      username:"Steve",
+      contact:"9569871235",
+      img:pr2
+     }
+  ])
+
+
+const [newdata,setNewdata]=useState({
+      name:"",
+      userID:"",
+      email:"",
+      username:"",
+      contact:"",
+      img:pr1
+  })
+
+const adminUpdate=()=>{
+    setAdmin([...admin,{...newdata}]);
+    setNewdata({
+      name:"",
+      userID:"",
+      email:"",
+      username:"",
+      contact:"",
+      img:pr1
+    })
+  }
+
+const managerUpdate=()=>{
+    setManagers([...managers,{...newdata}]);
+    setNewdata({
+      name:"",
+      userID:"",
+      email:"",
+      username:"",
+      contact:"",
+      img:pr1
+    })
+  }
+
+const userUpdate=()=>{
+    setUsers([...users,{...newdata}]);
+    setNewdata({
+      name:"",
+      userID:"",
+      email:"",
+      username:"",
+      contact:"",
+      img:pr1
+    })
+  }
+
+const changehandler =e=>{
+  const  target = e.target
+  const name = target.name
+  const value = target.value
+  {
+    setNewdata({
+          ...newdata,
+          [name] : value
+      })
+  }
+  
+}
+  return(
+    <>
+    <div className="team_container">
+      <h1 className="dashboard__jobsPostedheading mb-5">
+          TEAMS
+      </h1>
+      <div className="for_team_div">
+        <p className="team_members_heading in_team_head">Admin :</p>
+        <Team membersData={admin} setPop={setAdminInputs}/>
+        {
+        
+        adminInputs===true?(
+              <div className="for_pop_width">
+                  <div className="for_dialog_close">
+                    <button className="for_btn_cls" onClick={()=>{setAdminInputs(false)}}>
+                        <AiFillCloseCircle className="for_icon_close"/>
+                    </button>
+                  </div>
+                  <form>
+                  <div style={{display:"flex",flexDirection:"column"}}>
+                      <TextField id="outlined-basic" label="Name" name="name" variant="outlined" onChange={changehandler} className="for_fields"/>
+                      <TextField id="outlined-basic" label="User ID" name="userID" variant="outlined" onChange={changehandler} className="for_fields"/>
+                      <TextField id="outlined-basic" label="Email" name="email" variant="outlined"  onChange={changehandler} className="for_fields"/>
+                      <TextField id="outlined-basic" label="Username"  name="username" variant="outlined" onChange={changehandler} className="for_fields"/>
+                      <TextField id="outlined-basic" label="Phone number" name="contact" variant="outlined" type="number"  onChange={changehandler} className="for_fields"/>
+                  </div>
+                </form>
+                <div className="for_submit_member">
+                    <button  className="apply_btn card_btn signInBtn "
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if(!validator.isEmail(newdata.email))
+                                {
+                                  setnotify({message:'Wrong Format of Email address!',isOpen:true, type:'correct'});
+                                  setTimeout(()=>{
+                                    setnotify({message:'', isOpen:false, type:''})
+                                  },3000)
+                                }
+                              else
+                                {
+                                  setPopAdminAuth(true);      
+                                }
+                          }   
+                        }
+                    >
+                          Submit
+                    </button>
+                </div>
+                  
+              </div>
+          ):null
+          
+      }
+      </div>
+      <div className="for_team_div">
+        <p className="team_members_heading in_team_head">Managers :</p>
+        <Team membersData={managers} setPop={setManagerInputs}  />
+        <div>
+        {
+        
+          managerInputs===true?(
+                <div className="for_pop_width">
+                    <div className="for_dialog_close">
+                      <button className="for_btn_cls" onClick={()=>{setManagerInputs(false)}}>
+                          <AiFillCloseCircle className="for_icon_close"/>
+                      </button>
+                    </div>
+                    <form>
+                    <div style={{display:"flex",flexDirection:"column"}}>
+                        <TextField id="outlined-basic" label="Name" name="name" variant="outlined" onChange={changehandler} className="for_fields"/>
+                        <TextField id="outlined-basic" label="User ID" name="userID" variant="outlined" onChange={changehandler} className="for_fields"/>
+                        <TextField id="outlined-basic" label="Email" name="email" variant="outlined"  onChange={changehandler} className="for_fields"/>
+                        <TextField id="outlined-basic" label="Username"  name="username" variant="outlined" onChange={changehandler} className="for_fields"/>
+                        <TextField id="outlined-basic" label="Phone number" name="contact" variant="outlined" type="number"  onChange={changehandler} className="for_fields"/>
+                    </div>
+                  </form>
+                  <div className="for_submit_member">
+                      <button  className="apply_btn card_btn signInBtn "
+                              onClick={(e) => {
+                                e.preventDefault();
+                                if(!validator.isEmail(newdata.email))
+                                  {
+                                    setnotify({message:'Wrong Format of Email address!',isOpen:true, type:'error'});
+                                    setTimeout(()=>{
+                                      setnotify({message:'', isOpen:false, type:''})
+                                    },3000)
+                                  }
+                                else
+                                  {
+                                  setPopManagerAuth(true);      
+                                  }
+                            }   
+                          }
+                      >
+                            Submit
+                      </button>
+                  </div>
+                    
+                </div>
+            ):null
+            
+        }
+        </div>
+      </div>
+      <div className="for_team_div">
+        <p className="team_members_heading in_team_head">Users :</p>
+        <Team membersData={users} setPop={setUserInputs}/>
+        <div>
+        {
+        
+        userInputs===true?(
+              <div className="for_pop_width">
+                  <div className="for_dialog_close">
+                    <button className="for_btn_cls" onClick={()=>{setUserInputs(false)}}>
+                        <AiFillCloseCircle className="for_icon_close"/>
+                    </button>
+                  </div>
+                  <form>
+                  <div style={{display:"flex",flexDirection:"column"}}>
+                      <TextField id="outlined-basic" label="Name" name="name" variant="outlined" onChange={changehandler} className="for_fields"/>
+                      <TextField id="outlined-basic" label="User ID" name="userID" variant="outlined" onChange={changehandler} className="for_fields"/>
+                      <TextField id="outlined-basic" label="Email" name="email" variant="outlined"  onChange={changehandler} className="for_fields"/>
+                      <TextField id="outlined-basic" label="Username"  name="username" variant="outlined" onChange={changehandler} className="for_fields"/>
+                      <TextField id="outlined-basic" label="Phone number" name="contact" variant="outlined" type="number"  onChange={changehandler} className="for_fields"/>
+                  </div>
+                </form>
+                <div className="for_submit_member">
+                    <button  className="apply_btn card_btn signInBtn "
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if(!validator.isEmail(newdata.email))
+                                {
+                                  setnotify({message:'Wrong Format of Email address!',isOpen:true, type:""});
+                                  setTimeout(()=>{
+                                    setnotify({message:'', isOpen:false, type:''})
+                                  },3000)
+                                }
+                              else
+                                {
+                                setPopUserAuth(true);      
+                                }
+                          }   
+                        }
+                    >
+                          Submit
+                    </button>
+                </div>
+                  
+              </div>
+          ):null
+          
+      }
+            </div>
+      </div>
+      <PopupAuth
+        openPopup={popManagerAuth}
+        setPop={setPopManagerAuth}
+        setnext={()=>{setPopManagerAuth(false);managerUpdate();setManagerInputs(false)}}
+         >
+      </PopupAuth>
+      <PopupAuth
+        openPopup={popAdminAuth}
+        setPop={setPopAdminAuth}
+        setnext={()=>{setPopAdminAuth(false);adminUpdate();setAdminInputs(false)}}
+         >
+      </PopupAuth>
+      <PopupAuth
+        openPopup={popUserAuth}
+        setPop={setPopUserAuth}
+        setnext={()=>{setPopUserAuth(false);userUpdate();setUserInputs(false)}}
+         >
+      </PopupAuth>
+
+      {
+            notify.isOpen && 
+            <Notification
+              notify={notify}
+            />
+        }
+      </div>    
+    </>
+   )
+}
 
 const Companies = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -1348,9 +1674,7 @@ const CompanyTableRow = ({company,action,even}) => {
   
   return(
       <tr  style={{backgroundColor: even ? '#F4F5F8' : '#FFFFFF', border: '1px solid #E5E5E5'}}>
-          <td  className="jobsPosted__row">
-              <Checkbox/>
-          </td>
+          
           <td className="jobsPosted__row applicationsUser p20 mv200 cursor__pointer" onClick={()=>history.push('/company')}>
               <img src={company.compImage} className="applicantUser__image" alt="user_image" />
               <h3 className="jobsPostedtable_cell m20">
@@ -1359,7 +1683,7 @@ const CompanyTableRow = ({company,action,even}) => {
           </td>
           <td  className="jobsPosted__row">
               <h3 className="jobsPostedtable_cell m20 mv150">
-                  {st===true?"active":"deactive"}
+                  {company.status}
               </h3>
           </td>
           <td  className="jobsPosted__row">
@@ -1377,35 +1701,21 @@ const CompanyTableRow = ({company,action,even}) => {
                   {company.activeInternshipsCount}
               </h3>
           </td>
-            {
-              <>
-                  <td className="jobsPosted__row" onClick={() =>{setSt(true)} }>
-                      <h3 className="jobsPostedtable_cell shortlist">
-                          On Hold
-                      </h3>
-                  </td>
-                  <td className="jobsPosted__row" onClick={() =>{setSt(false)} }>
-                      <h3 className="jobsPostedtable_cell deactivate">
-                          Delete
-                      </h3>
-                  </td>
-                  <td className="jobsPosted__row" onClick={() =>{setSt(false)} }>
-                      <h3 className="jobsPostedtable_cell spam_black ">
-                          Spam
-                      </h3>
-                  </td>
-              </>
-            }
+          <td  className="jobsPosted__row">
+              <h3 className="jobsPostedtable_cell m20">
+                  {company.no_of_applications}
+              </h3>
+          </td>
       </tr>
   );
 }
 
 const CompaniesTable = ()=>{
-  const tags=[{name:"all",color:'black'},{name: "active", color: 'rgba(45,132,90,1)'}, {name: "inactive", color: 'rgba(211,46,46,1)'}, {name: 'expiring soon', color: 'orange'}]
+  const tags=[{name:"all",color:'black'},{name: "active", color: 'rgba(45,132,90,1)'}, {name: "inactive", color: 'rgba(211,46,46,1)'}, {name: 'on hold', color: 'yellow'}]
   const [action, setAction] = useState('all');
   const [search,setSearch]=useState('');
 
-  const CompanyColumnOrder = ['Company','Status','Primary Contact','Registered On','No of Active Internships'];
+  const CompanyColumnOrder = ['Company','Status','Primary Contact','Registered On','No of Active Internships','No Of Applications'];
   
 
   return (
@@ -1447,15 +1757,12 @@ const CompaniesTable = ()=>{
                   <table className="JobsPosted__table">
                       <thead>
                           <tr>
-                              <th className="jobsPosted__tableHead jobsPosted__row" style={{textAlign: 'center'}} >
-                                <Checkbox />
-                              </th>
+                              
                               {CompanyColumnOrder.map(head => (
                                   <th className="jobsPosted__tableHead jobsPosted__row" onClick={()=>{/*sortHandler(head,internships,setInternships)*/}}>{head}&nbsp;
-                                  {/* {sortHandler.column===head?(sortHandler.isAscending?<BiCaretUp />:<BiCaretDown />):''} */}
                                   </th>
                               ))}
-                              <th className="jobsPosted__tableHead jobsPosted__row" style={{textAlign: 'center'}} colSpan={3}>Actions</th>
+                              {/* <th className="jobsPosted__tableHead jobsPosted__row" style={{textAlign: 'center'}} colSpan={3}>Actions</th> */}
                           </tr>
                       </thead>
                       <tbody>
@@ -1556,8 +1863,12 @@ function AdminDashboardMain() {
           <div className="dashboard__content">
             <KYC />
           </div>
-        ) : (
-          <div
+        ) : tab === "Teams" ? (
+          <div className="dashboard__content">
+            <TeamsTab />
+          </div>
+        ): (
+        <div
             className="dashboard__content"
             style={{ boxShadow: "none", border: "none" }}
           >

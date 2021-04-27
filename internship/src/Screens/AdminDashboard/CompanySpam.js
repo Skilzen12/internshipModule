@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import { Checkbox } from "@material-ui/core";
+import PopupAuth from './ActionAuth';
+import { useHistory } from "react-router";
 
 const CompanySpam = () => {
   return (
@@ -14,9 +16,13 @@ export default CompanySpam;
 
 const Spam1ColumnOrder = [
   "Company",
-  "Total interns active",
+  "Title",
   "Total spam reports",
-  "Recent spam report date",
+  "Recruiter name",
+  "Posted on",
+  "Reported by",
+  "Reporter date",
+ 
 ];
 const SpamData = [
   {
@@ -24,51 +30,52 @@ const SpamData = [
     compImage:
       "https://img.favpng.com/14/7/14/bookmyshow-office-android-ticket-png-favpng-Ln9Hiu0AbwHTrfiCgNDa4h6ur_t.jpg",
     title: "Marketing Manager",
-    category: "Marketing",
+    totalSpams:"10",
     postedOn: "10/02/2021",
-    postedBy: "person1",
+    postedBy: "Robert ",
     reportedDate: "11/03/2021",
-    reportedBy: "person2",
+    reportedBy: "Nicolas Cage",
   },
   {
     compName: "BookMyShow",
     compImage:
       "https://img.favpng.com/14/7/14/bookmyshow-office-android-ticket-png-favpng-Ln9Hiu0AbwHTrfiCgNDa4h6ur_t.jpg",
     title: "Software Developer",
-    category: "Programming",
+    totalSpams:"4",
     postedOn: "10/02/2021",
-    postedBy: "person1",
+    postedBy: "Andrew James",
     reportedDate: "11/03/2021",
-    reportedBy: "person2",
+    reportedBy: "Sanjay Kumar",
   },
   {
     compName: "BookMyShow",
-    compImage:
-      "https://img.favpng.com/14/7/14/bookmyshow-office-android-ticket-png-favpng-Ln9Hiu0AbwHTrfiCgNDa4h6ur_t.jpg",
+    compImage:"https://img.favpng.com/14/7/14/bookmyshow-office-android-ticket-png-favpng-Ln9Hiu0AbwHTrfiCgNDa4h6ur_t.jpg",
     title: "Digital Marketing",
-    category: "Marketing",
+    totalSpams:"8",
     postedOn: "10/02/2021",
     postedBy: "Ashish Hemrajani",
     reportedDate: "11/03/2021",
-    reportedBy: "person2",
+    reportedBy: "Paul Hanks",
   },
-  {
-    compName: "BookMyShow",
-    compImage:
-      "https://img.favpng.com/14/7/14/bookmyshow-office-android-ticket-png-favpng-Ln9Hiu0AbwHTrfiCgNDa4h6ur_t.jpg",
-    title: "Marketing Manager",
-    category: "Marketing",
-    postedOn: "10/02/2021",
-    postedBy: "Ashish Hemrajani",
-    reportedDate: "11/03/2021",
-    reportedBy: "person2",
-  },
+  
 ];
 
 const SpamRow = ({ spam, action, even }) => {
   // const {status,setStatus}=spam;
+  const [pop,setPop]=useState(false);
+  const [popOnHoldAuth, setPopOnHoldAuth] = useState(false)
+  const [popDeleteAuth,setPopDeleteAuth]=useState(false);
+  
+  const history=useHistory();
+  const onHoldFunction=()=>{
+    alert("on hold done");
+}
+const deleteFunction=()=>{
+  alert("delete done");
+}
 
   return (
+    <>
     <tr
       style={{
         backgroundColor: even ? "#F4F5F8" : "#FFFFFF",
@@ -92,7 +99,7 @@ const SpamRow = ({ spam, action, even }) => {
         </h3>
       </td>
       <td className="jobsPosted__row">
-        <h3 className="jobsPostedtable_cell m20 mv150">{spam.category}</h3>
+        <h3 className="jobsPostedtable_cell m20 mv150">{spam.totalSpams}</h3>
       </td>
       <td className="jobsPosted__row">
         <h3 className="jobsPostedtable_cell m20">{spam.postedBy}</h3>
@@ -109,15 +116,33 @@ const SpamRow = ({ spam, action, even }) => {
       </td>
       {
         <>
-          <td className="jobsPosted__row" onClick={() => {}}>
+          <td className="jobsPosted__row" >
             <h3 className="jobsPostedtable_cell edit">View</h3>
           </td>
-          <td className="jobsPosted__row" onClick={() => {}}>
+          <td className="jobsPosted__row" onClick={()=>{setPopOnHoldAuth(true)}}>
+              <h3 className="jobsPostedtable_cell shortlist">
+                  On Hold
+              </h3>
+          </td>
+          <td className="jobsPosted__row" onClick={()=> (setPopDeleteAuth(true) )}>
             <h3 className="jobsPostedtable_cell deactivate">Delete</h3>
           </td>
         </>
       }
     </tr>
+    <PopupAuth
+        openPopup={popOnHoldAuth}
+        setPop={setPopOnHoldAuth}
+        setnext={()=>{setPopOnHoldAuth(false);onHoldFunction();}}
+        >
+    </PopupAuth>
+    <PopupAuth
+        openPopup={popDeleteAuth}
+        setPop={setPopDeleteAuth}
+        setnext={()=>{setPopDeleteAuth(false);deleteFunction();}}
+        >
+    </PopupAuth>
+  </>
   );
 };
 

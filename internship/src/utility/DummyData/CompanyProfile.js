@@ -60,19 +60,19 @@ export const F3_1 ={
           tmd:[
              {
                  img:pr1,
-                 p_name:'Robert'
+                 name:'Robert'
             },
             {
                   img:pr2,
-                  p_name:'Bella'
+                  name:'Bella'
             },
             {
                img:pr3,
-               p_name:'Steve'
+               name:'Steve'
             },
             {
                img:pr4,
-               p_name:'Natasha'
+               name:'Natasha'
             },
          ]
 

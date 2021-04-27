@@ -265,6 +265,59 @@ background: #E5E5E5;
         color: #2B3940;
         margin-top: 10px;
 }
+.for_comp_n_actions{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+}
+.for_actions_cont{
+    display: flex;
+    flex-direction: row;
+}
+.for_btn_onhold{
+       background: white;
+       border: #0c2efe solid 1px;
+       color: #3429e7;
+        font-size: 12px;
+        font-family: 'Gordita';
+        margin-top: 50px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        margin-left: 5px;
+        margin-right: 5px;
+
+}
+.for_btn_spam{
+    background: white;
+ border: rgb(3, 3, 3) solid 1px;
+ color: rgb(0, 0, 0);
+ font-size: 12px;
+ font-family: 'Gordita';
+ margin-top: 50px;
+ margin-bottom: 20px;
+ margin-left: 5px;
+ margin-right: 5px;
+ border-radius: 5px;
+
+}
+.for_btn_delete{
+background: white;
+ border: rgb(255, 3, 3) solid 1px;
+ color: rgb(255, 1, 1);
+ font-size: 12px;
+ font-family: 'Gordita';
+ margin-top: 50px;
+ margin-bottom: 20px;
+ border-radius: 5px;
+ margin-left: 5px;
+ margin-right: 5px;
+
+}
+.for_btn_actions:hover{
+    box-shadow: 2px 2px 6px 0px rgb(0 0 0 / 25%);
+}
 
 @media only screen and (min-width:769px) and (max-width:1050px)
 {
@@ -961,7 +1014,8 @@ background: #E5E5E5;
     flex-direction: column;
     justify-content: center;
     margin: 10px;
-
+    background: transparent;
+    border: none;
 }
 .for_pr_img{
     width:50px;

@@ -21,6 +21,15 @@
     width: 120px;
     height: 60px;
 }
+.for_search_dd{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.for_dropdown_intern{
+    margin-top: 20px;
+    margin-right: 15px;
+}
 .dashboard__sidebarButtonArea{
     padding: 60px 0 40px 0;
 }
@@ -247,6 +256,7 @@
     display: flex;
     gap: 15px;
     align-items: center;
+    justify-content: center;
 }
 .applicantUser__image{
     height: 36px;
@@ -278,6 +288,54 @@
 }
 .for_margin_icons{
     margin-top: 0px !important;
+}
+.for_info_icon{
+    font-size: 20px;
+}
+.for_pop_width{
+    width:60%;
+}
+.for_dialog_close {
+    display: flex;
+    font-size: 26px;
+    justify-content: flex-end;
+    margin-right: 10px;
+    margin-bottom: 10px;
+
+    
+  }
+  .for_icon_close{
+    color:#d3d3d3;
+    
+  }
+  .team_container{
+      display: flex;
+      flex-direction: column;
+  }
+  .in_team_head{
+      font-weight: 500 !important;
+  }
+  .for_submit_member {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    margin-right:10px;
+    
+  }
+  .for_icon_close:hover{
+    color:#ec1f28;
+  }
+  .for_btn_cls{
+     border:none;
+     background:transparent;
+  }
+  .for_fields{
+        
+    margin:10px 0px !important;
+    width: 100%;
+}
+.for_team_div{
+    margin: 25px 40px;    
 }
 @media (max-width : 1024px){
     .dashboard__slider{
@@ -426,8 +484,24 @@
         width: 320px;
     }
 }
+@media(max-width:430px)
+{
+    .for_team_div{
+        margin: 25px 2px;    
+    }
+    .for_pr_img_name {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 6px;
+        align-items: center;
+        width: 26%;
+        min-width: 77px;
+    }
+}
 
 @media(max-width: 400px){
+    
     .dashboard__slider{
         display: none;
     }

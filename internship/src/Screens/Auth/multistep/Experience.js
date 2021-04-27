@@ -103,7 +103,7 @@ const ExperienceFields = ({ExpDetails,SaveThis,RemoveThis,isFirst,id}) => {
         name="expDesignation"
         label="Designation/Title"
         variant="outlined"
-        disabled={saved}
+        disabled={ExpDetails1.saved||saved}
         onChange={ChangeHandler}
         value={ExpDetails1.expDesignation}
       />
@@ -113,7 +113,7 @@ const ExperienceFields = ({ExpDetails,SaveThis,RemoveThis,isFirst,id}) => {
         name="expOrganization"
         label="Organization Name"
         variant="outlined"
-        disabled={saved}
+        disabled={ExpDetails1.saved||saved}
         onChange={ChangeHandler}
         value={ExpDetails1.expOrganization}
       />
@@ -123,7 +123,7 @@ const ExperienceFields = ({ExpDetails,SaveThis,RemoveThis,isFirst,id}) => {
         name="expLocation"
         label="Location"
         variant="outlined"
-        disabled={saved}
+        disabled={ExpDetails1.saved||saved}
         onChange={ChangeHandler}
         value={ExpDetails1.expLocation}
       />
@@ -132,7 +132,7 @@ const ExperienceFields = ({ExpDetails,SaveThis,RemoveThis,isFirst,id}) => {
           label="Start Date"
           type="date"
           name="expStartDate"
-          disabled={saved}
+          disabled={ExpDetails1.saved||saved}
           InputLabelProps={{
             shrink: true,
           }}
@@ -145,7 +145,7 @@ const ExperienceFields = ({ExpDetails,SaveThis,RemoveThis,isFirst,id}) => {
           label="End Date"
           type="date"
           name="expEndDate"
-          disabled={saved}
+          disabled={ExpDetails1.saved||saved}
           InputLabelProps={{
             shrink: true,
           }}
@@ -159,7 +159,7 @@ const ExperienceFields = ({ExpDetails,SaveThis,RemoveThis,isFirst,id}) => {
         fullWidth
         size="small"
         name="expDescription"
-        disabled={saved}
+        disabled={ExpDetails1.saved||saved}
         label="Description"
         variant="outlined"
         onChange={ChangeHandler}
@@ -167,7 +167,7 @@ const ExperienceFields = ({ExpDetails,SaveThis,RemoveThis,isFirst,id}) => {
       />
       <div className={`edu_footer my-2 d-flex ${!isFirst?'justify-content-between':'justify-content-end'}`}>
         {
-          saved ?
+          saved||ExpDetails1.saved ?
           <div
             style={{ cursor:'disabled' ,visibility:'hidden' }}
             onClick={RemoveThis}
@@ -184,9 +184,9 @@ const ExperienceFields = ({ExpDetails,SaveThis,RemoveThis,isFirst,id}) => {
             <p style={{ display: "inline-block",fontSize: 14 }}>Remove Experience</p>
           </div>
         }
-        <div>
-          {saved===false?<FaCheckCircle style={{ fontSize: 20,color:'#00c600', marginBottom:'0px',cursor:'pointer'}} onClick={saveClicked} />
-          :(saved===true&&<p style={{transition:'all .3s',fontSize:14}}>Data Saved</p>)
+        <div className="save__edu__btn" onClick={saveClicked}>
+          {!(ExpDetails1.saved||saved)?<><FaCheckCircle style={{ fontSize: 20,color:'#00c600', marginTop:'-5px',cursor:'pointer'}}  /><p>Save</p></>
+          :(<p style={{transition:'all .3s',fontSize:14}}>Data Saved</p>)
           }
         </div>
       </div>

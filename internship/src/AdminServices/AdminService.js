@@ -39,10 +39,10 @@ export default {
     return await DataService.get(`/internship/v1/internships/${id}/`);
   },
   InternshipsApply : async (id) => {
-    return await DataService.get(`/internship/v1/internships/${id}/apply`);
+    return await DataService.get(`/internship/v1/internships/${id}/apply/`);
   },
   InternshipsBookmark : async (id) => {
-    return await DataService.get(`/internship/v1/internships/${id}/bookmark`);
+    return await DataService.get(`/internship/v1/internships/${id}/bookmark/`);
   },
   addRecruiters: async(data) => {
     return DataService.post('/internship/v1/company-recruiters/', data);
@@ -51,13 +51,19 @@ export default {
     return DataService.get('/internship/v1/company-recruiters');
   },
   getCompanyDashboard: async() => {
-    return DataService.get('/internship/v1/company-recruiters/dashboard');
+    return DataService.get('/internship/v1/company-recruiters/dashboard/');
   },
   postInternship: async(data) => {
     return DataService.post('/internship/v1/company-recruiter/postings/', data);
   },
   getCompanyInternship: async() => {
-    return DataService.get('/internship/v1/company-recruiter/postings');
+    return DataService.get('/internship/v1/company-recruiter/postings/');
+  },
+  getActiveCompanyInternship: async() => {
+    return await DataService.get('/internship/v1/company-recruiter/postings?currently_active=true');
+  },
+  getInactiveCompanyInternship: async() => {
+    return await DataService.get('/internship/v1/company-recruiter/postings?currently_active=false');
   },
   editInternship: async(data) => {
     return DataService.put('/internship/v1/company-recruiter/postings/', data);
@@ -115,5 +121,14 @@ export default {
   },
   getCompanyList: async() => {
     return DataService.get('/internship/v1/company-recruiters');
+  },
+  DeactivateInternship : async(id) => {
+    return DataService.get(`/internship/v1/company-recruiter/postings/${id}/deactivate/`);
+  },
+  EditInternship : async(id, data) => {
+    return DataService.put(`/internship/v1/company-recruiter/postings/${id}/`, data);
+  },
+  ApplicantsCompany : async(id) => {
+    return DataService.get(`/internship/v1/company-recruiter/postings/${id}/applicants`);
   }
 }

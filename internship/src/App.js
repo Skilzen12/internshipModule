@@ -15,6 +15,7 @@ import VerifyOTP from './Screens/Auth/Login/VerifyOTP';
 import SignUp from './Screens/Auth/SignUp/SignUp';
 import PostInternship from './Screens/PostInternship/Post_intern';
 import CandidateProfile from './Screens/CandidateProfile/Candidate';
+import Applicant from './Screens/CandidateProfile/Applicant';
 import CompanyProfile from './Screens/CompanyProfile/Company_profile';
 import InternshipProfile from './Screens/InternshipProfile/Comp_profile2'; 
 import DashboardMain from './Screens/Dashboard/DashboardMain'; 
@@ -34,11 +35,13 @@ function App() {
       await dispatch(isAdminLogged());
     }
     if(window.localStorage.getItem('accessToken')){
-      await dispatch(getUserData());
+      await dispatch(getUserData('In App.js'));
     }
   },[])
-
+  // console.log('App route',user);
   return (
+    <>
+    {
     <div className="App">
       <Router>
         <Switch>
@@ -48,7 +51,8 @@ function App() {
           <Route exact path='/signup' component={SignUp} />
           <Route exact path='/postInternship' component={PostInternship} />
           <Route exact path='/jobGrid' component={JobGrid} />
-          <Route exact path='/candidate' component={CandidateProfile} />
+          <Route exact path='/profile' component={CandidateProfile} />
+          <Route exact path='/applicant' component={Applicant} />
           <Route exact path='/company' component={CompanyProfile} />
           <InternshipRoute exact path='/internship' component={InternshipProfile} />
           <Route exact path='/dashboard' component={DashboardMain} />
@@ -59,6 +63,9 @@ function App() {
         </Switch>
       </Router>
     </div>
+    
+    }
+    </>
   );
 }
 

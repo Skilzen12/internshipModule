@@ -37,13 +37,13 @@ function FeaturedCards({data}) {
             return (CurrentDate - PostedDate) + 30*(CurrentMonth - PostedMonth);
           }
         }
-
+        // console.log('featured.company.name',featured.company.name);
         return (
         <div className="rounded2 col-md-5">
           <div className="col-md-12">
             <div className="media" style={{flexDirection: 'column', }}>
               <div className="square-72 d-block mr-3">
-                {featured.company.logo.link ? (
+                {featured.company.logo.link && LogoMap.get(featured.company.name) ? (
                   <img src={LogoMap.get(featured.company.name).url} className="companyLogo__featuredCards" alt="" />
                 ) : <HiUserGroup style={{fontSize: 40}} /> }
               </div>
@@ -52,7 +52,7 @@ function FeaturedCards({data}) {
                   <Link to={{
                     pathname: `/internship`,
                     search: `?id=${featured.uuid}`,
-                    state: { uuid : featured.uuid }
+                    state: { uuid : featured.uuid, dashboard: false }
                   }}>
                     <a className="" style={{ fontFamily: "Gordita", fontSize: 20 }}>{featured.title ? featured.title : 'XYZ Company'}</a>
                   </Link>

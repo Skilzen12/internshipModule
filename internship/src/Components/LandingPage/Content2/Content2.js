@@ -26,8 +26,20 @@ import imgG22 from "../../../images/Landing2/gallery-img22.jpg";
 import imgG23 from "../../../images/Landing2/gallery-img23.jpg";
 import imgG24 from "../../../images/Landing2/gallery-img24.jpg";
 import imgG25 from "../../../images/Landing2/gallery-img25.jpg";
+import { useSelector , useDispatch } from 'react-redux'
 
-const Content2 = () => {
+const Content2 = () => {  
+  const user = useSelector(state => state.user);
+  const auth = useSelector(state => state.auth);
+  const PostIntern = () => {
+    user.recruits_for !== null 
+    ? window.open('/postInternship', '_self')
+    : (
+      auth.token === null ?
+        window.open('/login', '_self')  
+      : window.open('/applyRecruiterForm', '_self')
+    )
+    }
   return (
     <>
       <section
@@ -129,6 +141,7 @@ const Content2 = () => {
                 <button
                   className="category__label py-3 px-4"
                   style={{ fontSize: "16px" }}
+                  onClick={() => PostIntern()}
                 >
                   Post a Job{" "}
                 </button>

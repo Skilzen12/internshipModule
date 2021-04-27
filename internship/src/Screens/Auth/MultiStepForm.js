@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, useStep } from "react-hooks-helper";
 import { Personal } from "./multistep/Personal";
 import { Education } from "./multistep/Education";
@@ -32,13 +32,14 @@ const steps = [
   { id: "education" },
   { id: "experience" },
   { id: "profile" },
-  { id: "otp" },
 ];
 
 
 export const MultiStepForm = () => {
   const user = useSelector(state => state.user);
-
+  useEffect(()=>{
+    if(user.user_education?.length) window.open('/','_self');
+  })
   defaultData.email=user.email;
   defaultData.mobileNo=user.phone_number;
   
@@ -122,8 +123,6 @@ export const MultiStepForm = () => {
       );
     case "profile":
       return <Profile {...props} />;
-    case "otp":
-      return <Otp {...props} submitForm={submitForm} />;
     default:
   }
 

@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiTextField-root": {
       margin: theme.spacing(1, 0),
     },
+    '& .MuiInputLabel-outlined':{
+      zIndex:'-10'
+    },
     '& label[for="skillsSelect"]': {
       marginBottom: "-5px",
     },
@@ -120,47 +123,53 @@ export const Profile = ({ formData, setForm, navigation }) => {
       }
     ]
     const linked_website=portfolio;
-    dispatch(addProfile(profileDesc,social_links,'HYD',linked_website))
+    return await dispatch(addProfile(profileDesc,social_links,formData.location,linked_website))
   }
-  const saveSkills =  ()=>{
+
+  const saveSkills =  async ()=>{
     // console.log('in saveskills')
-    skills.forEach(async skill=>{
+    skills.forEach(async (skill,id)=>{
       const obj={
           skill: {
+            id,
             name : skill,
             kind : "soft"
         }
       }
-      dispatch(addSkills(obj));
+      return await dispatch(addSkills(obj));
     })
   }
 
-  const saveAndNext = ()=>{
+  const saveAndNext = async ()=>{
     // console.log('in saveandnext')
-    saveProfile();
-    saveSkills()
-    // console.log("VARS",!profileError,!skillsError,user_skills.length)
-    if(!profileLoading&&!skillsLoading&&!profileError&&!skillsError&&user_skills.length){
-      setnotify({message:'Data Saved!',type:'Success',isOpen:true})
-      setTimeout(()=>{
-        navigation.next();
-        setnotify({message:'',type:'',isOpen:false})
-      },1500)
-    }
-    else if(!profileLoading&&!skillsLoading){
-      if(profileError) {
-        setnotify({message:profileError,type:'error',isOpen:true})
+    const res=await saveProfile();
+    console.log(res);
+    if(res.error===''){
+      const skillsRes= await saveSkills()
+        console.log(skillsRes);
+
+      if(skillsRes.error===''){
+        setnotify({message:'Data Saved',type:'success',isOpen:true})
         setTimeout(()=>{
           setnotify({message:'',type:'',isOpen:false})
+          window.open('/','_self');
         },3000)
       }
       else{
-        setnotify({message:skillsError,type:'error',isOpen:true})
+        setnotify({message:'Error ocurred in Adding Skills',type:'error',isOpen:true})
         setTimeout(()=>{
           setnotify({message:'',type:'',isOpen:false})
         },3000)
       }
+        
     }
+    else{
+      setnotify({message:'Error ocurred in Adding Social Media',type:'error',isOpen:true})
+      setTimeout(()=>{
+        setnotify({message:'',type:'',isOpen:false})
+      },3000)
+    }
+    
   }
 
   return (

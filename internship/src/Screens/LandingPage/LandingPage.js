@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useSelector , useDispatch } from 'react-redux'
 
@@ -40,18 +41,10 @@ const Landing2 = () => {
     await axios.get(`${API_ENDPOINT}/internship/v1/internships/`)
     .then(res => {
       setCount(res.data.count);
-      setInternships(res.data.results);
+      setInternships(res.data.results.splice(0,4));
     })
     .catch(err => console.log(err));
   } 
-  const token = getItem('accessToken');
-  const getProfile = async () => {
-    await AdminService.getUserProfile()
-    .then(res => {
-      console.log(res);
-    })
-    .catch(err => console.log('2nnddd', err));
-  }
 
   useEffect(async() => {
     getCategories();
@@ -60,7 +53,7 @@ const Landing2 = () => {
       dispatch(isAdminLogged());
     }
     if(auth.token){
-      dispatch(getUserData());
+      dispatch(getUserData('landing page'));
     }
   },[]);
   

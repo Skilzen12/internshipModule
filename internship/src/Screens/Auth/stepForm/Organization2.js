@@ -65,6 +65,9 @@ const useStyles = makeStyles((theme) => ({
   for_socialIcon:{
     display:"flex",
     flexDirection:"row",
+    '& svg':{
+      marginTop:-15
+    }
   },
   for_adjfbIcon:{
     marginRight: '5px',
@@ -150,8 +153,8 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
           fullWidth
           size="small"
         />
-
-        <h6 style={{ marginTop: 30 }}>Social Media Links</h6>
+        {/* <hr /> */}
+        <h6 style={{ margin: '30px 0 10px',fontSize:18 }}>Social Media Links</h6>
         <div className={classes.for_socialIcon}>
           <div className={classes.for_adjfbIcon}>
             <AiFillLinkedin />
@@ -194,7 +197,7 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
             onChange={(e)=>{setfb(e.target.value)}}
           />
         </div>
-        <h6 style={{ marginTop: 30 }}>Organization Portfolio</h6>
+        <h6 style={{ margin: '30px 0 10px',fontSize:18 }}>Organization Website</h6>
         <div className={classes.for_socialIcon}>
           <div className={classes.for_adjgitIcon}>
             <AiOutlineGlobal />
@@ -210,7 +213,7 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
           />
         </div>
         
-        <h6 style={{ marginTop: 30 }}>Organization Description</h6>
+        <h6 style={{ margin: '30px 0 10px',fontSize:18 }}>Organization Description</h6>
         <textarea id="description" rows={6} style={{ width: "100%" }} 
           name="description"
           value={description}
@@ -218,21 +221,21 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
         />
         <hr />
         <h6 style={{ marginTop: '30px',marginBottom: '6px'}}>Upload company UID</h6>
-        <div class="btn  float-left" style={{backgroundColor:"#000",color:"#fff"}}>  
+        <div class="btn  float-left">  
           <input type="file" name="company_uid" onChange={setForm} />
         </div>
         <br />
         <h6 style={{ marginTop: '50px',marginBottom: '6px'}}>Upload company logo</h6>
-        <div class="btn  float-left" style={{backgroundColor:"#000",color:"#fff"}}>  
+        <div class="btn  float-left">  
           <input type="file" name="official_doc" onChange={setForm} />
         </div>
         <br />
         <h6 style={{ marginTop: '50px',marginBottom: '6px'}}>Upload Official Document</h6>
-        <div class="btn  float-left" style={{backgroundColor:"#000",color:"#fff"}}>  
+        <div class="btn  float-left">  
           <input type="file" name="logo" onChange={setForm} />
         </div>
         <br />
-
+        <div className='signup__footer w-100 mt-3 d-flex justify-content-between'>
         <button
           className="card_btn mx-2"
           onClick={(e) => {
@@ -320,6 +323,7 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
             user.recruits_form_loading&& <CircularProgress className={btnHovered? `${classes.redLoading}` : `${classes.whiteLoading}` } />
           }
         </button>
+        </div>
         {notify.isOpen && <Notification notify={notify} />}
       </div>
     </div>

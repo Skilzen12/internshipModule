@@ -5,53 +5,37 @@ import React, {useEffect, useState} from 'react'
 import './DashboardMain.css';
 import Header from "../../Components/Header/Updated_Header";
 import {ThemeDropdown} from '../../Pallete_components/Dropdown/Dropdown';
+import {Link} from "react-router-dom";
 import CountUp from "react-countup";
 import logo from '../../images/logo-main-black.png';
 import {F3_1} from '../../utility/DummyData/CompanyProfile';
 import Team from '../../Components/TeamMembersCard/team_members';
 import {navCollection, defaultJobs, applicants, jobs} from '../../utility/DummyData/DashboardData';
 import { useSelector , useDispatch } from 'react-redux'
-import {AiFillProfile} from 'react-icons/ai';
-import {BsFillBagFill} from 'react-icons/bs'
-import {RiLayout4Fill} from 'react-icons/ri'
-import {FaUserAlt} from 'react-icons/fa'
 import AdminService from '../../AdminServices/AdminService';
-
-const DashboardCard = ({name, color, darkcolor, Icon, number, content, decimal}) => {
-    return(
-        <div className="dashboard__card">
-            <div className="dashboard__logo" style={{backgroundColor: color}}>
-                <Icon style={{color: darkcolor, fontSize: 20}} />
-            </div>
-            <div className="dashboard__Cardcontent">
-            {decimal ? (
-                <div className="dashboard__cardNum"><CountUp duration={4} decimal="." decimals={1} end={number} />{content}</div>
-            ) : (
-                <div className="dashboard__cardNum"><CountUp duration={4} end={number} />{content}</div>
-            )}
-                <div className="dashboard__cardTitle">{name}</div>
-            </div>
-        </div>
-    );
-}
+import {LogoMap, IconMap} from '../../utility/Maps/LandingPageMaps';
+import { HiUser, HiUserGroup } from 'react-icons/hi';
+import DashboardSeva from './DashboardSeva';
 
 const ApplicantNormal = ({job}) => {
     return(
         <>
             <td className="jobsPosted__row applicationsUser p20 mv200">
-                <img src={job.image} className="applicantUser__image" alt="user_image" />
+                {job.user.image  ? (
+                  <img src={job.user.image} className="applicantUser__image" alt="user" />
+                ) : <HiUser style={{fontSize: 40}} /> }
                 <h3 className="jobsPostedtable_cell m20">
-                    <b>{job.name}</b>
+                    <b>{job.user.first_name ? job.user.first_name + ' ' + job.user.last_name : 'Abra kaDabra'}</b>
                 </h3>
             </td>
             <td  className="jobsPosted__row">
                 <h3 className="jobsPostedtable_cell m20 mv150">
-                    {job.appliedAs}
+                    {job.applied_as}
                 </h3>
             </td>
             <td className="jobsPosted__row">
                 <h3 className="jobsPostedtable_cell m20 mv150">
-                    {job.appliedOn}
+                    {job.applied_on.split('T')[0]}
                 </h3>
             </td>
             <td className="jobsPosted__row">
@@ -138,14 +122,14 @@ const ApplicantTable = ({job, action}) => {
     );
 }
 
-const ApplicantList = () => {
+const ApplicantList = ({data}) => {
     const [action, setAction] = useState('normal');
     return (
         <div className="dashboard__jobsPosted">
             <div className="dashboard__jobsPostedHeader">
                 <div className="dashboard__jobsTags">
                     <p className="dashboard__jobsPostedheading">
-                        Applicants (12)
+                        Applicants ({data.count})
                     </p>
                     <div className="dashboard__jobstags">
                         {[{name: "Accepted", color: 'rgba(45,132,90,1)'}, {name: "Rejected", color: 'rgba(211,46,46,1)'}, {name: 'Shortlisted', color: 'orange'}].map(tag => (
@@ -177,7 +161,7 @@ const ApplicantList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {applicants.map(job => (
+                            {data.results.map(job => (
                                 <ApplicantTable job={job} action={action} />
                             ))}
                         </tbody>
@@ -188,14 +172,26 @@ const ApplicantList = () => {
     );
 }
 
-const JobsPosted = ({data}) => {
-    const [action, setAction] = useState('normal');
+const Edit = (id) => {
+    const EditData = {}
+    AdminService.EditInternship(id, EditData)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+} 
+
+const Deactivate = (id) => {
+    AdminService.DeactivateInternship(id)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+} 
+
+const JobsPosted = ({data, setAction, count}) => {
     return (
         <div className="dashboard__jobsPosted">
             <div className="dashboard__jobsPostedHeader">
                 <div className="dashboard__jobsTags">
                     <p className="dashboard__jobsPostedheading">
-                        Posted Jobs (5)
+                        Posted Jobs ({data.count})
                     </p>
                     <div className="dashboard__jobstags">
                         {[{name: "Active", color: 'rgba(45,132,90,1)'}, {name: "Inactive", color: 'rgba(211,46,46,1)'}].map(tag => (
@@ -227,16 +223,29 @@ const JobsPosted = ({data}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {jobs.map(job => (
-                                <tr style={{backgroundColor: job.color ? '#F4F5F8' : '#FFFFFF', border: '1px solid #E5E5E5'}}>
+                            {data.results.map((job, index) => {
+                                let toggle = true;
+                                if(index%2 === 0){
+                                    toggle = false;
+                                } else{
+                                    toggle = true;
+                                }
+                                return(
+                                <tr style={{backgroundColor: toggle ? '#F4F5F8' : '#FFFFFF', border: '1px solid #E5E5E5'}}>
                                     <td className="jobsPosted__row">
-                                        <h3 className="jobsPostedtable_cell p20 m20 mv200">
-                                            <b>{job.name}</b>
-                                        </h3>
+                                        <Link to={{
+                                            pathname: `/internship`,
+                                            search: `?id=${job.uuid}`,
+                                            state: { uuid : job.uuid, dashboard : true }
+                                        }}>
+                                            <h3 className="jobsPostedtable_cell p20 m20 mv200">
+                                                <b>{job.title}</b>
+                                            </h3>
+                                        </Link>                                        
                                     </td>
                                     <td  className="jobsPosted__row">
                                         <h3 className="jobsPostedtable_cell m20 mv100">
-                                            {job.type}
+                                            {job.kind}
                                         </h3>
                                     </td>
                                     <td className="jobsPosted__row">
@@ -246,26 +255,27 @@ const JobsPosted = ({data}) => {
                                     </td>
                                     <td className="jobsPosted__row">
                                         <h3 className="jobsPostedtable_cell m20 mv150">
-                                            {job.created}
+                                            {job.created_at.split('T')[0]}
                                         </h3>
                                     </td>
                                     <td className="jobsPosted__row">
                                         <h3 className="jobsPostedtable_cell textalign__right mv100">
-                                            <b>{job.applicants}</b>
+                                            <b>{job.total_applicants}</b>
                                         </h3>
                                     </td>
                                     <td className="jobsPosted__row">
-                                        <h3 className="jobsPostedtable_cell edit mv75">
+                                        <h3 onClick={() => Edit(job.uuid)} className="jobsPostedtable_cell edit mv75">
                                             EDIT
                                         </h3>
                                     </td>
                                     <td className="jobsPosted__row">
-                                        <h3 className="jobsPostedtable_cell deactivate mv75">
+                                        <h3 onClick={() => Deactivate(job.uuid)} className="jobsPostedtable_cell deactivate mv75">
                                             DEACTIVATE
                                         </h3>
                                     </td>
                                 </tr>
-                            ))}
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
@@ -289,29 +299,42 @@ const DashboardNav = ({name, Icon, number, setTab}) => {
 
 
 function DashboardMain(props) {
-    var localCards = props.location.state.loadCards;
     const user = useSelector(state => state.user);
     const [tab, setTab] = useState('Dashboard');
     const[listInternship, setList] = useState();
+    const[ActivelistInternship, setActiveList] = useState();
+    const[InActivelistInternship, setInActiveList] = useState();
     const [company, setProfile] = useState();
+    const [companyApplicants, setApplicants] = useState();
+    const [action, setAction] = useState('normal');
 
     useEffect(() => {
+
+        AdminService.getActiveCompanyInternship()
+            .then(res => setActiveList(res.data))
+            .catch(err => console.log(err)) 
+
+        AdminService.getInactiveCompanyInternship()
+            .then(res => setInActiveList(res.data))
+            .catch(err => console.log(err)) 
+
         AdminService.getCompanyInternship()
-            .then(res => setList(res.data))
+            .then(res => {
+                setList(res.data)
+            })
             .catch(err => console.log(err)) 
             
         AdminService.getCompanyProfile()
             .then(res => setProfile(res.data))
             .catch(err => console.log(err)) 
-    }, [])
-    
-    
-    const CardCollection = [
-        {name: "Posted Internships", color: 'rgba(71, 67, 219, 0.1)', decimal : false, darkcolor: 'rgb(71, 67, 219)', number: localCards.active_internships, icon : BsFillBagFill},
-        {name: "Total Applicants", color: 'rgba(252, 73, 128, 0.1)', decimal : false, darkcolor: 'rgb(252, 73, 128)', icon : FaUserAlt, number : localCards.active_applicants}, 
-        {name: "Jobs View", color: 'rgba(250, 95, 28, 0.1)', decimal : false, darkcolor: 'rgb(250, 95, 28)', number: localCards.active_internship_views, icon : AiFillProfile},
-        // {name: "Applied Rate", color: 'rgba(2, 191, 213, 0.1)', decimal : true, darkcolor: 'rgb(2, 191, 213)', number: 18.5, content: '%', icon : RiLayout4Fill}, 
-    ];
+
+        AdminService.ApplicantsCompany('fc5c6f90-23c2-46e4-a990-9471f8061b61')
+            .then(res => setApplicants(res.data))
+            .catch(err => console.log(err))
+
+    }, []) 
+    var localCards = props.location.state.loadCards;
+
     return (
         <div>
             <Header />
@@ -319,7 +342,7 @@ function DashboardMain(props) {
                 <div className="dashboard___slider">
                     <div className="dashboard__sidebarButtonArea">
                         <button onClick={() => {
-                            user.recruits_for !== null ? 
+                            user.recruits_for ? 
                             window.open('/postInternship', '_self')
                             : window.open('/applyRecruiterForm', '_self')
                         }} className="category__label dashboard__sidebarButton">+ Add New</button>
@@ -334,7 +357,7 @@ function DashboardMain(props) {
                     <img className="dashboard__sliderlogo" src={logo} alt="skilzen_log" />
                     <div className="dashboard__sidebarButtonArea">
                         <button onClick={() => {
-                            user.recruits_for === null ? 
+                            user.recruits_for ? 
                             window.open('/postInternship', '_self')
                             : window.open('/applyRecruiterForm', '_self')
                         }} className="category__label dashboard__sidebarButton">+ Add New</button>
@@ -346,19 +369,17 @@ function DashboardMain(props) {
                     </div>
                 </div>
                 {tab === 'Posted Internships' ? (
-                    <div className="dashboard__content"><JobsPosted data={listInternship} /></div>
+                    <div className="dashboard__content"><JobsPosted data={
+                        action === 'Active' ? ActivelistInternship : action === 'Inactive' ? InActivelistInternship : listInternship
+                    } setAction={setAction} /></div>
                 ) : tab === 'Applicants' ? (
-                    <div className="dashboard__content"><ApplicantList /></div> 
+                    <div className="dashboard__content"><ApplicantList data={companyApplicants} /></div> 
                 ) : tab=== 'Profile' ? (
                     <CompanyProfile data={company} />
                 ) : (
                     <div className="dashboard__content" style={{boxShadow: 'none', border: 'none'}}>
                         <div className="dashboard__ContentCards">
-                            {
-                                CardCollection.map(card => (
-                                    <DashboardCard decimal={card.decimal} name={card.name} color={card.color} darkcolor={card.darkcolor} Icon={card.icon} number={card.number} content={card.content} />
-                                ))                     
-                            }
+                            <DashboardSeva localCards={localCards} />
                         </div>
                     </div>
                 )}
@@ -378,11 +399,13 @@ const CompanyProfile = ({data}) => {
                         <div className="for_margin_inside">
                             <div className='img_n_name'>
                                 <div className='cmp_main_img'>
-                                    <img src={F3_1.cmp_img} className="main_img" ></img>
+                                    {data.logo.link && LogoMap.get(data.name) ?  (
+                                        <img src={LogoMap.get(data.name).url} className="companyLogo__featuredCards" alt="" />
+                                    ) : <HiUserGroup style={{fontSize: 40}} /> }
                                 </div>
                                 <div style={{marginLeft:'15px',marginTop:'5px'}}>
-                                    <p className='company_main_name'>{F3_1.company_name}</p>
-                                    <p className='company_cat_type' >{F3_1.company_cat}</p>
+                                    <p className='company_main_name'>{data.name}</p>
+                                    <p className='company_cat_type' >{data.kind}</p>
                                 </div>
                             </div>
                             <p style={{marginTop:'50px',marginBottom:'20px',fontFamily: 'Gordita',fontStyle: 'normal',fontWeight: 'normal',fontSize: '13px',lineHeight: '26px',letterSpacing: '0.26px',textTransform: 'uppercase',color: '#6B6E6F'}}>COMPANY</p>
@@ -390,34 +413,40 @@ const CompanyProfile = ({data}) => {
                             <div className="short_details">
                                 <div className="each_short_detail">
                                     <p className="specification">Company size</p>
-                                    <p className="specification_ans">{F3_1.compsny_size}</p>
+                                    <p className="specification_ans">{data.strength}</p>
                                 </div>
                                 <div className="each_short_detail">
                                     <p className="specification">Type of Corporation</p>
-                                    <p className="specification_ans">{F3_1.type_of_corp}</p>
+                                    <p className="specification_ans">{data.kind}</p>
                                 </div>
                                 <div className="each_short_detail">
                                     <p className="specification">Location</p>
-                                    <p className="specification_ans">{F3_1.location}</p>
+                                    <p className="specification_ans">{data.company_locations.map(location => {
+                                        return(
+                                            location.is_head_office ? location.location : null
+                                        );
+                                    })}</p>
                                 </div>
                                 <div className="each_short_detail">
-                                    <p className="specification">Est.Since</p>
-                                    <p className="specification_ans">{F3_1.est_Since}</p>
+                                    <p className="specification">Estb. Since</p>
+                                    <p className="specification_ans">{data.meta.established}</p>
                                 </div>
                                 <div className="each_short_detail">
                                     <p className="specification">Social Media</p>
                                     <div class="for_media_icons">
-                                        <a href="#" className="mediaIcons"><i className="fab fa-linkedin-in adj_icon" aria-hidden="true"></i></a>
-                                        <a href="#" className="mediaIcons"><i className="fab fa-facebook-f adj_icon " aria-hidden="true"></i></a>
-                                        <a href="#" className="mediaIcons"><i className="fab fa-twitter adj_icon" aria-hidden="true"></i></a>
-                                        <a href="#" className="mediaIcons"><i className="fab fa-dribbble adj_icon" aria-hidden="true"></i></a>
-                                        <a href="#" className="mediaIcons"><i className="fab fa-behance adj_icon" aria-hidden="true"></i></a>
+                                        {data.meta.social_links.map(
+                                            link => {
+                                                return(
+                                                    <a href={link.link} className="mediaIcons"><i className={`fab ${IconMap.get(link.handle).url} adj_icon`} aria-hidden="true"></i></a>
+                                                );
+                                            }
+                                        )}
                                     </div>
                                 </div>
                             </div>
 
-                            <p className="company_heading">{F3_1.heading}</p>
-                            <p className="content_area">{F3_1.text}</p>
+                            <p className="company_heading">Join {data.name}</p>
+                            <p className="content_area" style={{marginTop: 20}}>{data.description}</p>
                             <hr className="hr_for_TM"></hr>
                             <p className="team_members_heading">Team Members:</p>
                             <div>

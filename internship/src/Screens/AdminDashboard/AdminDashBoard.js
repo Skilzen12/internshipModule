@@ -30,7 +30,7 @@ import imgP3 from "../../images/TieUps/TeslaLogo.png";
 import { BiBuildings, BiCaretDown, BiCaretUp } from "react-icons/bi";
 import { Checkbox } from "@material-ui/core";
 import {IoFingerPrint} from "react-icons/io5";
-import { HiDocumentDownload } from "react-icons/hi";
+import { HiDocumentDownload, HiUserGroup } from "react-icons/hi";
 import { useHistory } from "react-router";
 import { CgCloseO } from "react-icons/cg";
 import AdminService from "../../AdminServices/AdminService";
@@ -39,6 +39,9 @@ import pr1 from '../../images/Landing2/gallery-img17.jpg';
 import pr2 from '../../images/Landing2/gallery-img3.jpg';
 import pr3 from '../../images/Landing2/gallery-img16.jpg';
 import pr4 from '../../images/Landing2/gallery-img24.jpg';
+import {Link} from 'react-router-dom';
+import { LogoMap } from "../../utility/Maps/LandingPageMaps";
+
 const navCollection = [
   { name: "Dashboard", icon: RiLayout4Fill },
   { name: "Companies", icon: BiBuildings },
@@ -1675,12 +1678,21 @@ const CompanyTableRow = ({company,action,even}) => {
   return(
       <tr  style={{backgroundColor: even ? '#F4F5F8' : '#FFFFFF', border: '1px solid #E5E5E5'}}>
           
-          <td className="jobsPosted__row applicationsUser p20 mv200 cursor__pointer" onClick={()=>history.push('/company')}>
-              <img src={company.compImage} className="applicantUser__image" alt="user_image" />
-              <h3 className="jobsPostedtable_cell m20">
-                  {company.compName}
+          <Link to={{
+              pathname: `/company`,
+              search: `?id=${company.uuid}`,
+              state: { uuid : company.uuid }
+          }}>
+            <td className="jobsPosted__row applicationsUser p20 mv200 cursor__pointer" onClick={()=>history.push('/company')}>
+              {/* <img src={company.compImage} className="applicantUser__image" alt="user_image" /> */}
+              {company.logo.link ? (
+                <img src={LogoMap.get(company.name).url} className="applicantUser__image" alt="user_image" />
+              ) : <HiUserGroup style={{fontSize: 40}} /> }
+              <h3 className="jobsPostedtable_cell" style={{textAlign: 'left', marginLeft: 20}}>
+                  {company.name}
               </h3>
-          </td>
+            </td>
+          </Link>          
           <td  className="jobsPosted__row">
               <h3 className="jobsPostedtable_cell m20 mv150">
                   {company.status}
@@ -1710,7 +1722,7 @@ const CompanyTableRow = ({company,action,even}) => {
   );
 }
 
-const CompaniesTable = ()=>{
+const CompaniesTable = ({data})=>{
   const tags=[{name:"all",color:'black'},{name: "active", color: 'rgba(45,132,90,1)'}, {name: "inactive", color: 'rgba(211,46,46,1)'}, {name: 'on hold', color: 'yellow'}]
   const [action, setAction] = useState('all');
   const [search,setSearch]=useState('');
@@ -1766,9 +1778,8 @@ const CompaniesTable = ()=>{
                           </tr>
                       </thead>
                       <tbody>
-                          {CompaniesData.map((company,_id) => (
-                              
-                                (company.compName.toLowerCase().includes(search.toLowerCase())&&(action==='all'||action===company.status))?
+                          {data.map((company,_id) => (                              
+                                (company.name.toLowerCase().includes(search.toLowerCase())&&(action==='all'||action===company.status))?
                                 <CompanyTableRow company={company} action={action} even={_id%2?false:true} />
                                 :null
                               )
@@ -1804,7 +1815,7 @@ const DashboardNav = ({ name, Icon, number, setTab }) => {
 };
 
 function AdminDashboardMain() {
-  const [listCompanies, setList] = useState();
+  const [listCompanies, setList] = useState([]);
   const [tab, setTab] = useState("Dashboard");
 
   useEffect(() => {

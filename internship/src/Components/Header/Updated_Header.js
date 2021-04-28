@@ -52,7 +52,7 @@ function Updated_Header() {
                                 state: { loadCards : loadCards }
                             }}>
                                 <a className="nav-item nav-link active">Dashboard</a>
-                            </Link>                            
+                            </Link>                
                         </div>
                     ) : null
                 }
@@ -64,6 +64,13 @@ function Updated_Header() {
                             }}>
                                 <a href="" className="nav-item nav-link active">Profile</a>
                             </Link>
+                        </div>
+                    ) : null
+                }
+                {
+                    user.recruits_for !== null ? (
+                        <div className="navbar-nav">
+                            <Link to="/postInternship" className="btn btn-sm  btn-dark header__signup">Post an Internship</Link>               
                         </div>
                     ) : null
                 }

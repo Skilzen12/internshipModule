@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import { Checkbox } from "@material-ui/core";
-import PopupAuth from './ActionAuth';
+import PopupAuth , {SpamReportsList} from './ActionAuth';
 import { useHistory } from "react-router";
 
 const CompanySpam = () => {
@@ -19,9 +19,7 @@ const Spam1ColumnOrder = [
   "Title",
   "Total spam reports",
   "Recruiter name",
-  "Posted on",
-  "Reported by",
-  "Reporter date",
+  "Latest Reported date",
  
 ];
 const SpamData = [
@@ -65,14 +63,15 @@ const SpamRow = ({ spam, action, even }) => {
   const [pop,setPop]=useState(false);
   const [popOnHoldAuth, setPopOnHoldAuth] = useState(false)
   const [popDeleteAuth,setPopDeleteAuth]=useState(false);
-  
+  const [spamList,setSpamList]= useState(false)
+  const ToggleSpamList=()=>{setSpamList(!spamList)};
   const history=useHistory();
   const onHoldFunction=()=>{
     alert("on hold done");
-}
-const deleteFunction=()=>{
-  alert("delete done");
-}
+  }
+  const deleteFunction=()=>{
+    alert("delete done");
+  }
 
   return (
     <>
@@ -94,7 +93,7 @@ const deleteFunction=()=>{
         <h3 className="jobsPostedtable_cell m20">{spam.compName}</h3>
       </td>
       <td className="jobsPosted__row">
-        <h3 className="jobsPostedtable_cell m20 mv150">
+        <h3 className="jobsPostedtable_cell m20 mv150" style={{cursor:'pointer'}} onClick={()=>{setSpamList(true)}}>
           <b>{spam.title}</b>
         </h3>
       </td>
@@ -107,18 +106,8 @@ const deleteFunction=()=>{
       <td className="jobsPosted__row">
         <h3 className="jobsPostedtable_cell m20">{spam.postedOn}</h3>
       </td>
-
-      <td className="jobsPosted__row">
-        <h3 className="jobsPostedtable_cell m20">{spam.reportedBy}</h3>
-      </td>
-      <td className="jobsPosted__row">
-        <h3 className="jobsPostedtable_cell m20">{spam.reportedDate}</h3>
-      </td>
       {
         <>
-          <td className="jobsPosted__row" >
-            <h3 className="jobsPostedtable_cell edit">View</h3>
-          </td>
           <td className="jobsPosted__row" onClick={()=>{setPopOnHoldAuth(true)}}>
               <h3 className="jobsPostedtable_cell shortlist">
                   On Hold
@@ -142,6 +131,7 @@ const deleteFunction=()=>{
         setnext={()=>{setPopDeleteAuth(false);deleteFunction();}}
         >
     </PopupAuth>
+    {spamList&&<SpamReportsList ToggleSpamList={ToggleSpamList} />}
   </>
   );
 };

@@ -16,7 +16,16 @@ import AdminService from '../../AdminServices/AdminService';
 import {LogoMap, IconMap} from '../../utility/Maps/LandingPageMaps';
 import { HiUser, HiUserGroup } from 'react-icons/hi';
 import DashboardSeva from './DashboardSeva';
-import CityModal from './CityModal'
+import CityModal from './CityModal';
+import {TextField} from '@material-ui/core';
+import { AiFillCloseCircle } from "react-icons/ai";
+import pr1 from '../../images/Landing2/gallery-img17.jpg';
+import pr2 from '../../images/Landing2/gallery-img3.jpg';
+import pr3 from '../../images/Landing2/gallery-img16.jpg';
+import pr4 from '../../images/Landing2/gallery-img24.jpg';
+import validator from 'validator';
+import Notification from '../Auth/Notification.js';
+import PopupAuth from "../AdminDashboard/ActionAuth";
 
 const ApplicantNormal = ({job}) => {
     return(
@@ -380,6 +389,75 @@ function DashboardMain(props) {
 export default DashboardMain;
 
 const CompanyProfile = ({data}) => {
+
+    const [popUserAuth,setPopUserAuth]=useState(false);
+    const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
+    const [userInputs,setUserInputs]=useState(false);
+    const [users,setUsers]=useState([
+        {
+          name:"Andrew Smith",
+          userID:"1235987",
+          email:"richerdpeter@gmail.com",
+          username:"Richerd_Peter",
+          contact:"7989390131",
+          img:pr3
+         },
+         {
+          name:"Teena",
+          userID:"1478523",
+          email:"jamesrobert@gmail.com",
+          username:"James Robert",
+          contact:"9569871235",
+          img:pr4
+         },
+         {
+          name:"Simon",
+          userID:"6547291",
+          email:"benthomas@gmail.com",
+          username:"Bent_Thomas",
+          contact:"9852446317",
+          img:pr1
+         },
+         {
+          name:"Nancy",
+          userID:"5214638",
+          email:"steve@gmail.com",
+          username:"Steve",
+          contact:"9569871235",
+          img:pr2
+         }
+      ])
+      const [newdata,setNewdata]=useState({
+        name:"",
+        userID:"",
+        email:"",
+        username:"",
+        contact:"",
+        img:pr1
+    })
+    const userUpdate=()=>{
+        setUsers([...users,{...newdata}]);
+        setNewdata({
+          name:"",
+          userID:"",
+          email:"",
+          username:"",
+          contact:"",
+          img:pr1
+        })
+      }
+      const changehandler =e=>{
+        const  target = e.target
+        const name = target.name
+        const value = target.value
+        {
+          setNewdata({
+                ...newdata,
+                [name] : value
+            })
+        }
+        
+      }
     return(
         <div className="dashboard__content">
             <div className="box2">
@@ -449,7 +527,65 @@ const CompanyProfile = ({data}) => {
                             <hr className="hr_for_TM"></hr>
                             <p className="team_members_heading">Team Members:</p>
                             <div>
-                                <Team/>
+                                <Team membersData={users} setPop={setUserInputs}/>
+                                <div>
+                                    {
+                                        
+                                        userInputs===true?(
+                                            <div className="for_pop_width">
+                                                <div className="for_dialog_close">
+                                                    <button className="for_btn_cls" onClick={()=>{setUserInputs(false)}}>
+                                                        <AiFillCloseCircle className="for_icon_close"/>
+                                                    </button>
+                                                </div>
+                                                <form>
+                                                <div style={{display:"flex",flexDirection:"column"}}>
+                                                    <TextField id="outlined-basic" label="Name" name="name" variant="outlined" onChange={changehandler} className="for_fields"/>
+                                                    <TextField id="outlined-basic" label="User ID" name="userID" variant="outlined" onChange={changehandler} className="for_fields"/>
+                                                    <TextField id="outlined-basic" label="Email" name="email" variant="outlined"  onChange={changehandler} className="for_fields"/>
+                                                    <TextField id="outlined-basic" label="Username"  name="username" variant="outlined" onChange={changehandler} className="for_fields"/>
+                                                    <TextField id="outlined-basic" label="Phone number" name="contact" variant="outlined" type="number"  onChange={changehandler} className="for_fields"/>
+                                                </div>
+                                                </form>
+                                                <div className="for_submit_member">
+                                                    <button  className="apply_btn card_btn signInBtn "
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                if(!validator.isEmail(newdata.email))
+                                                                    {
+                                                                        setnotify({message:'Wrong Format of Email address!',isOpen:true, type:""});
+                                                                        setTimeout(()=>{
+                                                                            setnotify({message:'', isOpen:false, type:''})
+                                                                        },3000)
+                                                                    }
+                                                                else
+                                                                    {
+                                                                        setPopUserAuth(true);      
+                                                                    }
+                                                            }   
+                                                        }
+                                                    >
+                                                        Submit
+                                                    </button>
+                                                </div>
+                                                
+                                            </div>
+                                        ):null
+                                        
+                                    }
+                                    <PopupAuth
+                                    openPopup={popUserAuth}
+                                    setPop={setPopUserAuth}
+                                    setnext={()=>{setPopUserAuth(false);userUpdate();setUserInputs(false)}}
+                                    >
+                                    </PopupAuth>
+                                    {
+                                        notify.isOpen && 
+                                        <Notification
+                                        notify={notify}
+                                        />
+                                    }
+                                </div>
                             </div>
                         </div>                                              
                     </div>        

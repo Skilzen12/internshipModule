@@ -113,8 +113,8 @@ export default {
   getCompanyLocationDetails: async(id) => {
     return DataService.get(`/skilzen/v1/profile/company_location/${id}`);
   },
-  createCompanyLocationDetails: async(data, id) => {
-    return DataService.post(`/skilzen/v1/profile/company_location/${id}/`, data);
+  createCompanyLocationDetails: async(data) => {
+    return DataService.post(`/skilzen/v1/profile/company_location/`, data);
   },
   updateCompanyLocationDetails: async(data, id) => {
     return DataService.put(`/skilzen/v1/profile/company_location/${id}/`, data);

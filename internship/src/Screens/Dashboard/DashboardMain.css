@@ -32,6 +32,9 @@
 }
 .dashboard__sidebarButtonArea{
     padding: 60px 0 40px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px
 }
 .dashboard__sliderNavs{
     display: flex;
@@ -554,6 +557,114 @@
 
 .cursor__pointer{
     cursor: pointer;
+}
+
+.modal-content{
+    padding: 60px 150px;
+}
+
+.flexRow{
+    display: flex;
+    flex-direction: row !important;
+}
+.textAlignCenter{
+    text-align: center;
+}
+.flexColumn{
+    display: flex;
+    flex-direction: column;
+}
+.flexBetween{
+    justify-content: space-between;
+}
+.flexAround{
+    justify-content: space-around;
+}
+.flexStart{
+    justify-content: flex-start;
+}
+.flexAlignCenter{
+    align-items: center;
+}
+.flexCenter{
+    justify-content: center;
+}
+.mb-40{
+    margin-bottom: 40px;
+}
+.flexWrap{
+    flex-wrap: wrap;
+}
+.flexEnd{
+    justify-content: flex-end;
+}
+.flexEvenly{
+    justify-content: space-evenly;
+}
+.modal-head{
+    font: 32px 'Gordita', sans-serif;
+    font-weight: 700;
+    margin: 0;
+}
+.modal-list{
+    font: 16px 'Gordita', sans-serif;
+    font-weight: 400;
+    color: rgba(131,131,131,1);
+
+}
+.modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: none !important;
+    border-radius: 32px !important;
+    outline: 0;
+    padding: 40px;
+}
+.modal-head-center{
+    width: 100%;
+    text-align: center;
+}
+.modal .form-group .form-label{
+    font: 20px 'Gordita', sans-serif;
+    font-weight: 400;
+    color: #3D3D3D;
+}
+.mt-40{
+    margin-top: 20px;
+}
+.mb-20{
+    margin-bottom: 20px;
+}
+.modal .form-group input, .modal .form-group select, .modal .form-group textarea{
+    background: #F4F4F4;
+    border: 1px solid #C9C9C9;
+    box-sizing: border-box;
+    border-radius: 32px;
+    font: 16px 'Gordita', sans-serif;
+    font-weight: 400;
+    color: #8D8D8D;
+    outline: none;
+    box-shadow: none !important;
+    padding: 20px;
+}
+.form-group select{
+    padding: 5px 20px !important;
+}
+.modal .form-group input:focus, .modal .form-group select:focus{
+    background: #FFFFFF;
+    border: 1px solid #00E6D8;
+    box-sizing: border-box;
+    border-radius: 32px;
+    font: 20px 'Gordita', sans-serif;
+    font-weight: 400;
+    color: #514C4C;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 @media only screen and (min-width: 542px) and (max-width: 768px){

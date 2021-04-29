@@ -16,6 +16,7 @@ import AdminService from '../../AdminServices/AdminService';
 import {LogoMap, IconMap} from '../../utility/Maps/LandingPageMaps';
 import { HiUser, HiUserGroup } from 'react-icons/hi';
 import DashboardSeva from './DashboardSeva';
+import CityModal from './CityModal'
 
 const ApplicantNormal = ({job}) => {
     return(
@@ -72,12 +73,6 @@ const ApplicantTable = ({job, action}) => {
                                 REJECTED
                             </h3>
                         </td>
-                    ) : accept === 'Shortlisted' ? (
-                        <td colSpan="3" onClick={() => setAccept('')} className="jobsPosted__row mv150">
-                            <h3 style={{textAlign: 'center'}} className="jobsPostedtable_cell shortlist">
-                                SHORTLISTED
-                            </h3>
-                        </td>
                     ) : (
                         <>
                             <td className="jobsPosted__row" onClick={() => setAccept('Accepted')}>
@@ -88,11 +83,6 @@ const ApplicantTable = ({job, action}) => {
                             <td className="jobsPosted__row" onClick={() => setAccept('Rejected')}>
                                 <h3 className="jobsPostedtable_cell deactivate mv75">
                                     REJECT
-                                </h3>
-                            </td>
-                            <td className="jobsPosted__row" onClick={() => setAccept('Shortlisted')}>
-                                <h3 className="jobsPostedtable_cell shortlist mv75">
-                                    SHORTLIST
                                 </h3>
                             </td>
                         </>
@@ -111,12 +101,6 @@ const ApplicantTable = ({job, action}) => {
                         REJECTED
                     </h3>
                 </td>
-            ) : action === 'Shortlisted' ? (
-                <td colSpan="2" className="jobsPosted__row mv150">
-                    <h3 style={{textAlign: 'center'}} className="jobsPostedtable_cell shortlist">
-                        SHORTLISTED
-                    </h3>
-                </td>
             ) : null}            
         </tr>
     );
@@ -132,8 +116,8 @@ const ApplicantList = ({data}) => {
                         Applicants ({data.count})
                     </p>
                     <div className="dashboard__jobstags">
-                        {[{name: "Accepted", color: 'rgba(45,132,90,1)'}, {name: "Rejected", color: 'rgba(211,46,46,1)'}, {name: 'Shortlisted', color: 'orange'}].map(tag => (
-                            <div className="dashboard__jobsPostedTag" onClick={() => setAction(tag.name) } style={{color: tag.color}}>
+                        {[{name: "Accepted", color: 'rgba(45,132,90,1)'}, {name: "Rejected", color: 'rgba(211,46,46,1)'}].map(tag => (
+                            <div className="dashboard__jobsPostedTag" onClick={() => setAction(tag.name)} style={{color: tag.color}}>
                                 {tag.name}
                             </div>
                         ))}
@@ -297,6 +281,9 @@ const DashboardNav = ({name, Icon, number, setTab}) => {
     )
 }
 
+const AddCity = () => {
+    
+}
 
 function DashboardMain(props) {
     const user = useSelector(state => state.user);
@@ -345,7 +332,8 @@ function DashboardMain(props) {
                             user.recruits_for ? 
                             window.open('/postInternship', '_self')
                             : window.open('/applyRecruiterForm', '_self')
-                        }} className="category__label dashboard__sidebarButton">+ Add New</button>
+                        }} className="category__label dashboard__sidebarButton">+ Add Post</button>
+                        <CityModal />
                     </div>
                     <div className="dashboard__sliderNavs">
                         {navCollection.map(nav => (
@@ -360,7 +348,8 @@ function DashboardMain(props) {
                             user.recruits_for ? 
                             window.open('/postInternship', '_self')
                             : window.open('/applyRecruiterForm', '_self')
-                        }} className="category__label dashboard__sidebarButton">+ Add New</button>
+                        }} className="category__label dashboard__sidebarButton">+ Add Post</button>
+                        <CityModal />
                     </div>
                     <div className="dashboard__sliderNavs">
                         {navCollection.map(nav => (
@@ -433,7 +422,7 @@ const CompanyProfile = ({data}) => {
                                 </div>
                                 <div className="each_short_detail">
                                     <p className="specification">Social Media</p>
-                                    <div class="for_media_icons">
+                                    <div class="for_media_icons" style={{marginTop: 10}}>
                                         {data.meta.social_links.map(
                                             link => {
                                                 return(
@@ -441,6 +430,16 @@ const CompanyProfile = ({data}) => {
                                                 );
                                             }
                                         )}
+                                    </div>
+                                </div>
+                                <div className="each_short_detail">
+                                    <p className="specification">Branches</p>
+                                    <div className="flexRow" style={{gap: 5}}>
+                                        {data.company_locations.filter(location => location.is_head_office === false).map(location => {
+                                            return(
+                                                <p className="specification_ans">{location.location}</p>
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             </div>

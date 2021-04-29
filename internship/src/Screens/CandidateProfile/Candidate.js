@@ -40,7 +40,9 @@ function Candidate() {
                 user.user_profile.meta.social_links.map(
                   link => {
                       return(
+                        link.link && IconMap.get(link.handle) ? 
                           <a href={link.link} className="mediaIcons"><i className={`fab ${IconMap.get(link.handle).url} adj_icon`} aria-hidden="true"></i></a>
+                          : null                       
                       );
                   }
               ) : null}
@@ -120,7 +122,7 @@ function Candidate() {
                       const dayEnd = work.meta.end_date.split('-')[2];
                       return(
                         <div className="candidate__experience__card">
-                          {work.company.logo.link && LogoMap.get(work.meta.company_name) ? (
+                          {work.company && LogoMap.get(work.meta.company_name) ? (
                             <img src={LogoMap.get(work.meta.company_name).url} className="experience__company__photo" alt="Co" />
                           ) : <HiUserGroup style={{fontSize: 40}} /> }
                           <div className="experience__details">
@@ -150,7 +152,7 @@ function Candidate() {
                       const dayEnd = work.meta.end_date.split('-')[2];
                       return(
                         <div className="candidate__experience__card">
-                          {work.college.banner_image.link && LogoMap.get(work.meta.college_name) ? (
+                          {work.college && LogoMap.get(work.meta.college_name) ? (
                             <img src={LogoMap.get(work.meta.company_name).url} className="experience__company__photo" alt="Co" />
                           ) : <HiUser style={{fontSize: 40}} /> }
                           <div className="experience__details">

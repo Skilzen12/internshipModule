@@ -140,8 +140,8 @@ const TagsIcons =({list})=>{
 
 function AboutCmp (props){    
     const [data, setData] = useState([]);
-    var uuid = (props.location.state.uuid);
-    var dashboard = props.location.state.dashboard;
+    var uuid = (props.location.state?.uuid);
+    var dashboard = props.location.state?.dashboard;
     const user = useSelector(state => state.user);
     let [bookmark, setBookmark] = useState(false);
     let [apply, setApply] = useState(false);
@@ -184,7 +184,7 @@ function AboutCmp (props){
             }
         }   
     useEffect(() => {
-        getDetails(uuid);
+        // getDetails(uuid);
     }, [uuid])
     return(
         <>

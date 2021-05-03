@@ -7,6 +7,7 @@ import { Otp } from "./stepForm/Otp";
 import { Experience } from "./multistep/Experience";
 
 import { useSelector , useDispatch } from 'react-redux'
+import { useHistory } from "react-router";
 const defaultData = {
   fname: "",
   lname: "",
@@ -37,8 +38,13 @@ const steps = [
 
 export const MultiStepForm = () => {
   const user = useSelector(state => state.user);
+  const history=useHistory();
   useEffect(()=>{
-    if(user.user_education?.length) window.open('/','_self');
+    if(user.user_education?.length) {
+      if(history.length==1)
+        history.push('/');
+      else history.goBack();
+    }
   })
   defaultData.email=user.email;
   defaultData.mobileNo=user.phone_number;

@@ -115,14 +115,30 @@ const ApplicantTable = ({job, action}) => {
     );
 }
 
-const ApplicantList = ({data}) => {
+const ApplicantList = () => {
     const [action, setAction] = useState('normal');
+    const [companyApplicants, setApplicants] = useState([]);
+
+    useEffect(()=>{
+        AdminService.ApplicantsCompany('9f59f1db-0535-4e37-95fd-72cda053288d')
+            .then(res => {
+                let result=[...companyApplicants,...res.data.results];
+                setApplicants(result)
+            })
+            .catch(err => console.log(err))
+        AdminService.ApplicantsCompany('d6630037-5961-422e-a52f-0fe971b27160')
+            .then(res => {
+                let result=[...companyApplicants,...res.data.results];
+                setApplicants(companyApplicants=>[...companyApplicants,...res.data.results])
+            })
+            .catch(err => console.log(err))
+    },[])
     return (
         <div className="dashboard__jobsPosted">
             <div className="dashboard__jobsPostedHeader">
                 <div className="dashboard__jobsTags">
                     <p className="dashboard__jobsPostedheading">
-                        Applicants ({data.count})
+                        Applicants ({companyApplicants.length})
                     </p>
                     <div className="dashboard__jobstags">
                         {[{name: "Accepted", color: 'rgba(45,132,90,1)'}, {name: "Rejected", color: 'rgba(211,46,46,1)'}].map(tag => (
@@ -154,7 +170,7 @@ const ApplicantList = ({data}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.results.map(job => (
+                            {companyApplicants?.map(job => (
                                 <ApplicantTable job={job} action={action} />
                             ))}
                         </tbody>
@@ -301,7 +317,7 @@ function DashboardMain(props) {
     const[ActivelistInternship, setActiveList] = useState();
     const[InActivelistInternship, setInActiveList] = useState();
     const [company, setProfile] = useState();
-    const [companyApplicants, setApplicants] = useState();
+    
     const [action, setAction] = useState('normal');
 
     useEffect(() => {
@@ -324,10 +340,7 @@ function DashboardMain(props) {
             .then(res => setProfile(res.data))
             .catch(err => console.log(err)) 
 
-        AdminService.ApplicantsCompany('fc5c6f90-23c2-46e4-a990-9471f8061b61')
-            .then(res => setApplicants(res.data))
-            .catch(err => console.log(err))
-
+        
     }, []) 
     var localCards = props.location.state.loadCards;
 
@@ -371,7 +384,7 @@ function DashboardMain(props) {
                         action === 'Active' ? ActivelistInternship : action === 'Inactive' ? InActivelistInternship : listInternship
                     } setAction={setAction} /></div>
                 ) : tab === 'Applicants' ? (
-                    <div className="dashboard__content"><ApplicantList data={companyApplicants} /></div> 
+                    <div className="dashboard__content"><ApplicantList /></div> 
                 ) : tab=== 'Profile' ? (
                     <CompanyProfile data={company} />
                 ) : (

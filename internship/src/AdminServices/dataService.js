@@ -5,7 +5,7 @@ import { getItem } from '../utility/localStorageControl';
 const authHeader = () => ({
   'Content-Type': 'application/json',
    'Accept': 'application/json',
-   'Authorization': `Token ${getItem('accessToken')}`,
+   'Authorization': getItem('accessToken')?`Token ${getItem('accessToken')}`:undefined,
 });
 
 const client = axios.create({

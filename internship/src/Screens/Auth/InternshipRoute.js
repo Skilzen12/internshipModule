@@ -21,7 +21,7 @@ const InternshipRoute = ({ component:Component , ...rest})=>{
       if(token){
         // dispatch(getUserData())
         if(user.user_education.length==0){
-          return <Redirect to="/applyForm" />
+          return <Redirect to="/applyForm" push={true} />
         }else{
           return <Component {...props} />
         }

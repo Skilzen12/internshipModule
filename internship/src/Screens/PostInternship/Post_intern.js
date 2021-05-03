@@ -511,7 +511,8 @@ const PostIntern = (data) => {
         title: data.title,
         city: data.city,
         company_location: {
-            location: "Hyderabad, Near Panja Gutta, Imerial Plaza"
+            location: "Hyderabad, Near Panja Gutta, Imerial Plaza",
+            is_head_office:1
         },
         category: data.category==="other" ? data.otherCategory : data.category,
         max_stipend: data.max_stipend,
@@ -528,7 +529,7 @@ const PostIntern = (data) => {
 
     console.log(postInternData);
 
-    AdminService.postInternship(postInternData.json())
+    AdminService.postInternship(postInternData)
         .then(res => console.log(res))
         .catch(err => console.log(err))
 }

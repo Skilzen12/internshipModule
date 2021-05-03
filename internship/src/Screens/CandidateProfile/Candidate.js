@@ -1,15 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from '../../Components/Header/Updated_Header'
 import "./Candidate.css";
 import Back from '../../Components/GoBack/Back_comp'
 import {TagsIcons} from '../../Components/LandingPage/FeaturedCards/FeaturedCards'
 import {BsBookmark as Mark} from "react-icons/bs";
-import {savedInternships,appliedInternships} from '../../utility/DummyData/CandidateData';
+// import {savedInternships,appliedInternships} from '../../utility/DummyData/CandidateData';
 import { useSelector , useDispatch } from 'react-redux'
 import {LogoMap, IconMap} from '../../utility/Maps/LandingPageMaps';
 import { HiUser, HiUserGroup } from "react-icons/hi";
+import AdminService from "../../AdminServices/AdminService";
 
 function Candidate() {
   const user = useSelector(state => state.user);
@@ -17,6 +18,23 @@ function Candidate() {
   const navBarClickHandler = (e) => {
     setActiveSection(e.target.innerText);
   };
+  const [savedInternships,setSavedInternships] = useState([]);
+  const [appliedInternships,setAppliedInternships] = useState([]);
+  useEffect(()=>{
+    //fetching saved Internships
+    AdminService.getSavedInternships()
+    .then((res) => {
+      setSavedInternships(res.data.results);
+    })
+    .catch(err => console.log(err));
+
+    //fetching applied Internships
+    AdminService.getAppliedInternships()
+    .then((res) => {
+      setAppliedInternships(res.data.results);
+    })
+    .catch(err => console.log(err));
+  },[])
 
   return (
     <>
@@ -176,18 +194,20 @@ function Candidate() {
             {activeSection === "Saved Internships" && (
               <>
                 <div className="saved__internships__cards">
-                  {savedInternships.map((card)=>(
-                    <SavedInternshipCard {...card} />
-                  ))}
+                  {savedInternships.length?savedInternships.map((card)=>(
+                    <SavedInternshipCard {...card} key={card.uuid} />
+                  ))
+                :<h3>There are no saved internships</h3>}
                 </div>
               </>
             )}
             {activeSection === "Applied Internships" && (
               <>
                 <div className="saved__internships__cards">
-                  {appliedInternships.map((card)=>(
-                    <AppliedInternshipCard {...card} />
-                  ))}
+                  {appliedInternships.length?appliedInternships.map((card)=>(
+                    <AppliedInternshipCard {...card} key={card.uuid}/>
+                  ))
+                :<h3>There are no applied internships</h3>}
                 </div>
               </>
             )}
@@ -203,21 +223,24 @@ export default Candidate;
 
 
 
-const SavedInternshipCard = ({imgSrc,com_name,role,tags_list,role_description})=>{
+const SavedInternshipCard = (props) => {
+  console.log('in saved internship card')
+  const {company:{name,logo:{link:ImgLink}},title,short_description,kind,city,max_stipend,min_stipend,} = props;
+  const tagList=[{name:`${kind}`},{name:`${city}`},{name:`${min_stipend}-${max_stipend}`}]; 
   return (
     <div className="saved__internships__card">
       <img
         className="company__img"
-        src={imgSrc}
+        src={"https://p.kindpng.com/picc/s/402-4026343_google-to-invade-your-home-to-show-off.png"||ImgLink}
         alt=""
       />
-      <p className="company__name">{com_name}</p>
-      <p className="internship__role">{role}</p>
+      <p className="company__name">{name}</p>
+      <p className="internship__role">{title}</p>
       {
-        <TagsIcons list={tags_list} />
+        <TagsIcons list={tagList} />
       }
       <p className="internship__description">
-       {role_description}
+       {short_description}
       </p>
       <div className="internship__card__footer">
         <button className="apply_btn card_btn">Apply Now</button>
@@ -230,7 +253,7 @@ const TagsIcons1 =({list})=>{
   return (
     <ul className="tags__featured">
       {list.map(item=>(
-        <li className="mt-1">
+        <li className="mt-1" key={item.uuid}>
           <a className="bg-regent-opacity-15 min-width-px-96 text-center rounded-3 py-1"
             style={{ fontFamily: "Gordita" }}
           >
@@ -242,21 +265,25 @@ const TagsIcons1 =({list})=>{
   )
       }
 
-const AppliedInternshipCard = ({imgSrc,com_name,role,tags_list,role_description})=>{
-  return(
+const AppliedInternshipCard = (props)=>{
+  console.log('in applied internship card')
+  const {company:{name,logo:{link:ImgLink}},title,short_description,kind,city,max_stipend,min_stipend,} = props;
+  const tagList=[{name:`${kind}`},{name:`${city}`},{name:`${min_stipend}-${max_stipend}`}];
+  console.log(tagList)
+  return (
     <div className="saved__internships__card">
       <img
         className="company__img"
-        src={imgSrc}
+        src={"https://p.kindpng.com/picc/s/402-4026343_google-to-invade-your-home-to-show-off.png"||ImgLink}
         alt=""
       />
-      <p className="company__name">{com_name}</p>
-      <p className="internship__role">{role}</p>
+      <p className="company__name">{name}</p>
+      <p className="internship__role">{title}</p>
       {
-        <TagsIcons list={tags_list} />
+        <TagsIcons list={tagList} />
       }
       <p className="internship__description">
-       {role_description}
+       {short_description}
       </p>
       <div className="internship__card__footer">
         <button className="apply_btn card_btn disabled">Awaiting!</button>

@@ -64,6 +64,7 @@
 }
 .candidate__content{
   overflow: auto;
+  height: 100%;
 }
 .candidate__content > div {
   padding-left: 30px;

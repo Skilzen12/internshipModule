@@ -130,5 +130,11 @@ export default {
   },
   ApplicantsCompany : async(id) => {
     return DataService.get(`/internship/v1/company-recruiter/postings/${id}/applicants`);
+  },
+  getAppliedInternships: async() => {
+    return DataService.get(`/internship/v1/internships/applied`);
+  },
+  getSavedInternships : async() => {
+    return DataService.get(`/internship/v1/internships/bookmarked`);
   }
 }

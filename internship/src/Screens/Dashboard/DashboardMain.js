@@ -26,6 +26,7 @@ import pr4 from '../../images/Landing2/gallery-img24.jpg';
 import validator from 'validator';
 import Notification from '../Auth/Notification.js';
 import PopupAuth from "../AdminDashboard/ActionAuth";
+import {DashBoard} from '../../redux/actionTypes'
 
 const ApplicantNormal = ({job}) => {
     return(
@@ -118,20 +119,17 @@ const ApplicantTable = ({job, action}) => {
 const ApplicantList = () => {
     const [action, setAction] = useState('normal');
     const [companyApplicants, setApplicants] = useState([]);
-
+    const dashboard =useSelector(state=> state.dashboard);
     useEffect(()=>{
-        AdminService.ApplicantsCompany('9f59f1db-0535-4e37-95fd-72cda053288d')
-            .then(res => {
-                let result=[...companyApplicants,...res.data.results];
-                setApplicants(result)
-            })
-            .catch(err => console.log(err))
-        AdminService.ApplicantsCompany('d6630037-5961-422e-a52f-0fe971b27160')
+        dashboard.postings.results.map((posting)=>{
+            AdminService.ApplicantsCompany(posting.uuid)
             .then(res => {
                 let result=[...companyApplicants,...res.data.results];
                 setApplicants(companyApplicants=>[...companyApplicants,...res.data.results])
             })
             .catch(err => console.log(err))
+        })
+        
     },[])
     return (
         <div className="dashboard__jobsPosted">
@@ -317,7 +315,7 @@ function DashboardMain(props) {
     const[ActivelistInternship, setActiveList] = useState();
     const[InActivelistInternship, setInActiveList] = useState();
     const [company, setProfile] = useState();
-    
+    const dispatch = useDispatch();
     const [action, setAction] = useState('normal');
 
     useEffect(() => {
@@ -332,7 +330,11 @@ function DashboardMain(props) {
 
         AdminService.getCompanyInternship()
             .then(res => {
-                setList(res.data)
+                setList(res.data);
+                dispatch({
+                    type:DashBoard.GET_POSTINGS,
+                    payload:res.data
+                })
             })
             .catch(err => console.log(err)) 
             
@@ -342,7 +344,7 @@ function DashboardMain(props) {
 
         
     }, []) 
-    var localCards = props.location.state.loadCards;
+    var localCards = props.location.state?.loadCards;
 
     return (
         <div>

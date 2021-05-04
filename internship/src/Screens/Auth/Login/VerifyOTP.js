@@ -5,6 +5,7 @@ import { useSelector , useDispatch } from 'react-redux'
 
 import AdminService from "../../../AdminServices/AdminService";
 import logoOnly from '../../../images/Group.png'
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   rootSetProfile:{
@@ -93,11 +94,13 @@ const VerifyOTP = () => {
   const [emailVerification, setEmailVerification]=useState('');
   const [outputPhone, setoutputP] = useState(false);
   const [outputEmail, setoutputM] = useState(false);
-
+  const history=useHistory();
   const user = useSelector(state => state.user);
   useEffect(() => {
     if(user.is_phone_verified && user.is_email_verified){
+      if(history.length==1)
       window.open('/', '_self');
+      else history.goBack();
     }
   }, [])
     return (

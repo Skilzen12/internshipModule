@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-lone-blocks */
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import './Post_intern.css';
 import Logo from "../../images/Group.png"
 import Radio from '@material-ui/core/Radio';
@@ -17,11 +17,14 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import {ThemeDropdown} from '../../Pallete_components/Dropdown/Dropdown';
 import { GoChevronRight, GoChevronLeft } from "react-icons/go";
 import AdminService from '../../AdminServices/AdminService';
+import moment from 'moment';
+import { MultipleSelect } from 'react-select-material-ui';
 
 
 function Student_details() {
     const [section,setSection]=useState("post1");
     const [show_other,setShow_other]=useState(false);
+    const [locations,setLocations]=useState([])
 
     const [formData,setformData]=useState({
         title:"",
@@ -102,6 +105,13 @@ function Student_details() {
     //         [name]:value
     //     });
     //   };
+
+    useEffect(()=>{
+        AdminService.getCompanyLocation()
+        .then(res=>setLocations(res.data.results))
+        .catch(console.error);
+    },[])
+
     return (
         <>
         <div className="list__article__container">
@@ -138,7 +148,7 @@ function Student_details() {
                                     <RadioGroup aria-label="category" name="category"   onChange={changehandler}>
                                     <div className="profile_outter">
                                         <div className='profile_part1'>
-                                            <FormControlLabel value="Business Development (Sales)" control={<Radio />} label="Business Development (Sales)"  />
+                                            <FormControlLabel value="Business Development" control={<Radio />} label="Business Development"  />
                                             <FormControlLabel value="Graphic Design" control={<Radio />} label="Graphic Design" />
                                             <FormControlLabel value="Social Media Marketing" control={<Radio />} label="Social Media Marketing" />
                                             <FormControlLabel value="Operations" control={<Radio />} label="Operations"  />
@@ -184,6 +194,19 @@ function Student_details() {
                                         error
                                     />
                                 </FormControl>
+                                <MultipleSelect
+                                    name="Locations"
+                                    style={{ marginTop: 10 }}
+                                    label="Locations"
+                                    options={locations.map(location=>location.location)}
+                                    onChange={()=>{}}
+                                    SelectProps={{
+                                        isCreatable: true,
+                                        msgNoOptionsAvailable: "All tags are selected",
+                                        msgNoOptionsMatchFilter: "No tag matches the filter",
+                                    }}
+                                    variant="outlined"
+                                />
                             </div>
                             <div className="post_parts">
                                 <p className="for_heading_name">Apply By:</p>
@@ -205,8 +228,8 @@ function Student_details() {
                                     <RadioGroup aria-label="internType" name="internType"  onChange={changehandler}>
                                         <div className="profile_outter">
                                             <div className='profile_part1'>
-                                                <FormControlLabel value="Part-time" control={<Radio />} label="Part-time"  />
-                                                <FormControlLabel value="Full-time" control={<Radio />} label="Full-time" />
+                                                <FormControlLabel value="Part Time" control={<Radio />} label="Part Time"  />
+                                                <FormControlLabel value="Full Time" control={<Radio />} label="Full time" />
                                                 <FormControlLabel value="Contract" control={<Radio />} label="Contract"  />
                                                 <FormControlLabel value="WFH" control={<Radio />} label="Work From Home"  />
                                             </div>
@@ -473,7 +496,7 @@ function Student_details() {
                         </button>
                         <button
                             className="apply_btn card_btn"
-                            onClick={() => PostIntern(formData)}
+                            onClick={() => PostIntern({...formData,locations})}
                             >
                                 Submit{" "}
                                 <GoChevronRight
@@ -501,18 +524,20 @@ const PostIntern = (data) => {
     let skill = data.skills.split(', ');
 
     let arraayy = [];
-    skill.map(sk => (
+    skill.map((sk,id) => (
         arraayy.push({
+                id,
                 name : sk
             })
     ))
-
+    let locations=data.locations;
     const postInternData = {
         title: data.title,
         city: data.city,
         company_location: {
-            location: "Hyderabad, Near Panja Gutta, Imerial Plaza",
-            is_head_office:1
+            location: locations[0].location,
+            is_head_office:locations[0].is_head_office,
+            id:locations[0].id
         },
         category: data.category==="other" ? data.otherCategory : data.category,
         max_stipend: data.max_stipend,
@@ -521,9 +546,9 @@ const PostIntern = (data) => {
         short_description: data.short_description,
         description: data.responsibilities,
         days: data.duration,
-        posted_date: currDate,
-        apply_by: data.apply_by,
-        start_date: data.date,
+        posted_date: moment(currDate).format('YYYY-MM-DDThh:mm'),
+        apply_by: moment(data.apply_by).format('YYYY-MM-DDThh:mm'),
+        start_date: moment(data.date).format('YYYY-MM-DDThh:mm'),
         skills: arraayy
     }
 

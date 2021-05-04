@@ -37,7 +37,7 @@ const Content2 = () => {
     : (
       auth.token === null ?
         window.open('/login', '_self')  
-      : window.open('/applyRecruiterForm', '_self')
+      : (user.has_phone_verified?window.open('/applyRecruiterForm', '_self'):window.open('/VerifyOTP', '_self'))
     )
     }
   return (

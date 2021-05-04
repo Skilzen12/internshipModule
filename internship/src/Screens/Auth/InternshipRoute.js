@@ -21,7 +21,10 @@ const InternshipRoute = ({ component:Component , ...rest})=>{
       if(token){
         // dispatch(getUserData())
         if(user.user_education.length==0){
+          if(user.has_phone_verified)
           return <Redirect to="/applyForm" push={true} />
+          else 
+          return <Redirect to="/verifyOTP" push={true} />
         }else{
           return <Component {...props} />
         }

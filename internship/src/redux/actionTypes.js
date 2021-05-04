@@ -46,3 +46,8 @@ export const addProfile={
   ADD_PROFILE_SUCCESS:'ADD_PROFILE_SUCCESS',
   ADD_PROFILE_FAIL:'ADD_PROFILE_FAIL'
 }
+
+
+export const DashBoard = {
+  GET_POSTINGS:'GET_POSTINGS'
+}

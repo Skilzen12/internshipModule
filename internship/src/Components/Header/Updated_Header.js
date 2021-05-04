@@ -70,7 +70,7 @@ function Updated_Header() {
                 {
                     user.recruits_for !== null ? (
                         <div className="navbar-nav">
-                            <Link to="/postInternship" className="btn btn-sm  btn-dark header__signup">Post an Internship</Link>               
+                            <Link to="/postInternship" className="btn btn-sm  btn-dark header__signup mb-2" style={{maxWidth:'fit-content'}}>Post an Internship</Link>               
                         </div>
                     ) : null
                 }

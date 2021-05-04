@@ -13,9 +13,10 @@ import { HiUserGroup } from 'react-icons/hi';
 import { useSelector , useDispatch } from 'react-redux'
 
 
-const InternshipProfile = ({obj, uuid, Apply, BookMark, applyStatus, bookmarkStatus}) => {
+const InternshipProfile = ({obj, uuid, Apply, BookMark,bookmarkStatus,applyStatus}) => {
     const user = useSelector(state => state.user);
-    console.log(obj)
+    // console.log(obj)
+    
     function getDate(date){
         var postedDate = date.split('T')[0];
         var PostedDate = postedDate.split('-')[2];
@@ -45,13 +46,15 @@ const InternshipProfile = ({obj, uuid, Apply, BookMark, applyStatus, bookmarkSta
                                 </div>
                             </div>
                         </div>
-                        {user.recruits_for ?  null : (
+                        {
+                        // user.recruits_for ?  null : 
+                        (
                             <div className="btn_row">
                                 <div className="adj_btn_comp">
                                     <button className="btn_for_apply btn_for_card" disabled={applyStatus} onClick={() => Apply(uuid)}>{applyStatus ? 'Applied' : 'Apply Now'}</button>
                                 </div>
                                 <div className="adj_btn_comp">
-                                    <button className="btn_for_apply btn_for_card" disabled={bookmarkStatus} onClick={() => BookMark(uuid)}>
+                                    <button className="btn_for_apply btn_for_card" onClick={() => BookMark(uuid)}>
                                         {bookmarkStatus ? <BsFillBookmarkFill style={{fontSize:17,paddingBottom:'2px', marginRight: 5}}/> : <Mark style={{fontSize:17, marginRight: 5, paddingBottom:'2px'}}/>}
                                         {bookmarkStatus ? 'Saved' : 'Bookmark it'}
                                     </button>
@@ -109,7 +112,9 @@ const InternshipProfile = ({obj, uuid, Apply, BookMark, applyStatus, bookmarkSta
                             <h3 className="company_heading2">Job Description</h3>
                             <p className="content_area2">{obj.description}</p>
                             <hr className="hr_for_TM"></hr>
-                            {user.recruits_for ?  null : (
+                            {
+                            // user.recruits_for ?  null :
+                             (
                                 <div className="adj_btn_comp">
                                     <button className="btn_for_apply btn_for_card" disabled={applyStatus} onClick={() => Apply(uuid)}>{applyStatus ? 'Applied' : 'Apply Now'}</button>
                                 </div>
@@ -142,6 +147,7 @@ function AboutCmp (props){
     const [data, setData] = useState([]);
     var uuid = (props.location.state?.uuid);
     var dashboard = props.location.state?.dashboard;
+    console.log(uuid,dashboard);
     const user = useSelector(state => state.user);
     let [bookmark, setBookmark] = useState(false);
     let [apply, setApply] = useState(false);
@@ -163,8 +169,11 @@ function AboutCmp (props){
     const Bookmark = async (uuid) => {
         AdminService.InternshipsBookmark(uuid)
         .then(res => {
-            if(res.status === 200){
+            if(res.data['bookmark status'] === true){
                 setBookmark(true);
+            }
+            else if(res.data['bookmark status'] === false){
+                setBookmark(false);
             }
         })
         .catch(err => console.log(err))
@@ -173,18 +182,22 @@ function AboutCmp (props){
     const getDetails = async (id) => {
         if(dashboard){
             AdminService.getIndividualInternship(id)
-                .then(res => setData(res.data))
+                .then(res => {setData(res.data)
+                 setApply(res.data.is_applied); 
+                })
                 .catch(err => console.log(err))
         } else {
             AdminService.getInternshipsDetail(id)
                 .then(res => {
-                    setData(res.data);
+                        setData(res.data)
+                        setBookmark(res.data.is_marked);
                 })
                 .catch(err => console.log(err))
             }
-        }   
+            
+        }
     useEffect(() => {
-        // getDetails(uuid);
+        getDetails(uuid);
     }, [uuid])
     return(
         <>

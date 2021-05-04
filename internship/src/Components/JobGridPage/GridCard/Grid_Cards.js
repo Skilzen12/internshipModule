@@ -11,6 +11,7 @@ import { useSelector , useDispatch } from 'react-redux'
 
 const Grid_Cards = ({obj}) => {
   const user = useSelector(state => state.user);
+  const auth  = useSelector(state => state.auth)
     let [bookmark, setBookmark] = useState(false);
     let [apply, setApply] = useState(false);
 
@@ -24,16 +25,22 @@ const Grid_Cards = ({obj}) => {
                 })
         .catch(err => console.log(err))
         } else{
+          if(auth.authenticate)
             window.open('/applyForm', '_self');
+          else
+            window.open('/signup', '_self');
         }        
     }
 
     const Bookmark = async (uuid) => {
         AdminService.InternshipsBookmark(uuid)
         .then(res => {
-            if(res.status === 200){
-                setBookmark(true);
-            }
+            if(res.data['bookmark status'] === true){
+              setBookmark(true);
+          }
+          else if(res.data['bookmark status'] === false){
+              setBookmark(false);
+          }
         })
         .catch(err => console.log(err))
     }
@@ -76,7 +83,7 @@ const Grid_Cards = ({obj}) => {
         <p className="gordita mb-7 font-size-4 text-gray"> {obj.short_description} </p>
         <div className="card-btn-group" style={{display: 'flex', flexDirection: 'row'}}>
           <button className="btn_for_apply btn_for_card" disabled={apply} onClick={() => Apply(obj.uuid)}>{apply ? 'Applied' : 'Apply Now'}</button>
-          <button className="btn_for_apply btn_for_card" disabled={bookmark} onClick={() => Bookmark(obj.uuid)}>
+          <button className="btn_for_apply btn_for_card" onClick={() => Bookmark(obj.uuid)}>
               {bookmark ? <BsFillBookmarkFill style={{fontSize:17,paddingBottom:'2px', marginRight: 5}}/> : <Mark style={{fontSize:17, marginRight: 5, paddingBottom:'2px'}}/>}
               {bookmark ? 'Saved' : 'Bookmark it'}
           </button>

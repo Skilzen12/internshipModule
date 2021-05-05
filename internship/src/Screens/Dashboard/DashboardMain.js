@@ -314,7 +314,6 @@ function DashboardMain(props) {
     const[listInternship, setList] = useState();
     const[ActivelistInternship, setActiveList] = useState();
     const[InActivelistInternship, setInActiveList] = useState();
-    const [company, setProfile] = useState();
     const dispatch = useDispatch();
     const [action, setAction] = useState('normal');
 
@@ -337,14 +336,14 @@ function DashboardMain(props) {
                 })
             })
             .catch(err => console.log(err)) 
-            
-        AdminService.getCompanyProfile()
-            .then(res => setProfile(res.data))
-            .catch(err => console.log(err)) 
-
         
     }, []) 
-    var localCards = props.location.state?.loadCards;
+    let [localCards, setLocalCards] = useState();
+
+    useEffect(() => {
+        AdminService.getCompanyDashboard()
+            .then(resp => setLocalCards(resp.data))
+    }, [])
 
     return (
         <div>
@@ -388,7 +387,7 @@ function DashboardMain(props) {
                 ) : tab === 'Applicants' ? (
                     <div className="dashboard__content"><ApplicantList /></div> 
                 ) : tab=== 'Profile' ? (
-                    <CompanyProfile data={company} />
+                    <CompanyProfile  />
                 ) : (
                     <div className="dashboard__content" style={{boxShadow: 'none', border: 'none'}}>
                         <div className="dashboard__ContentCards">
@@ -403,11 +402,11 @@ function DashboardMain(props) {
 
 export default DashboardMain;
 
-const CompanyProfile = ({data}) => {
-
+const CompanyProfile = () => {
     const [popUserAuth,setPopUserAuth]=useState(false);
     const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
     const [userInputs,setUserInputs]=useState(false);
+    const [profile,setProfile]=useState(null);
     const [users,setUsers]=useState([
         {
           name:"Andrew Smith",
@@ -465,29 +464,33 @@ const CompanyProfile = ({data}) => {
         const  target = e.target
         const name = target.name
         const value = target.value
-        {
-          setNewdata({
-                ...newdata,
-                [name] : value
-            })
-        }
-        
+        setNewdata({
+            ...newdata,
+            [name] : value
+        })
+    
       }
+    
+      useEffect ( ()=>{
+        AdminService.getCompanyProfile()
+        .then(res => setProfile(res.data))
+        .catch(err => console.log(err)) 
+      },[])
     return(
         <div className="dashboard__content">
             <div className="box2">
                 <div className='adjusting_card'>
                     <div className="company_card" style={{boxShadow: 'none', border: 'none'}}>
-                        <div className="for_margin_inside">
+                        {profile&&<div className="for_margin_inside">
                             <div className='img_n_name'>
                                 <div className='cmp_main_img'>
-                                    {data.logo.link && LogoMap.get(data.name) ?  (
-                                        <img src={LogoMap.get(data.name).url} className="companyLogo__featuredCards" alt="" />
+                                    {profile.logo.link && LogoMap.get(profile.name) ?  (
+                                        <img src={LogoMap.get(profile.name).url} className="companyLogo__featuredCards" alt="" />
                                     ) : <HiUserGroup style={{fontSize: 40}} /> }
                                 </div>
                                 <div style={{marginLeft:'15px',marginTop:'5px'}}>
-                                    <p className='company_main_name'>{data.name}</p>
-                                    <p className='company_cat_type' >{data.kind}</p>
+                                    <p className='company_main_name'>{profile.name}</p>
+                                    <p className='company_cat_type' >{profile.kind}</p>
                                 </div>
                             </div>
                             <p style={{marginTop:'50px',marginBottom:'20px',fontFamily: 'Gordita',fontStyle: 'normal',fontWeight: 'normal',fontSize: '13px',lineHeight: '26px',letterSpacing: '0.26px',textTransform: 'uppercase',color: '#6B6E6F'}}>COMPANY</p>
@@ -495,15 +498,15 @@ const CompanyProfile = ({data}) => {
                             <div className="short_details">
                                 <div className="each_short_detail">
                                     <p className="specification">Company size</p>
-                                    <p className="specification_ans">{data.strength}</p>
+                                    <p className="specification_ans">{profile.strength}</p>
                                 </div>
                                 <div className="each_short_detail">
                                     <p className="specification">Type of Corporation</p>
-                                    <p className="specification_ans">{data.kind}</p>
+                                    <p className="specification_ans">{profile.kind}</p>
                                 </div>
                                 <div className="each_short_detail">
                                     <p className="specification">Location</p>
-                                    <p className="specification_ans">{data.company_locations.map(location => {
+                                    <p className="specification_ans">{profile.company_locations.map(location => {
                                         return(
                                             location.is_head_office ? location.location : null
                                         );
@@ -511,12 +514,12 @@ const CompanyProfile = ({data}) => {
                                 </div>
                                 <div className="each_short_detail">
                                     <p className="specification">Estb. Since</p>
-                                    <p className="specification_ans">{data.meta.established}</p>
+                                    <p className="specification_ans">{profile.meta.established}</p>
                                 </div>
                                 <div className="each_short_detail">
                                     <p className="specification">Social Media</p>
                                     <div class="for_media_icons" style={{marginTop: 10}}>
-                                        {data.meta.social_links.map(
+                                        {profile.meta.social_links.map(
                                             link => {
                                                 return(
                                                     <a href={link.link} className="mediaIcons"><i className={`fab ${IconMap.get(link.handle).url} adj_icon`} aria-hidden="true"></i></a>
@@ -528,7 +531,7 @@ const CompanyProfile = ({data}) => {
                                 <div className="each_short_detail">
                                     <p className="specification">Branches</p>
                                     <div className="flexRow" style={{gap: 5}}>
-                                        {data.company_locations.filter(location => location.is_head_office === false).map(location => {
+                                        {profile.company_locations.filter(location => location.is_head_office === false).map(location => {
                                             return(
                                                 <p className="specification_ans">{location.location}</p>
                                             );
@@ -537,8 +540,8 @@ const CompanyProfile = ({data}) => {
                                 </div>
                             </div>
 
-                            <p className="company_heading">Join {data.name}</p>
-                            <p className="content_area" style={{marginTop: 20}}>{data.description}</p>
+                            <p className="company_heading">Join {profile.name}</p>
+                            <p className="content_area" style={{marginTop: 20}}>{profile.description}</p>
                             <hr className="hr_for_TM"></hr>
                             <p className="team_members_heading">Team Members:</p>
                             <div>
@@ -602,7 +605,7 @@ const CompanyProfile = ({data}) => {
                                     }
                                 </div>
                             </div>
-                        </div>                                              
+                        </div>}                                              
                     </div>        
                 </div>
             </div>

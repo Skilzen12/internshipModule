@@ -38,8 +38,8 @@ const InternshipProfile = ({obj, uuid, Apply, BookMark,bookmarkStatus,applyStatu
                                 </>
                             </div>
                             <div className='img_n_name2'>
-                                {obj.company ? (
-                                    <img src={LogoMap.get(obj.company.name).url} className="companyLogo__featuredCards" alt="" />
+                                {(obj.company&& LogoMap.get(obj.company.name)?.url)? (
+                                    <img src={LogoMap.get(obj.company.name)?.url} className="companyLogo__featuredCards" alt="" />
                                 ) : <HiUserGroup style={{fontSize: 40}} /> }
                                 <div style={{marginTop:'5px'}}>
                                     <p className='company_main_name'>{obj.company ? obj.company.name : 'XASD'}</p>
@@ -145,13 +145,12 @@ const TagsIcons =({list})=>{
 
 function AboutCmp (props){    
     const [data, setData] = useState([]);
-    var uuid = (props.location.state?.uuid);
-    var dashboard = props.location.state?.dashboard;
-    console.log(uuid,dashboard);
+    console.log(props);
+    var uuid = (props.match.params?.uuid);
     const user = useSelector(state => state.user);
     let [bookmark, setBookmark] = useState(false);
     let [apply, setApply] = useState(false);
-
+    
     const Apply = async (uuid) => {
         if(user.user_profile){
             AdminService.InternshipsApply(uuid)
@@ -180,25 +179,27 @@ function AboutCmp (props){
     }
     
     const getDetails = async (id) => {
-        if(dashboard){
-            AdminService.getIndividualInternship(id)
-                .then(res => {setData(res.data)
-                 setApply(res.data.is_applied); 
-                })
-                .catch(err => console.log(err))
-        } else {
-            AdminService.getInternshipsDetail(id)
-                .then(res => {
-                        setData(res.data)
-                        setBookmark(res.data.is_marked);
-                })
-                .catch(err => console.log(err))
-            }
-            
+        
+        AdminService.getInternshipsDetail(id)
+            .then(res => {
+                    setData(res.data)
+                    setBookmark(res.data.is_marked);
+            })
+            .catch(err=>Promise.reject(err));
         }
     useEffect(() => {
-        getDetails(uuid);
+        getDetails(uuid)
+        .then(res => {setLoading(true)})
+        .catch((err)=>{
+            console.log(err);
+        })
     }, [uuid])
+
+    // Kept this to stop rendering page for some time
+    const [loading,setLoading]=useState(false)
+    // setTimeout(() =>{setLoading(true)},1000);
+    if(!loading) return <h1>Loading....</h1>
+
     return(
         <>
             <div style={{background: '#CDCDCD1F',height:'100%',overflow:'auto'}}>

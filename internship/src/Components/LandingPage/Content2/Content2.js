@@ -31,12 +31,13 @@ import { useSelector , useDispatch } from 'react-redux'
 const Content2 = () => {  
   const user = useSelector(state => state.user);
   const auth = useSelector(state => state.auth);
+
   const PostIntern = () => {
     user.recruits_for !== null 
     ? window.open('/postInternship', '_self')
     : (
       auth.token === null ?
-        window.open('/login', '_self')  
+        window.open('/signup', '_self')  
       : (user.has_phone_verified?window.open('/applyRecruiterForm', '_self'):window.open('/VerifyOTP', '_self'))
     )
     }

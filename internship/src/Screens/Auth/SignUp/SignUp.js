@@ -243,7 +243,7 @@ const SignUp_and_SetProfile = () => {
               onChange={(e)=>{setconfirm(e.target.value)}}
               variant="outlined"
             />
-            <hr className={classes.for_hr_line}></hr>
+            {/* <hr className={classes.for_hr_line}></hr>
             <p className={classes.for_signup_font}>Signup with:</p>
             <div className={classes.for_auth_div}>
               <div className={classes.for_btn_margin}>
@@ -272,7 +272,7 @@ const SignUp_and_SetProfile = () => {
                 </button>
               </div>
               
-            </div>
+            </div> */}
             <div className={classes.for_already_registerd}>
               <p>Already have an account? <a href="http://localhost:3000/login" className={classes.for_Login_redirect}>Login here!</a></p>
             </div>

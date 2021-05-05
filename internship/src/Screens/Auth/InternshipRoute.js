@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Route, Redirect} from 'react-router-dom'
 import { useSelector , useDispatch } from 'react-redux'
 import { getUserData } from '../../redux/actions/user.actions'
@@ -7,24 +7,36 @@ const InternshipRoute = ({ component:Component , ...rest})=>{
   const user = useSelector(state =>state.user)
   
   const dispatch= useDispatch();
+
   // useEffect(()=>{
   //   console.log('calling getUserData in internship route')
   //   dispatch(getUserData())
   // },[])
-
-  // console.log('internship route',user);
-
+  useEffect(() => {
+    dispatch(getUserData())
+  },[])
   
+  // Kept this to stop rendering page for some time
+  const [loading,setLoading]=useState(false)
+  setTimeout(() =>{setLoading(true)},2000);
+  if(!loading) return <></>
+
   return(
     <Route {...rest} component={(props)=>{
       const token = window.localStorage.getItem('accessToken');
       if(token){
-        // dispatch(getUserData())
+        
         if(user.user_education.length==0){
+          console.log('internship route',rest.path);
           if(user.has_phone_verified)
-          return <Redirect to="/applyForm" push={true} />
-          else 
-          return <Redirect to="/verifyOTP" push={true} />
+          {
+            console.log('fneangn')
+            return <Redirect to={{pathname:"/applyForm",state:{from:rest.path}}}  />
+          }
+          else {
+            return <Redirect to={{pathname:"/verifyOTP",state:{from:rest.path}}}  />
+          }
+          
         }else{
           return <Component {...props} />
         }

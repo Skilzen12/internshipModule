@@ -74,8 +74,8 @@ const useStyles = makeStyles((theme) => ({
     color:'#4040f8',
   },
 }));
-export const Profile = ({ formData, setForm, navigation }) => {
-
+export const Profile = ({ formData, setForm, navigation,location }) => {
+  console.log(location,'location in profile')
   const { profileTitle, facebook, github, linkedIn,portfolio,profileDesc,resumeLink } = formData;
   const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
   const classes = useStyles();

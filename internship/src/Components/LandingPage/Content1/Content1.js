@@ -2,7 +2,7 @@ import React from "react";
 import imgC from "../../../images/Landing2/content-2-img1.png";
 import "./Content1.css";
 
-const Content = () => {
+const Content = ({count}) => {
   return (
     <>
       <section className="pt-5">
@@ -24,7 +24,7 @@ const Content = () => {
                         Job alert!
                       </h6>
                       <p className="mb-0 font-size-4 text-black-2">
-                        104 new jobs are available in this week!
+                        {count} jobs are available!
                       </p>
                     </div>
                   </div>

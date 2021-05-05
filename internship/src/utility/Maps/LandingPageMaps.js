@@ -31,8 +31,10 @@ export var LogoMap = new Map();
 
 export var IconMap = new Map();
   IconMap.set("Facebook", {url : 'fa-facebook-f'});
+  IconMap.set("facebook", {url : 'fa-facebook-f'});
   IconMap.set('Linkedin', {url : 'fa-linkedin-in'});
   IconMap.set('LinkedIn', {url : 'fa-linkedin-in'});
+  IconMap.set('linkedIn', {url : 'fa-linkedin-in'});
   IconMap.set('Twitter', {url : 'fa-twitter'});
   IconMap.set('Dribble', {url : 'fa-dribbble'});
   IconMap.set('Behance', {url : 'fa-behance'});

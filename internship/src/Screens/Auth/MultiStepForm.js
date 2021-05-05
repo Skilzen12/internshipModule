@@ -36,16 +36,19 @@ const steps = [
 ];
 
 
-export const MultiStepForm = () => {
+export const MultiStepForm = ({location}) => {
   const user = useSelector(state => state.user);
   const history=useHistory();
+  console.log(location);
+
   useEffect(()=>{
     if(user.user_education?.length) {
-      if(history.length==1)
-        history.push('/');
-      else history.goBack();
+      // if(history.length==1)
+      //   history.push('/');
+      // else history.goBack();
     }
-  })
+  },[])
+
   defaultData.email=user.email;
   defaultData.mobileNo=user.phone_number;
   
@@ -63,7 +66,7 @@ export const MultiStepForm = () => {
       saved:false,
     },
   ]);
-
+  console.log('EduDetails',EduDetails);
   //For Experience array
   const [ExpDetails, setExpDetails] = useState([
     {

@@ -150,7 +150,6 @@ const Login = () => {
         password : pass
       }
       const res = await dispatch(signIn(loginStuff));
-      console.log(res,"-------------------------");
       if(res.error !== '' ){
         setnotify({message:res.error,isOpen:true, type:'error'});
         setTimeout(()=>{
@@ -158,7 +157,6 @@ const Login = () => {
         },3000)
       }else{
         console.log(window.localStorage.getItem('accessToken'),"tOKEN just before fn call");
-        dispatch(getUserData());
         setnotify({message:'Successfully signed in',isOpen:true, type:'success'});
         setTimeout(()=>{
           setnotify({message:'', isOpen:false, type:''})
@@ -205,7 +203,7 @@ const Login = () => {
                 onChange={()=>{setshowpassword(!showpassword)}}
               />
             </div>
-            <hr className={classes.for_hr_line}></hr>
+            {/* <hr className={classes.for_hr_line}></hr>
             <p className={classes.for_login_font}>Login with:</p>
             <div className={classes.for_auth_div}>
               <div className={classes.for_btn_margin}>
@@ -234,7 +232,7 @@ const Login = () => {
                 </button>
               </div>
               
-            </div>
+            </div> */}
             <div className={classes.for_newUser}>
               <p> New User? <a href="/signup" className={classes.for_signup_redirect}>Click here to Sign Up!</a></p>
             </div>

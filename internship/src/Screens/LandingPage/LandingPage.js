@@ -79,7 +79,7 @@ const Landing2 = () => {
           <div className="search__landing row container mx-auto">
             <div className="searchbar__landing2" style={{ maxWidth: "100%", width: "480px", backgroundColor: "#fff", }} >
               <SearchIcon />
-              <input type="text" class="form-control focus-input" placeholder="Type job title, keywords" />
+              <input type="text" className="form-control focus-input" placeholder="Type job title, keywords" />
             </div>
             <div className="" style={{ justifyContent: "center" }}>
               <button className="landingsearch__btn">Search</button>
@@ -87,7 +87,7 @@ const Landing2 = () => {
           </div>
         </div>
         <Brands />
-        <hr class=""></hr>
+        <hr className=""></hr>
 
         <div className="landing2__category my-5">
           <div className="row">
@@ -102,7 +102,7 @@ const Landing2 = () => {
           <CategoryCard data={internCategories} />
         </div>
         <div className="my-5">
-          <Content />
+          <Content count={count} />
         </div>
 
         <div className="featured__jobs mt-5">

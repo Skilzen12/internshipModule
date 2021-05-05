@@ -17,7 +17,7 @@ const CategoryCard = ({data}) => {
           </div>
           <div className="landingcard__content mt-3">
             <div className="landingcard__title">{category.category ? category.category : 'ABC ACD'}</div>
-            <div className="landingcardsubtitle">{category.active_internships ? category.active_internships : '2'} Vacancies</div>
+            <div className="landingcardsubtitle">{category.active_internships ? category.active_internships : '2'} Internships</div>
           </div>
         </div>
       )}

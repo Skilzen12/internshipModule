@@ -25,16 +25,18 @@ const DashboardCard = ({name, color, darkcolor, Icon, number, content, decimal})
 
 const DashboardSeva = ({localCards}) => {
     const CardCollection = [
-        {name: "Posted Internships", color: 'rgba(71, 67, 219, 0.1)', decimal : false, darkcolor: 'rgb(71, 67, 219)', number: localCards.active_internships, icon : BsFillBagFill},
-        {name: "Total Applicants", color: 'rgba(252, 73, 128, 0.1)', decimal : false, darkcolor: 'rgb(252, 73, 128)', icon : FaUserAlt, number : localCards.active_applicants}, 
-        {name: "Jobs View", color: 'rgba(250, 95, 28, 0.1)', decimal : false, darkcolor: 'rgb(250, 95, 28)', number: localCards.active_internship_views, icon : AiFillProfile},
+        {name: "Posted Internships", color: 'rgba(71, 67, 219, 0.1)', decimal : false, darkcolor: 'rgb(71, 67, 219)', number: (localCards?.active_internships||0), icon : BsFillBagFill},
+        {name: "Total Applicants", color: 'rgba(252, 73, 128, 0.1)', decimal : false, darkcolor: 'rgb(252, 73, 128)', icon : FaUserAlt, number : (localCards?.active_applicants||0)}, 
+        {name: "Jobs View", color: 'rgba(250, 95, 28, 0.1)', decimal : false, darkcolor: 'rgb(250, 95, 28)', number: (localCards?.active_internship_views||0), icon : AiFillProfile},
         // {name: "Applied Rate", color: 'rgba(2, 191, 213, 0.1)', decimal : true, darkcolor: 'rgb(2, 191, 213)', number: 18.5, content: '%', icon : RiLayout4Fill}, 
     ];
 
     return(
-        CardCollection.map(card => (
+        <>
+        {localCards&&CardCollection.map(card => (
             <DashboardCard decimal={card.decimal} name={card.name} color={card.color} darkcolor={card.darkcolor} Icon={card.icon} number={card.number} content={card.content} />
-        ))
+        ))}
+        </>
     );
 }
 

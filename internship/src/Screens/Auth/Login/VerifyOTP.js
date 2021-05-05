@@ -6,6 +6,7 @@ import { useSelector , useDispatch } from 'react-redux'
 import AdminService from "../../../AdminServices/AdminService";
 import logoOnly from '../../../images/Group.png'
 import { useHistory } from "react-router";
+import Notification from "../Notification";
 
 const useStyles = makeStyles((theme) => ({
   rootSetProfile:{
@@ -39,9 +40,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SubmitOTP = (phone, email) => {
+
+
+const VerifyOTP = ({location}) => {
+  const classes=useStyles();
+  const [phoneVerificationHelperText, setPhoneHelperText]=useState(false);
+  const [phoneVerification, setPhoneVerification]=useState('');
+  const [emailVerificationHelperText, setEmailHelperText]=useState(false);
+  const [emailVerification, setEmailVerification]=useState('');
+  const [outputPhone, setoutputP] = useState(false);
+  const [outputEmail, setoutputM] = useState(false);
+  const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
+  const history=useHistory();
+  const user = useSelector(state => state.user);
+  useEffect(() => {
+    if(user.is_phone_verified && user.is_email_verified){
+      history.push('/')
+    }
+  }, [])
+
+  console.log("location",location)
+  const SubmitOTP = (phone, email,setnotify) => {
     if(phone && email){
-      window.open('/login','_self');
+      history.push(location?.state?.from||'/');
+    }
+    else{
+      setnotify({message:'Please Verify Both Email and Phone',isOpen:true, type:'error'});
+      setTimeout(()=>{
+        setnotify({message:'', isOpen:false, type:''})
+      },1700)
     }
 }
 
@@ -86,23 +113,6 @@ const VerifyEmail = async(email, Email, EmailText) => {
 }
   
 
-const VerifyOTP = () => {
-  const classes=useStyles();
-  const [phoneVerificationHelperText, setPhoneHelperText]=useState(false);
-  const [phoneVerification, setPhoneVerification]=useState('');
-  const [emailVerificationHelperText, setEmailHelperText]=useState(false);
-  const [emailVerification, setEmailVerification]=useState('');
-  const [outputPhone, setoutputP] = useState(false);
-  const [outputEmail, setoutputM] = useState(false);
-  const history=useHistory();
-  const user = useSelector(state => state.user);
-  useEffect(() => {
-    if(user.is_phone_verified && user.is_email_verified){
-      if(history.length==1)
-      window.open('/', '_self');
-      else history.goBack();
-    }
-  }, [])
     return (
       <div className="d-flex justify-content-center align-items-center">
           <div className="internship__content__card my-5 p-5 signup__container" style={{width: 500}}>
@@ -150,12 +160,18 @@ const VerifyOTP = () => {
                     : ""
                 }
                 <div className="signup__footer mt-3 d-flex justify-content-end">
-                    <button className="apply_btn card_btn" onClick={(e) =>{e.preventDefault(); SubmitOTP(outputPhone, outputEmail)}}>
+                    <button className="apply_btn card_btn" onClick={(e) =>{e.preventDefault(); SubmitOTP(outputPhone, outputEmail,setnotify)}}>
                     Submit
                     </button>
                 </div>
                 </form>
             </section>
+            {
+              notify.isOpen && 
+              <Notification
+                notify={notify}
+              />
+            }
         </div>
       </div>
 )}

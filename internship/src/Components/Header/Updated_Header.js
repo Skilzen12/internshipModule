@@ -25,12 +25,7 @@ function Updated_Header() {
         },3000)
     }
 
-    let [loadCards, setLoadCards] = useState();
-
-    useEffect(() => {
-        AdminService.getCompanyDashboard()
-            .then(resp => setLoadCards(resp.data))
-    }, [])
+    
 
     const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
 
@@ -48,8 +43,7 @@ function Updated_Header() {
                     user.recruits_for !== null ? (
                         <div className="navbar-nav">
                             <Link to={{
-                                pathname: `/dashboard`,
-                                state: { loadCards : loadCards }
+                                pathname: `/dashboard`
                             }}>
                                 <a className="nav-item nav-link active">Dashboard</a>
                             </Link>                
@@ -68,11 +62,11 @@ function Updated_Header() {
                     ) : null
                 }
                 {
-                    user.recruits_for !== null ? (
+                    auth.authenticate === true && (
                         <div className="navbar-nav">
-                            <Link to="/postInternship" className="btn btn-sm  btn-dark header__signup" style={{maxWidth:'fit-content'}}>Post an Internship</Link>               
+                            <Link to="/postInternship" className="btn btn-sm  btn-dark header__signup" style={{maxWidth:'fit-content'}}>{user.recruits_for !== null ?'Post an  Internship': 'Become a Recruiter'}</Link>               
                         </div>
-                    ) : null
+                    ) 
                 }
                 <div className="navbar-nav ml-auto">
                     {
@@ -89,7 +83,7 @@ function Updated_Header() {
                             <a href="/" onClick={logout} className="btn btn-sm btn-dark header__signup">Logout</a>
                         </div>
                     }
-                    <div classname="icons_header">
+                    {/* <div className="icons_header">
                         <IconButton  aria-label="Show cart items">
                             <Badge badgeContent={2} color="primary">
                                 <LocalMallOutlinedIcon style={{color:"#200E32"}}/>
@@ -105,7 +99,7 @@ function Updated_Header() {
                                 <NotificationsOutlinedIcon style={{color:"#200E32"}}/>
                             </Badge>
                         </IconButton>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             {

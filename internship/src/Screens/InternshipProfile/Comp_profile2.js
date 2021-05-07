@@ -179,14 +179,13 @@ function AboutCmp (props){
     }
     
     const getDetails = async (id) => {
-        
         AdminService.getInternshipsDetail(id)
             .then(res => {
                     setData(res.data)
-                    setBookmark(res.data.is_marked);
+                    setBookmark(res.data?.is_marked);
             })
             .catch(err=>Promise.reject(err));
-        }
+    }
     useEffect(() => {
         getDetails(uuid)
         .then(res => {setLoading(true)})

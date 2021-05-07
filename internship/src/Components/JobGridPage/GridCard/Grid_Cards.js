@@ -56,8 +56,7 @@ const Grid_Cards = ({obj}) => {
         <div className="company__name text-gray"> {obj.company.name ? obj.company.name : 'ABC'} </div>
         <h2 className="mt-1 mb-2" style={{fontFamily:'Gordita'}}>
           <Link to={{
-                    pathname: `/internship`,
-                    search: `?id=${obj.uuid}`,
+                    pathname: `/internship/${obj.uuid}`,
                     state: { uuid : obj.uuid, dashboard: false }
                   }} className="font-weight-bold font-size-5"> {obj.title ? obj.title : 'XYZ'} </Link>
         </h2>

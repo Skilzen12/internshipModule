@@ -6,23 +6,30 @@ import AdminService from '../../AdminServices/AdminService';
 
 export default function CityModal() {
   const [modalShow, setModalShow] = useState(false);
-  let city = '';
-  let isHead = false;
-
-  const AddCity = () => {
-    const City = {
-        "location": city,
-        "is_head_office": isHead
-    }
-
-    AdminService.createCompanyLocationDetails(City)
-      .then(res => {
-        if(res.statusText === "Created"){setModalShow(false)}
-      })
-      .catch(err => console.log(err))
-  }
+  
 
   function MyVerticallyCenteredModal(props) {
+    let city = '';
+    const [value, setValue] = React.useState(false);
+
+    const handleChange = (event) => {
+      // console.log(event.target.value,typeof event.target.value);
+      setValue(event.target.value);
+    };
+
+    const AddCity = () => {
+      const City = {
+          "location": city,
+          "is_head_office": value
+      }
+
+      AdminService.createCompanyLocationDetails(City)
+        .then(res => {
+          if(res.statusText === "Created"){setModalShow(false)}
+        })
+        .catch(err => console.log(err))
+    }
+
     return (
       <Modal
         {...props}
@@ -41,9 +48,9 @@ export default function CityModal() {
             </Form.Group>
             <Form.Group controlId="formBasicYess" className="flexRow flexAlignCenter mb-20" style={{width: '90%', gap: 40}}>
               <Form.Label style={{width: '40%'}}>Is this your head location?</Form.Label>
-              <RadioGroup aria-label="head-office" name="head-office" className="flexRow" onChange={(e) => isHead = (e.target.value)}>
-                <FormControlLabel value={true} control={<Radio />} label="Yes"  />
-                <FormControlLabel value={false} control={<Radio />} label="No" />
+              <RadioGroup aria-label="head-office" name="head-office" className="flexRow" value={value} onChange={handleChange}>
+                <FormControlLabel value={"true"} control={<Radio />} label="Yes"  />
+                <FormControlLabel value={"false"} control={<Radio />} label="No" />
               </RadioGroup>              
             </Form.Group>
           </Form>

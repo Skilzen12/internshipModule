@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from "react";
 import "./SignUp.css";
-import validator from 'validator';
+import validator from "validator";
 import { FcGoogle } from "react-icons/fc";
-import { FaGithubSquare,FaLinkedin,FaFacebookSquare } from "react-icons/fa";
-import {TextField,makeStyles,CircularProgress} from "@material-ui/core";
-import Notification from '../Notification.js'
+import { FaGithubSquare, FaLinkedin, FaFacebookSquare } from "react-icons/fa";
+import { TextField, makeStyles, CircularProgress } from "@material-ui/core";
+import Notification from "../Notification.js";
 import logo from "../../../images/logo.png";
 import { OrganizationMultiStep } from "../OrganizationMultiStep";
 import { MultiStepForm } from "../MultiStepForm";
 import { BsFillPeopleFill, BsPersonFill } from "react-icons/bs";
 import axios from "axios";
-import {API_ENDPOINT} from '../../../AdminServices/baseURL';
+import { API_ENDPOINT } from "../../../AdminServices/baseURL";
 import { setItem } from "../../../utility/localStorageControl";
 
-import { useSelector , useDispatch } from 'react-redux'
-import { Redirect, useHistory} from 'react-router';
-import {isAdminLogged, signIn, signUp} from '../../../redux/actions/auth.actions';
+import { useSelector, useDispatch } from "react-redux";
+import { Redirect, useHistory } from "react-router";
+import {
+  isAdminLogged,
+  signIn,
+  signUp,
+} from "../../../redux/actions/auth.actions";
 
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
@@ -25,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
       width: "45%",
     },
     "& > .signup__btn": {
-      marginTop: 'inherit',
-      marginBottom: 'inherit',
+      marginTop: "inherit",
+      marginBottom: "inherit",
       width: "inherit",
     },
   },
@@ -53,146 +57,156 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     gridGap: "10px",
   },
-  for_auth_div:{
-    display:"flex",
-    flexDirection:"row",
-    justifyContent:"left",
-    flexWrap:"wrap",
-    width:"100%"
+  for_auth_div: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "left",
+    flexWrap: "wrap",
+    width: "100%",
   },
-  for_auth_btn:{
+  for_auth_btn: {
     width: "100%",
     background: "transparent",
     color: "#848383",
     height: "42px",
-    borderRadius:"10px",
+    borderRadius: "10px",
     border: "#b6b2b2 solid 1px",
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    paddingTop: "6px",  
-    display:"flex" ,
-    flexDirection:"row",
-    flexWrap:"nowrap",  
-    "&:hover":{
-      border:"#ec1f28 solid 1px"
-    } 
+    paddingTop: "6px",
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "nowrap",
+    "&:hover": {
+      border: "#ec1f28 solid 1px",
+    },
   },
-  for_auth_fb_icons:{
-    margin:"0px 2px",
-    fontSize:"25px",
-    color:"#3838e9",
+  for_auth_fb_icons: {
+    margin: "0px 2px",
+    fontSize: "25px",
+    color: "#3838e9",
   },
-  for_auth_gh_icons:{
-    margin:"0px 2px",
-    fontSize:"25px",
-    color:"black",
+  for_auth_gh_icons: {
+    margin: "0px 2px",
+    fontSize: "25px",
+    color: "black",
   },
-  for_auth_icons:{
-    margin:"0px 2px",
-      fontSize:"25px"
+  for_auth_icons: {
+    margin: "0px 2px",
+    fontSize: "25px",
   },
-  for_hr_line:{
-  width:"100%"
+  for_hr_line: {
+    width: "100%",
   },
-  for_already_registerd:{
-    width:"100%",
-    color:"#848383"
+  for_already_registerd: {
+    width: "100%",
+    color: "#848383",
   },
-  for_Login_redirect:{
-    color:" #ec1f28 !important",
-    textDecoration:"underline !important",
-    fontSize:'15px',
-    marginTop:'2px',
-    marginLeft:"3px"
+  for_Login_redirect: {
+    color: " #ec1f28 !important",
+    textDecoration: "underline !important",
+    fontSize: "15px",
+    marginTop: "2px",
+    marginLeft: "3px",
   },
-  whiteLoading:{
-    color:'#fff !important',
-    width:'20px !important',
-    height:'20px !important',
+  whiteLoading: {
+    color: "#fff !important",
+    width: "20px !important",
+    height: "20px !important",
   },
-  redLoading:{
-    color:'#ec1f28 !important',
-    width:'20px !important',
-    height:'20px !important',
+  redLoading: {
+    color: "#ec1f28 !important",
+    width: "20px !important",
+    height: "20px !important",
   },
-  for_btn_margin:{
-    margin:"15px 15px"
+  for_btn_margin: {
+    margin: "15px 15px",
   },
-  for_signup_font:{
+  for_signup_font: {
     fontSize: "1rem",
-  fontFamily: "Roboto",
-  fontWeight: "400",
-  lineHeight: "1.5",
-  letterSpacing: "0.00938em",
-  }
+    fontFamily: "Roboto",
+    fontWeight: "400",
+    lineHeight: "1.5",
+    letterSpacing: "0.00938em",
+  },
 }));
 
-const SignUp_and_SetProfile = ({location}) => {
+const SignUp_and_SetProfile = ({ location }) => {
   const classes = useStyles();
-  const auth = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
 
-  
+  useEffect(() => {
+    console.log("signuped updating");
+    dispatch(isAdminLogged());
+    return () => {
+      console.log("unmounting");
+    };
+  }, [auth.signedUp]);
+
   // if(auth.authenticate){
   //   return <Redirect to={'/'} />
   // }
 
   // ---------SignUp (asks credentials)
   const SignUp1 = () => {
-    const [email,setemail] = useState("");
-    const [mobile,setmobile] = useState("");
-    const [password,setpassword] = useState("");
-    const [confirm,setconfirm] = useState("");
-    const [fname, setFname] = useState("");
-    const [lname, setLname] = useState("");
-    const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
-    const [btnHovered,setHovered] = useState(false);
+    const [form, setForm] = useState({
+      fname: "",
+      lname: "",
+      email: "",
+      password: "",
+      confirm: "",
+      mobile: "",
+    });
+    const [notify, setnotify] = useState({
+      message: "",
+      type: "",
+      isOpen: false,
+    });
+    const [btnHovered, setHovered] = useState(false);
     const history = useHistory();
 
-    const dispatch = useDispatch();
-    const auth = useSelector(state => state.auth);
-    const signedUp = useSelector(state => state.auth.signedUp);
+    const onChange = (e) => {
+      setForm({ ...form, [e.target.name]: e.target.value });
+    };
 
+    const SignUp = async () => {
+      const newUser = {
+        email: form.email,
+        phone_number: form.mobile,
+        password: form.password,
+        password_confirmation: form.confirm,
+      };
 
-    useEffect(() => {
-      console.log('signuped updating')
-      dispatch(isAdminLogged())
-      return ()=>{console.log('unmounting')};
-    },[signedUp,dispatch])
+      const res = await dispatch(signUp(newUser));
 
-
-    const SignUp = async (email, phone, password, confirm, fname, lname) => {
-      const SignUpStuff = {
-        email : email,
-        phone_number : phone,
-        password : password,
-        password_confirmation : confirm,
-      }
-      
-      const res=await dispatch(signUp(SignUpStuff));
-      
-
-      if(res.success){
-        setnotify({message:'SignedUp successfully ',isOpen:true, type:'success'});
-        setTimeout(()=>{
-          setnotify({message:'', isOpen:false, type:''})
-        },3000)
-        const res1=await dispatch(signIn({
-          username:email,
-          password
-        }));
+      if (res.success) {
+        setnotify({
+          message: "SignedUp successfully ",
+          isOpen: true,
+          type: "success",
+        });
+        setTimeout(() => {
+          setnotify({ message: "", isOpen: false, type: "" });
+        }, 3000);
+        const res1 = await dispatch(
+          signIn({
+            username: form.email,
+            password: form.password,
+          })
+        );
         // if(res1.success){
         //   history.push(location?.state?.from||'/');
         // }
+      } else {
+        setnotify({ message: auth.message, isOpen: true, type: "error" });
+        setTimeout(() => {
+          setnotify({ message: "", isOpen: false, type: "" });
+        }, 3000);
       }
-      else{
-        setnotify({message:auth.message,isOpen:true, type:'error'});
-        setTimeout(()=>{
-          setnotify({message:'', isOpen:false, type:''})
-        },3000)
-      }
-    }
-    
+    };
+
     return (
       <div className="internship__container__centered">
         <div className="internship__content__card p-5 signup__container">
@@ -204,11 +218,11 @@ const SignUp_and_SetProfile = ({location}) => {
           />
           <h3 className="text-center mb-4">Join us!</h3>
           <form className={classes.rootSignUp} noValidate autoComplete="off">
-          <TextField
+            <TextField
               label="First Name"
               name="fname"
-              value={fname}
-              onChange={(e)=>{setFname(e.target.value)}}
+              value={form.fname}
+              onChange={onChange}
               variant="outlined"
               size="small"
               fullWidth
@@ -220,15 +234,16 @@ const SignUp_and_SetProfile = ({location}) => {
               variant="outlined"
               size="small"
               fullWidth
-              value={lname}
-              onChange={(e)=>{setLname(e.target.value)}}
+              value={form.lname}
+              onChange={onChange}
             />
             <TextField
               className={classes.fullWidth}
               size="small"
               label="Email Address"
-              value={email}
-              onChange={(e)=>{setemail(e.target.value)}}
+              name="email"
+              value={form.email}
+              onChange={onChange}
               variant="outlined"
               fullWidth
             />
@@ -236,8 +251,9 @@ const SignUp_and_SetProfile = ({location}) => {
               className={classes.fullWidth}
               size="small"
               label="Contact Number"
-              value={mobile}
-              onChange={(e)=>{setmobile(e.target.value)}}
+              name="mobile"
+              value={form.mobile}
+              onChange={onChange}
               variant="outlined"
               fullWidth
             />
@@ -245,8 +261,9 @@ const SignUp_and_SetProfile = ({location}) => {
               size="small"
               label="Password"
               type="password"
-              value={password}
-              onChange={(e)=>{setpassword(e.target.value)}}
+              name="password"
+              value={form.password}
+              onChange={onChange}
               variant="outlined"
             />
             <TextField
@@ -254,80 +271,68 @@ const SignUp_and_SetProfile = ({location}) => {
               size="small"
               label="Confirm Password"
               type="password"
-              value={confirm}
-              onChange={(e)=>{setconfirm(e.target.value)}}
+              name="confirm"
+              value={form.confirm}
+              onChange={onChange}
               variant="outlined"
             />
-            {/* <hr className={classes.for_hr_line}></hr>
-            <p className={classes.for_signup_font}>Signup with:</p>
-            <div className={classes.for_auth_div}>
-              <div className={classes.for_btn_margin}>
-                <button className={classes.for_auth_btn}>
-                    <div ><FcGoogle className={classes.for_auth_icons}/></div>
-                     
-                </button>
-              </div>
-              <div className={classes.for_btn_margin}>
-                <button className={classes.for_auth_btn}>
-                <div ><FaFacebookSquare className={classes.for_auth_fb_icons}/></div>
-                
-                </button>
-              </div>
-              <div className={classes.for_btn_margin}>
-                <button className={classes.for_auth_btn}>
-                <div ><FaGithubSquare className={classes.for_auth_gh_icons}/></div>
-                 
-                
-                </button>
-              </div>
-              <div className={classes.for_btn_margin}>
-                <button className={classes.for_auth_btn}>
-                <div ><FaLinkedin className={classes.for_auth_fb_icons}/></div>
-                
-                </button>
-              </div>
-              
-            </div> */}
+
             <div className={classes.for_already_registerd}>
-              <p>Already have an account? <a href="/login" className={classes.for_Login_redirect}>Login here!</a></p>
+              <p>
+                Already have an account?{" "}
+                <a href="/login" className={classes.for_Login_redirect}>
+                  Login here!
+                </a>
+              </p>
             </div>
-            <div className='signup__btn d-flex justify-content-end'>
-            <button
-              className="apply_btn card_btn signInBtn"
-              onClick={(e) => {
-                e.preventDefault();
-                if(!validator.isEmail(email)){
-                  setnotify({message:'Wrong Format of Email address!',isOpen:true,type:'error'});
-                  setTimeout(()=>{
-                    setnotify({message:'',isOpen:false,type:''})
-                  },3000)
-                }
-                else if(password!==confirm){
-                  setnotify({message:'Passwords not match!',isOpen:true,type:'error'});
-                  setTimeout(()=>{
-                    setnotify({message:'',isOpen:false,type:''})
-                  },3000)
-                }
-                else{
-                   SignUp(email, mobile, password, confirm, fname, lname);
-                }
-              }}
-              onMouseEnter={(e) => {setHovered(true)}}
-              onMouseLeave={(e) => {setHovered(false)}}
-            >
-              Sign Up{" "}
-              {
-                auth.loading&& <CircularProgress className={btnHovered? `${classes.redLoading}` : `${classes.whiteLoading}` } />
-              }
-            </button>
+            <div className="signup__btn d-flex justify-content-end">
+              <button
+                className="apply_btn card_btn signInBtn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (!validator.isEmail((form.email + "").toLowerCase())) {
+                    setnotify({
+                      message: "Wrong Format of Email address!",
+                      isOpen: true,
+                      type: "error",
+                    });
+                    setTimeout(() => {
+                      setnotify({ message: "", isOpen: false, type: "" });
+                    }, 3000);
+                  } else if (!(form.password === form.confirm)) {
+                    setnotify({
+                      message: "Passwords not match!",
+                      isOpen: true,
+                      type: "error",
+                    });
+                    setTimeout(() => {
+                      setnotify({ message: "", isOpen: false, type: "" });
+                    }, 3000);
+                  } else {
+                    SignUp();
+                  }
+                }}
+                onMouseEnter={(e) => {
+                  setHovered(true);
+                }}
+                onMouseLeave={(e) => {
+                  setHovered(false);
+                }}
+              >
+                Sign Up{" "}
+                {auth.loading && (
+                  <CircularProgress
+                    className={
+                      btnHovered
+                        ? `${classes.redLoading}`
+                        : `${classes.whiteLoading}`
+                    }
+                  />
+                )}
+              </button>
             </div>
           </form>
-          {
-            notify.isOpen && 
-            <Notification
-              notify={notify}
-            />
-          }
+          {notify.isOpen && <Notification notify={notify} />}
         </div>
       </div>
     );
@@ -376,7 +381,7 @@ const SignUp_and_SetProfile = ({location}) => {
   // // ----------SignUP and SetProfile Merged Below---------
 
   return (
-    <div className='Login__Signup'>
+    <div className="Login__Signup">
       <SignUp1 />
       {/* {section === "Student" && <MultiStepForm user={user} /> }
       {section === "Org" && <OrganizationMultiStep user={user} />} */}

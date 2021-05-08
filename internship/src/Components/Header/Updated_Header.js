@@ -62,7 +62,7 @@ function Updated_Header() {
                     ) : null
                 }
                 {
-                    auth.authenticate === true && (
+                    (
                         <div className="navbar-nav">
                             <Link to="/postInternship" className="btn btn-sm  btn-dark header__signup" style={{maxWidth:'fit-content'}}>{user.recruits_for !== null ?'Post an  Internship': 'Become a Recruiter'}</Link>               
                         </div>

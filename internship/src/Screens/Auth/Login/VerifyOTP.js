@@ -54,12 +54,19 @@ const VerifyOTP = ({location}) => {
   const history=useHistory();
   const user = useSelector(state => state.user);
   useEffect(() => {
-    if(user.is_phone_verified && user.is_email_verified){
-      history.push('/')
+    if(user.has_phone_verified && user.has_email_verified){
+      history.push(location?.state?.from||'/');
     }
-  }, [])
+  }, [outputPhone,outputEmail,location]);
 
-  console.log("location",location)
+  useEffect(() => {
+    setoutputP(_=>user.has_phone_verified);
+    setoutputM(_=>user.has_email_verified);
+    
+  },[user.has_phone_verified,user.has_email_verified]);
+
+  // console.log("location",location)
+  // console.log(outputEmail,outputPhone);
   const SubmitOTP = (phone, email,setnotify) => {
     if(phone && email){
       history.push(location?.state?.from||'/');
@@ -70,7 +77,7 @@ const VerifyOTP = ({location}) => {
         setnotify({message:'', isOpen:false, type:''})
       },1700)
     }
-}
+  }
 
 const SendPhoneOTP = async () => {
     AdminService.getPhoneOTP()
@@ -93,6 +100,10 @@ const VerifyPhone = async(phone, Phone, PhoneText) => {
           if(res.data === 'User is Verified'){
             Phone(true);
             PhoneText('OTP Verified!')
+            setnotify({message:'OTP Verified!',isOpen:true, type:'success'});
+            setTimeout(()=>{
+              setnotify({message:'', isOpen:false, type:''})
+            },1700)
           }
         })
         .catch(err => console.log(err))
@@ -107,6 +118,10 @@ const VerifyEmail = async(email, Email, EmailText) => {
           if(res.data === 'User is Verified'){
             Email(true);
             EmailText('OTP Verified!');
+            setnotify({message:'OTP Verified!',isOpen:true, type:'success'});
+            setTimeout(()=>{
+              setnotify({message:'', isOpen:false, type:''})
+            },1700)
           }
         })
         .catch(err => console.log(err))
@@ -131,11 +146,11 @@ const VerifyEmail = async(email, Email, EmailText) => {
                 <form className={classes.rootSetProfile} noValidate autoComplete="off">
                 <p>Email ID Verification</p>
                 <div className='d-flex justify-content-between'>
-                <TextField label="Verfication code" value={emailVerification} onChange={(e) => setEmailVerification(e.target.value)} id="email__verification" variant="outlined" size="small" style={{width:'70%'}}/>
+                <TextField label={outputEmail?"Already Verified":"Verfication code"} value={emailVerification}  disabled={outputEmail} onChange={(e) => setEmailVerification(e.target.value)} id="email__verification" variant="outlined" size="small" style={{width:'70%'}}/>
                 {emailVerificationHelperText ? (
                     <Button  variant="contained" color="primary" style={{margin:'8px 5px',minWidth:100,padding:'6.5px 15px'}}  disabled={outputEmail} onClick={()=>{VerifyEmail(emailVerification, setoutputM, setEmailHelperText)}} >{outputEmail?'Verified':'Verify'}</Button>
                 ) :
-                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',minWidth:100,padding:'6.5px 15px'}} onClick={()=>{setEmailHelperText(true); SendEmailOTP()}} >Send OTP</Button>
+                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',minWidth:100,padding:'6.5px 15px'}} disabled={outputEmail} onClick={()=>{setEmailHelperText(true); SendEmailOTP()}} >Send OTP</Button>
                 }
                 </div>
                 {
@@ -147,11 +162,11 @@ const VerifyEmail = async(email, Email, EmailText) => {
                 
                 <p>Phone No Verification</p>
                 <div className='d-flex justify-content-between'>
-                <TextField label="Verfication code" value={phoneVerification} onChange={(e) => setPhoneVerification(e.target.value)} id="phone__verification" variant="outlined" size="small" style={{width:'70%'}} />
+                <TextField label={outputPhone?"Already Verified":"Verfication code"} value={phoneVerification}  disabled={outputPhone} onChange={(e) => setPhoneVerification(e.target.value)} id="phone__verification" variant="outlined" size="small" style={{width:'70%'}} />
                 {phoneVerificationHelperText ? (
                     <Button  variant="contained" color="primary" style={{margin:'8px 5px',minWidth:100,padding:'6.5px 15px'}} disabled={outputPhone} onClick={()=>{VerifyPhone(phoneVerification, setoutputP, setPhoneHelperText)}} >{outputPhone?'Verified':'Verify'}</Button>
                 ) : 
-                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',minWidth:100,padding:'6.5px 15px'}}  onClick={()=>{setPhoneHelperText(true); SendPhoneOTP();}} >Send OTP</Button>
+                    <Button  variant="contained" color="primary" style={{margin:'8px 5px',minWidth:100,padding:'6.5px 15px'}}  disabled={outputPhone} onClick={()=>{setPhoneHelperText(true); SendPhoneOTP();}} >Send OTP</Button>
                 }
                 </div>
                 {

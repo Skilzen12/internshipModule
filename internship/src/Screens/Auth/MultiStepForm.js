@@ -66,7 +66,7 @@ export const MultiStepForm = ({location}) => {
       saved:false,
     },
   ]);
-  console.log('EduDetails',EduDetails);
+  // console.log('EduDetails',EduDetails);
   //For Experience array
   const [ExpDetails, setExpDetails] = useState([
     {

@@ -3,6 +3,7 @@ import { authConstants } from "../actionTypes"
 import axios from '../helper_axios'
 
 export const signIn = (user)=>{
+  console.log('calling signIn action')
   return async (dispatch)=>{
     dispatch({type:authConstants.SIGNIN_REQUEST})
     try{
@@ -24,6 +25,7 @@ export const signIn = (user)=>{
       }
     }
     catch(err){
+      console.log('err in loging!!!!');
       dispatch({
         type:authConstants.SIGNIN_FAILURE,
         payload:{message: 'Invalid Login Credentials!'}
@@ -81,18 +83,11 @@ export const signUp = (user)=>{
     })
     try{
       const res = await axios.post('/skilzen/v1/sign_up/',user);
-      if(res.status===201){
+      
         dispatch({
           type:authConstants.SIGNUP_SUCCESS,
         })
-      }else{
-        dispatch({
-          type:authConstants.SIGNUP_FAILURE,
-          payload:{
-            message:'User already exists !'
-          }
-        })
-      }
+      return {success:'Success!'};
     }
     catch(err){
       dispatch({
@@ -101,7 +96,7 @@ export const signUp = (user)=>{
           message:'User already exists !'
         }
       })
+      return { error:'User already exists !'}
     }
-
   }
 }

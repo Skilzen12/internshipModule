@@ -14,8 +14,8 @@ import {API_ENDPOINT} from '../../../AdminServices/baseURL';
 import { setItem } from "../../../utility/localStorageControl";
 
 import { useSelector , useDispatch } from 'react-redux'
-import { Redirect} from 'react-router';
-import {signUp} from '../../../redux/actions/auth.actions';
+import { Redirect, useHistory} from 'react-router';
+import {signIn, signUp} from '../../../redux/actions/auth.actions';
 
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
@@ -128,7 +128,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const SignUp_and_SetProfile = () => {
+const SignUp_and_SetProfile = ({location}) => {
   const classes = useStyles();
   const auth = useSelector(state => state.auth);
 
@@ -147,18 +147,11 @@ const SignUp_and_SetProfile = () => {
     const [lname, setLname] = useState("");
     const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
     const [btnHovered,setHovered] = useState(false);
+    const history = useHistory();
 
     const dispatch = useDispatch();
     const auth = useSelector(state => state.auth);
-    useEffect(()=>{
-      if(auth.signedUp){
-        setnotify({message:'SignedUp successfully ',isOpen:true, type:'success'});
-        setTimeout(()=>{
-          setnotify({message:'', isOpen:false, type:''})
-          window.open('/login','_self')
-        },1500)
-      }
-    },[auth.signedUp])
+
 
     const SignUp = async (email, phone, password, confirm, fname, lname) => {
       const SignUpStuff = {
@@ -168,9 +161,23 @@ const SignUp_and_SetProfile = () => {
         password_confirmation : confirm,
       }
       
-      await dispatch(signUp(SignUpStuff));
+      const res=await dispatch(signUp(SignUpStuff));
+      
 
-      if(!auth.signedUp && !auth.loading){
+      if(res.success){
+        setnotify({message:'SignedUp successfully ',isOpen:true, type:'success'});
+        setTimeout(()=>{
+          setnotify({message:'', isOpen:false, type:''})
+        },3000)
+        const res1=await dispatch(signIn({
+          username:email,
+          password
+        }));
+        // if(res1.success){
+        //   history.push(location?.state?.from||'/');
+        // }
+      }
+      else{
         setnotify({message:auth.message,isOpen:true, type:'error'});
         setTimeout(()=>{
           setnotify({message:'', isOpen:false, type:''})
@@ -279,21 +286,22 @@ const SignUp_and_SetProfile = () => {
             <div className='signup__btn d-flex justify-content-end'>
             <button
               className="apply_btn card_btn signInBtn"
-              onClick={async(e) => {
+              onClick={(e) => {
                 e.preventDefault();
                 if(!validator.isEmail(email)){
                   setnotify({message:'Wrong Format of Email address!',isOpen:true,type:'error'});
                   setTimeout(()=>{
                     setnotify({message:'',isOpen:false,type:''})
                   },3000)
-                }else if(password!==confirm){
+                }
+                else if(password!==confirm){
                   setnotify({message:'Passwords not match!',isOpen:true,type:'error'});
                   setTimeout(()=>{
                     setnotify({message:'',isOpen:false,type:''})
                   },3000)
                 }
                 else{
-                   await SignUp(email, mobile, password, confirm, fname, lname);
+                   SignUp(email, mobile, password, confirm, fname, lname);
                 }
               }}
               onMouseEnter={(e) => {setHovered(true)}}

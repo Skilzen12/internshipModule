@@ -49,12 +49,6 @@ const Landing2 = () => {
   useEffect(async() => {
     getCategories();
     getFeaturedJobs();
-    if(!auth.authenticate){
-      dispatch(isAdminLogged());
-    }
-    if(auth.token){
-      dispatch(getUserData('landing page'));
-    }
   },[]);
   
   return (

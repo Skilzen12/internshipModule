@@ -6,6 +6,7 @@ import { getUserData } from '../../redux/actions/user.actions'
 const InternshipRoute = ({ component:Component , ...rest})=>{
   const user = useSelector(state =>state.user)
   
+  console.log(rest);
   const dispatch= useDispatch();
 
   // useEffect(()=>{
@@ -16,7 +17,7 @@ const InternshipRoute = ({ component:Component , ...rest})=>{
     dispatch(getUserData())
   },[])
   
-  // Kept this to stop rendering page for some time
+  // Kept this to stop rendering page for some time until userProfile has been fetched!
   const [loading,setLoading]=useState(false)
   setTimeout(() =>{setLoading(true)},2000);
   if(!loading) return <></>
@@ -28,13 +29,13 @@ const InternshipRoute = ({ component:Component , ...rest})=>{
         
         if(user.user_education.length==0){
           console.log('internship route',rest.path);
-          if(user.has_phone_verified)
+          if(user.has_phone_verified&&user.has_email_verified)
           {
-            console.log('fneangn')
-            return <Redirect to={{pathname:"/applyForm",state:{from:rest.path}}}  />
+            // console.log('fneangn')
+            return <Redirect to={{pathname:"/applyForm",state:{from:rest.location.pathname}}}  />
           }
           else {
-            return <Redirect to={{pathname:"/verifyOTP",state:{from:rest.path}}}  />
+            return <Redirect to={{pathname:"/verifyOTP",state:{from:rest.location.pathname}}}  />
           }
           
         }else{

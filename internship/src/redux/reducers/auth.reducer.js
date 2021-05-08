@@ -77,7 +77,7 @@ const initialState = {
         break;
       case authConstants.SIGNUP_FAILURE : 
         state = {
-          ...initialState,
+          ...state,
           loading:false,
           message:action.payload.message,
           signedUp:false,

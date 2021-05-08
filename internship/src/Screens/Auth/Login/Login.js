@@ -8,7 +8,7 @@ import validator from 'validator';
 import Notification from '../Notification.js'
 
 import { useSelector , useDispatch } from 'react-redux'
-import { Redirect} from 'react-router';
+import { Redirect, useHistory} from 'react-router';
 
 import {signIn} from '../../../redux/actions/auth.actions';
 import {getUserData} from '../../../redux/actions/user.actions';
@@ -127,8 +127,9 @@ const useStyles = makeStyles((theme) => ({
     
 }));
 
-const Login = () => {
+const Login = ({location}) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   useEffect(() => {
     if(window.localStorage.getItem('accessToken')){
       window.open('/', '_self');
@@ -160,7 +161,8 @@ const Login = () => {
         setnotify({message:'Successfully signed in',isOpen:true, type:'success'});
         setTimeout(()=>{
           setnotify({message:'', isOpen:false, type:''})
-          window.open('/', '_self');
+          if(location?.state?.from) history.replace(location.state.from)
+          else history.push('/');
         },1700)
       }
     }

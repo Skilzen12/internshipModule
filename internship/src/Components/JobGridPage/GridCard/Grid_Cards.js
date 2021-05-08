@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {
-  Link
+  Link, useHistory
 } from "react-router-dom";
 import './GridCards.css'
 import {BsBookmark as Mark, BsFillBookmarkFill} from "react-icons/bs";
@@ -12,11 +12,13 @@ import { useSelector , useDispatch } from 'react-redux'
 const Grid_Cards = ({obj}) => {
   const user = useSelector(state => state.user);
   const auth  = useSelector(state => state.auth)
+  const history=useHistory();
     let [bookmark, setBookmark] = useState(false);
     let [apply, setApply] = useState(false);
 
     const Apply = async (uuid) => {
         if(user.user_profile){
+          // console.log(1);
             AdminService.InternshipsApply(uuid)
                 .then(res => {
                     if(res.status === 200){
@@ -25,10 +27,14 @@ const Grid_Cards = ({obj}) => {
                 })
         .catch(err => console.log(err))
         } else{
-          if(auth.authenticate)
-            window.open('/applyForm', '_self');
-          else
-            window.open('/signup', '_self');
+          if(auth.authenticate){
+            // console.log(2);
+            history.push('/applyForm')
+          }
+          else{
+            // console.log(3);
+            history.push('/signup')
+          }
         }        
     }
 

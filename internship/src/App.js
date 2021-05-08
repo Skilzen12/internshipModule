@@ -24,6 +24,7 @@ import AdminDashboardMain from './Screens/AdminDashboard/AdminDashBoard';
 import { MultiStepForm } from './Screens/Auth/MultiStepForm';
 import { OrganizationMultiStep } from './Screens/Auth/OrganizationMultiStep';
 import ProtectedRoute1 from './Screens/Auth/ProtectedRoute1';
+import { getItem } from './utility/localStorageControl';
 
 
 function App() {
@@ -31,14 +32,14 @@ function App() {
   const auth = useSelector(state => state.auth);
   const user = useSelector(state => state.user);
   
-  useEffect(async()=>{    
+  useEffect(()=>{    
     if(!auth.authenticate){
-      await dispatch(isAdminLogged());
+      dispatch(isAdminLogged());
     }
-    if(window.localStorage.getItem('accessToken')){
-      await dispatch(getUserData('In App.js'));
+    else{
+      dispatch(getUserData('In App.js'));
     }
-  },[])
+  },[auth.authenticate])
   // console.log('App route',user);
   return (
     <>
@@ -48,8 +49,8 @@ function App() {
         <Switch>
           <Route exact path='/' component={LandingPage} />
           <Route exact path='/login' component={Login} />
-          <PrivateRoute exact path='/VerifyOTP' component={VerifyOTP} />
           <Route exact path='/signup' component={SignUp} />
+          <PrivateRoute exact path='/VerifyOTP' component={VerifyOTP} />
           <Route exact path='/postInternship' component={PostInternship} />
           <Route exact path='/jobGrid' component={JobGrid} />
           <Route exact path='/profile' component={CandidateProfile} />

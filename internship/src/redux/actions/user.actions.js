@@ -13,10 +13,8 @@ export const getUserData = (testString) => {
   // console.log('testString',testString)
   return async (dispatch) => {
     dispatch({ type: getData.GETDATA_REQUEST });
-    // console.log("calling getUserData");
     await AdminService.getUserProfile()
       .then((res) => {
-        // console.log('res received getData',res)
         dispatch({
           type: getData.GETDATA_SUCCESS,
           payload: {
@@ -39,7 +37,7 @@ export const addEducations = (data) => {
   return async (dispatch) => {
     dispatch({ type: Edu.ADD_EDUCATION_REQUEST });
     const obj = { meta: data };
-    console.log(obj);
+    // console.log(obj);
 
     try {
       const res = await axios.post("/skilzen/v1/profile/education/", obj);

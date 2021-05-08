@@ -35,7 +35,7 @@ export const signIn = (user)=>{
   }
 }
 export const isAdminLogged = ()=>{
-  console.log("called isAdminLogged");
+  // console.log("called isAdminLogged");
   return (dispatch)=>{
     const token = getItem('accessToken');
     dispatch({type:authConstants.LOGGEDIN_REQUEST});

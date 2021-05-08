@@ -15,7 +15,7 @@ import { setItem } from "../../../utility/localStorageControl";
 
 import { useSelector , useDispatch } from 'react-redux'
 import { Redirect, useHistory} from 'react-router';
-import {signIn, signUp} from '../../../redux/actions/auth.actions';
+import {isAdminLogged, signIn, signUp} from '../../../redux/actions/auth.actions';
 
 const useStyles = makeStyles((theme) => ({
   rootSignUp: {
@@ -133,9 +133,9 @@ const SignUp_and_SetProfile = ({location}) => {
   const auth = useSelector(state => state.auth);
 
   
-  if(auth.authenticate){
-    return <Redirect to={'/'} />
-  }
+  // if(auth.authenticate){
+  //   return <Redirect to={'/'} />
+  // }
 
   // ---------SignUp (asks credentials)
   const SignUp1 = () => {
@@ -151,6 +151,14 @@ const SignUp_and_SetProfile = ({location}) => {
 
     const dispatch = useDispatch();
     const auth = useSelector(state => state.auth);
+    const signedUp = useSelector(state => state.auth.signedUp);
+
+
+    useEffect(() => {
+      console.log('signuped updating')
+      dispatch(isAdminLogged())
+      return ()=>{console.log('unmounting')};
+    },[signedUp,dispatch])
 
 
     const SignUp = async (email, phone, password, confirm, fname, lname) => {

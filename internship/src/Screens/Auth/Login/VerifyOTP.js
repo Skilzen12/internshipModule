@@ -91,14 +91,21 @@ const SendEmailOTP = async () => {
       .catch(err => console.log(err))
 }
 
-const VerifyPhone = async(phone, Phone, PhoneText) => {
+const VerifyPhone = async(phoneOTP, setPhone, PhoneText) => {
+    if(phoneOTP===''){
+      setnotify({message:'Please Enter OTP',isOpen:true, type:'error'});
+      setTimeout(()=>{
+        setnotify({message:'', isOpen:false, type:''})
+      },1700)
+      return
+    }
     var phoneData = {
-        otp : phone
+        otp : phoneOTP
     }
     AdminService.verifyPhoneOTP(phoneData)
         .then(res => {
           if(res.data === 'User is Verified'){
-            Phone(true);
+            setPhone(true);
             PhoneText('OTP Verified!')
             setnotify({message:'OTP Verified!',isOpen:true, type:'success'});
             setTimeout(()=>{
@@ -109,14 +116,21 @@ const VerifyPhone = async(phone, Phone, PhoneText) => {
         .catch(err => console.log(err))
 }
 
-const VerifyEmail = async(email, Email, EmailText) => {
+const VerifyEmail = async(emailOTP, setEmail, EmailText) => {
+  if(emailOTP===''){
+    setnotify({message:'Please Enter OTP',isOpen:true, type:'error'});
+    setTimeout(()=>{
+      setnotify({message:'', isOpen:false, type:''})
+    },1700)
+    return
+  }
     var emailData = {
-        otp : email
+        otp : emailOTP
     }
     AdminService.verifyEmailOTP(emailData)
         .then(res => {
           if(res.data === 'User is Verified'){
-            Email(true);
+            setEmail(true);
             EmailText('OTP Verified!');
             setnotify({message:'OTP Verified!',isOpen:true, type:'success'});
             setTimeout(()=>{

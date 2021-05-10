@@ -13,8 +13,8 @@ const ProtectedRoute1 = ({ component:Component , ...rest})=>{
       if(!token){
         return <Redirect to={'/signup'} />
       }else{
-        if(user.user_education.length==0){
-            if(user.has_phone_verified){
+        if(user.user_education.length===0){
+            if(user.has_phone_verified){                    //has to be changed to whether has his profile set ot not with direct variable
                 // console.log('protected1, phone verified')
                 return <Component {...props} />
             }
@@ -25,6 +25,7 @@ const ProtectedRoute1 = ({ component:Component , ...rest})=>{
             }} />
           }
         else{
+          console.log('save me');
             return <Redirect to="/" />
         }
       }

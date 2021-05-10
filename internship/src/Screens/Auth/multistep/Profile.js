@@ -5,7 +5,8 @@ import { TextField, makeStyles } from "@material-ui/core";
 import logoOnly from "../../../images/Group.png";
 import { AiOutlineGlobal,AiFillLinkedin,AiFillFacebook } from "react-icons/ai";
 import { FaGithubSquare } from "react-icons/fa";
-
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; 
 import Notification from '../Notification.js'
 import { addProfile, addSkills} from "../../../redux/actions/user.actions";
 import { useDispatch, useSelector } from "react-redux";
@@ -75,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export const Profile = ({ formData, setForm, navigation,location }) => {
-  console.log(location,'location in profile')
+  // console.log(location,'location in profile')
   const { profileTitle, facebook, github, linkedIn,portfolio,profileDesc,resumeLink } = formData;
   const [notify,setnotify] = useState({message:'',type:'',isOpen:false});
   const classes = useStyles();
@@ -172,6 +173,36 @@ export const Profile = ({ formData, setForm, navigation,location }) => {
     
   }
 
+  const textModules = {
+    toolbar: [
+      [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
+      [{size: []}],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{'list': 'ordered'}, {'list': 'bullet'}, 
+       {'indent': '-1'}, {'indent': '+1'}],
+      ['link', 'image', 'video'],
+      ['clean']
+    ],
+    clipboard: {
+      // toggle to add extra line breaks when pasting HTML:
+      matchVisual: false,
+    }
+  };
+
+  const textFormats = [
+    'header', 'font', 'size',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image', 'video'
+  ];
+  const [richText,setRichText]=useState('');
+  const rteChange = (content, delta, source, editor) => {
+		console.log(editor.getHTML()); // rich text
+		console.log(editor.getText()); // plain text
+		console.log(editor.getLength()); // number of characters
+    setRichText(content);
+	}
+
   return (
     <div className="d-flex justify-content-center align-items-center">
       <div className="internship__content__card my-5 p-5 signup__container">
@@ -204,10 +235,14 @@ export const Profile = ({ formData, setForm, navigation,location }) => {
             <h6 style={{ margin: "20px 0 10px" }} for="description">
               Describe Yourself
             </h6>
-            <textarea id="description" rows={6} style={{ width: "100%" }} 
+            {/* <textarea id="description" rows={6} style={{ width: "100%" }} 
               name="profileDesc"
               value={profileDesc}
-              onChange={setForm} />
+              onChange={setForm} /> */}
+              <ReactQuill theme="snow"  modules={textModules}
+                formats={textFormats} onChange={rteChange} placeholder="Write Something!"
+              value={richText||''}/>
+
             <MultipleSelect
               name="skills"
               style={{ marginTop: 10 }}

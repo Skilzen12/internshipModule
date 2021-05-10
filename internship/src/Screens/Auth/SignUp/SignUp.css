@@ -12,6 +12,7 @@
   min-width: 284px;
   max-width: 500px;
   margin: 5vw;
+  width: -webkit-fill-available;
 }
 .card_btn {
   min-width: 30%;

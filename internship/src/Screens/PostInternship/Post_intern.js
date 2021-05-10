@@ -194,7 +194,7 @@ function Student_details() {
                                         error
                                     />
                                 </FormControl>
-                                <MultipleSelect
+                                {/* <MultipleSelect
                                     name="Locations"
                                     style={{ marginTop: 10 }}
                                     label="Locations"
@@ -206,7 +206,7 @@ function Student_details() {
                                         msgNoOptionsMatchFilter: "No tag matches the filter",
                                     }}
                                     variant="outlined"
-                                />
+                                /> */}
                             </div>
                             <div className="post_parts">
                                 <p className="for_heading_name">Apply By:</p>

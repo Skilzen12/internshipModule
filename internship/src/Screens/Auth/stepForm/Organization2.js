@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 import { makeStyles} from "@material-ui/core/styles";
-import { CircularProgress} from "@material-ui/core";
+import { CircularProgress, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 
 import TextField from "@material-ui/core/TextField";
 import logo from "../../../images/logo.png";
@@ -107,6 +107,29 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
   const [facebook,setfb] = useState("");
   const [github,setgit] = useState("");
   const [linkedIn,setlinkedin] = useState("");
+
+  const validateFile = (e)=>{
+    let filePath=e.target.value;
+    // Allowing file type
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+    if (!allowedExtensions.exec(filePath)) {
+      setnotify({
+        message: "Wrong file Type uploaded",
+        isOpen: true,
+        type: "error",
+      });
+      setTimeout(() => {
+        setnotify({ message: "", isOpen: false, type: "" });
+      }, 3000);
+      e.target.value='';
+      return false;
+    } 
+    else {
+      console.log('succes');
+      setForm(e);
+    }
+  }
  
   const classes = useStyles();
   return (
@@ -119,7 +142,7 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
           alt="skilzen logo"
         />
         <h3 className="text-center mb-4">Organization Details</h3>
-        <TextField
+        {/* <TextField
           label="City"
           name="city"
           value={city}
@@ -129,7 +152,28 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
           autoComplete="off"
           fullWidth
           size="small"
-        />
+        /> */}
+        <FormControl
+            variant="outlined"
+            fullWidth
+            size="small"
+            className={classes.formControl}
+          >
+          <InputLabel id="demo-simple-select-filled-label">
+            City
+          </InputLabel>
+          <Select
+            className={classes.backgroundwhite}
+            labelId="demo-simple-select-filled-label"
+            id="demo-simple-select-filled"
+            value={city}
+            onChange={setForm}
+            name="city"
+          >
+            <MenuItem value={"Hyderabad"}>Hyderabad</MenuItem>
+            <MenuItem value={"Chennai"}>Chennai</MenuItem>
+          </Select>
+        </FormControl>
         <TextField
           label="Country"
           name="country"
@@ -222,17 +266,17 @@ export const Organization2 = ({ formData, setForm, navigation }) => {
         <hr />
         <h6 style={{ marginTop: '30px',marginBottom: '6px'}}>Upload company UID</h6>
         <div class="btn  float-left">  
-          <input type="file" name="company_uid" onChange={setForm} />
+          <input type="file" name="company_uid" onChange={validateFile} accept=".gif,.jpg,.png,.doc,.pdf"  />
         </div>
         <br />
         <h6 style={{ marginTop: '50px',marginBottom: '6px'}}>Upload company logo</h6>
         <div class="btn  float-left">  
-          <input type="file" name="official_doc" onChange={setForm} />
+          <input type="file" name="official_doc" onChange={validateFile} accept=".gif,.jpg,.png,.doc,.pdf" />
         </div>
         <br />
         <h6 style={{ marginTop: '50px',marginBottom: '6px'}}>Upload Official Document</h6>
         <div class="btn  float-left">  
-          <input type="file" name="logo" onChange={setForm} />
+          <input type="file" name="logo" onChange={validateFile} accept=".gif,.jpg,.png,.doc,.pdf" />
         </div>
         <br />
         <div className='signup__footer w-100 mt-3 d-flex justify-content-between'>

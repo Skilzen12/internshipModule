@@ -16,7 +16,7 @@ const defaultData = {
   email:"",
   mobile: "",
   established: "",
-  strength: "10-50",
+  strength: "",
   city: "",
   type: "",
   description:"",

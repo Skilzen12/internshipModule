@@ -27,7 +27,7 @@ const InternshipRoute = ({ component:Component , ...rest})=>{
       const token = window.localStorage.getItem('accessToken');
       if(token){
         
-        if(user.user_education.length==0){
+        if(user.user_profile){
           console.log('internship route',rest.path);
           if(user.has_phone_verified&&user.has_email_verified)
           {

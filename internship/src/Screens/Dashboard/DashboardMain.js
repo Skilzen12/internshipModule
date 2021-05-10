@@ -241,9 +241,7 @@ const JobsPosted = ({data, setAction, count}) => {
                                 <tr style={{backgroundColor: toggle ? '#F4F5F8' : '#FFFFFF', border: '1px solid #E5E5E5'}}>
                                     <td className="jobsPosted__row">
                                         <Link to={{
-                                            pathname: `/internship`,
-                                            search: `?id=${job.uuid}`,
-                                            state: { uuid : job.uuid, dashboard : true }
+                                            pathname: `/internship/${job.uuid}`
                                         }}>
                                             <h3 className="jobsPostedtable_cell p20 m20 mv200">
                                                 <b>{job.title}</b>

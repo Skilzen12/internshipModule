@@ -60,7 +60,7 @@ function App() {
           <PrivateRoute exact path='/dashboard' component={DashboardMain} />
           <Route exact path='/adminDashboard' component={AdminDashboardMain} />
           <Route exact path='/companyspam' component={CompanySpam} />
-          <ProtectedRoute1 exact path='/applyForm' component={MultiStepForm} />
+          <Route exact path='/applyForm' component={MultiStepForm} />
           <Route exact path='/applyRecruiterForm' component={OrganizationMultiStep } />
         </Switch>
       </Router>

@@ -71,24 +71,35 @@ export const Organization = ({ formData, setForm, navigation }) => {
 
           size="small"
         />
-        <TextField
-          label="Strength"
-          name="strength"
-          value={strength}
-          onChange={setForm}
-          margin="normal"
-          variant="outlined"
-          disabled
-          autoComplete="off"
-          fullWidth
-          size="small"
-        />
         <FormControl
           variant="outlined"
           fullWidth
           size="small"
           className={classes.formControl}
         >
+          <InputLabel id="demo-simple-select-filled-label">
+            Strength
+          </InputLabel>
+          <Select
+            className={classes.backgroundwhite}
+            labelId="demo-simple-select-filled-label"
+            id="demo-simple-select-filled"
+            value={strength}
+            onChange={setForm}
+            name="strength"
+          >
+            <MenuItem value={"10-50"}>{'10-50'}</MenuItem>
+            <MenuItem value={"50-100"}>{'50-100'}</MenuItem>
+            <MenuItem value={">100"}>{'>100'}</MenuItem>
+          </Select>
+          </FormControl>
+
+          <FormControl
+            variant="outlined"
+            fullWidth
+            size="small"
+            className={classes.formControl}
+          >
           <InputLabel id="demo-simple-select-filled-label">
             Type of Organization
           </InputLabel>

@@ -11,6 +11,7 @@ import AdminService from '../../AdminServices/AdminService';
 import {LogoMap} from '../../utility/Maps/LandingPageMaps';
 import { HiUserGroup } from 'react-icons/hi';
 import { useSelector , useDispatch } from 'react-redux'
+import { useHistory } from 'react-router';
 
 
 const InternshipProfile = ({obj, uuid, Apply, BookMark,bookmarkStatus,applyStatus}) => {
@@ -145,6 +146,7 @@ const TagsIcons =({list})=>{
 
 function AboutCmp (props){    
     const [data, setData] = useState([]);
+    const history = useHistory();
     console.log(props);
     var uuid = (props.match.params?.uuid);
     const user = useSelector(state => state.user);
@@ -161,7 +163,7 @@ function AboutCmp (props){
                 })
         .catch(err => console.log(err))
         } else{
-            window.open('/applyForm', '_self');
+            history.push('/');
         }        
     }
 
@@ -188,16 +190,16 @@ function AboutCmp (props){
     }
     useEffect(() => {
         getDetails(uuid)
-        .then(res => {setLoading(true)})
+        .then(res => {setLoading(false)})
         .catch((err)=>{
             console.log(err);
         })
     }, [uuid])
 
     // Kept this to stop rendering page for some time
-    const [loading,setLoading]=useState(false)
+    const [loading,setLoading]=useState(true)
     // setTimeout(() =>{setLoading(true)},1000);
-    if(!loading) return <h1>Loading....</h1>
+    if(loading) return <h1>Loading....</h1>
 
     return(
         <>
@@ -208,7 +210,7 @@ function AboutCmp (props){
                             <div className='adjusting_card_back'>
                                 <Back/>
                             </div>
-                            {data ? <InternshipProfile obj={data} uuid={uuid} Apply={Apply} BookMark={Bookmark} applyStatus={apply} bookmarkStatus={bookmark} /> : null }          
+                            {data ? <InternshipProfile obj={data} uuid={uuid} Apply={Apply} BookMark={Bookmark} applyStatus={apply} bookmarkStatus={bookmark} /> : <h1 className="text-center">Internship Not Found!!</h1> }          
                         </div>
                         <Footer></Footer>
                     </div>

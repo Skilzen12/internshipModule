@@ -7,6 +7,7 @@ import AdminService from "../../../AdminServices/AdminService";
 import logoOnly from '../../../images/Group.png'
 import { useHistory } from "react-router";
 import Notification from "../Notification";
+import { redirectURL } from "../../../routesConfig";
 
 const useStyles = makeStyles((theme) => ({
   rootSetProfile:{
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const VerifyOTP = ({location}) => {
+  const redirectTo = URLSearchParams(location.search).get(redirectURL);
   const classes=useStyles();
   const [phoneVerificationHelperText, setPhoneHelperText]=useState(false);
   const [phoneVerification, setPhoneVerification]=useState('');
@@ -55,9 +57,9 @@ const VerifyOTP = ({location}) => {
   const user = useSelector(state => state.user);
   useEffect(() => {
     if(user.has_phone_verified && user.has_email_verified){
-      history.push(location?.state?.from||'/');
+      history.push(redirectTo||'/');
     }
-  }, [outputPhone,outputEmail,location]);
+  }, [outputPhone,outputEmail,redirectTo]);
 
   useEffect(() => {
     setoutputP(_=>user.has_phone_verified);
@@ -69,7 +71,7 @@ const VerifyOTP = ({location}) => {
   // console.log(outputEmail,outputPhone);
   const SubmitOTP = (phone, email,setnotify) => {
     if(phone && email){
-      history.push(location?.state?.from||'/');
+      history.push(redirectTo||'/');
     }
     else{
       setnotify({message:'Please Verify Both Email and Phone',isOpen:true, type:'error'});

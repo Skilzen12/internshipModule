@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {Route, Redirect} from 'react-router-dom'
 import { useSelector , useDispatch } from 'react-redux'
 import { getUserData } from '../../redux/actions/user.actions'
+import { applyForm, login, verifyOTP,redirectURL } from '../../routesConfig'
 
 const InternshipRoute = ({ component:Component , ...rest})=>{
   const user = useSelector(state =>state.user)
@@ -32,17 +33,17 @@ const InternshipRoute = ({ component:Component , ...rest})=>{
           if(user.has_phone_verified&&user.has_email_verified)
           {
             // console.log('fneangn')
-            return <Redirect to={{pathname:"/applyForm",state:{from:rest.location.pathname}}}  />
+            return <Redirect to={{pathname:`/${applyForm}?${redirectURL}=${rest.location.pathname}`}}  />
           }
           else {
-            return <Redirect to={{pathname:"/verifyOTP",state:{from:rest.location.pathname}}}  />
+            return <Redirect to={{pathname:`/${verifyOTP}?${redirectURL}=${rest.location.pathname}`}}  />
           }
           
         }else{
           return <Component {...props} />
         }
       }else{
-        return <Redirect to={'/login'} />
+        return <Redirect to={`/${login}?${redirectURL}=${rest.location.pathname}`} />  
       }
     }} />
   )

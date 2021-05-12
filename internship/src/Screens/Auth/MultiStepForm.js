@@ -8,6 +8,7 @@ import { Experience } from "./multistep/Experience";
 
 import { useSelector , useDispatch } from 'react-redux'
 import { useHistory } from "react-router";
+import { redirectURL } from "../../routesConfig";
 const defaultData = {
   fname: "",
   lname: "",
@@ -37,6 +38,7 @@ const steps = [
 
 
 export const MultiStepForm = ({location}) => {
+  const redirectTo = URLSearchParams(location.search).get(redirectURL);
   const user = useSelector(state => state.user);
   const history=useHistory();
   console.log(location);

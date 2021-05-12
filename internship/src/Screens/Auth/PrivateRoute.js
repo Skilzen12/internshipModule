@@ -1,5 +1,6 @@
 import React from 'react'
 import {Route, Redirect} from 'react-router-dom'
+import { login, redirectURL } from '../../routesConfig';
 import {getItem} from '../../utility/localStorageControl';
 const PrivateRoute = ({ component:Component , ...rest})=>{
   return(
@@ -8,7 +9,7 @@ const PrivateRoute = ({ component:Component , ...rest})=>{
       if(token){
         return <Component {...props} />
       }else{
-        return <Redirect to={{pathname:'/login',state:{from:rest.path}}} />
+        return <Redirect to={{pathname:`/${login}?${redirectURL}=${rest.location.pathname}`}} />
       }
     }}/>
   )

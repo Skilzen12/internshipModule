@@ -17,7 +17,7 @@ import PostInternship from './Screens/PostInternship/Post_intern';
 import CandidateProfile from './Screens/CandidateProfile/Candidate';
 import Applicant from './Screens/CandidateProfile/Applicant';
 import CompanyProfile from './Screens/CompanyProfile/Company_profile';
-import InternshipProfile from './Screens/InternshipProfile/Comp_profile2'; 
+import InternshipDetailPage from './Screens/InternshipProfile/Comp_profile2'; 
 import DashboardMain from './Screens/Dashboard/DashboardMain'; 
 import CompanySpam from './Screens/AdminDashboard/CompanySpam';
 import AdminDashboardMain from './Screens/AdminDashboard/AdminDashBoard';
@@ -25,6 +25,7 @@ import { MultiStepForm } from './Screens/Auth/MultiStepForm';
 import { OrganizationMultiStep } from './Screens/Auth/OrganizationMultiStep';
 import ProtectedRoute1 from './Screens/Auth/ProtectedRoute1';
 import { getItem } from './utility/localStorageControl';
+import { login, signup,verifyOTP,postInternship,jobGrid,profile,applicant,company,internship,dashboard,adminDashboard,companyspam,applyForm,applyRecruiterForm } from './routesConfig';
 
 
 function App() {
@@ -48,20 +49,20 @@ function App() {
       <Router>
         <Switch>
           <Route exact path='/' component={LandingPage} />
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/signup' component={SignUp} />
-          <PrivateRoute exact path='/VerifyOTP' component={VerifyOTP} />
-          <Route exact path='/postInternship' component={PostInternship} />
-          <Route exact path='/jobGrid' component={JobGrid} />
-          <Route exact path='/profile' component={CandidateProfile} />
-          <Route exact path='/applicant' component={Applicant} />
-          <Route exact path='/company' component={CompanyProfile} />
-          <InternshipRoute exact path='/internship/:uuid' component={InternshipProfile} />
-          <PrivateRoute exact path='/dashboard' component={DashboardMain} />
-          <Route exact path='/adminDashboard' component={AdminDashboardMain} />
-          <Route exact path='/companyspam' component={CompanySpam} />
-          <Route exact path='/applyForm' component={MultiStepForm} />
-          <Route exact path='/applyRecruiterForm' component={OrganizationMultiStep } />
+          <Route exact path={login} component={Login} />
+          <Route exact path={signup} component={SignUp} />
+          <PrivateRoute exact path={verifyOTP} component={VerifyOTP} />
+          <Route exact path={postInternship} component={PostInternship} />
+          <Route exact path={jobGrid} component={JobGrid} />
+          <Route exact path={profile} component={CandidateProfile} />
+          <Route exact path={applicant} component={Applicant} />
+          <Route exact path={company} component={CompanyProfile} />
+          <InternshipRoute exact path={internship} component={InternshipDetailPage} />
+          <PrivateRoute exact path={dashboard} component={DashboardMain} />
+          <Route exact path={adminDashboard} component={AdminDashboardMain} />
+          <Route exact path={companyspam} component={CompanySpam} />
+          <Route exact path={applyForm} component={MultiStepForm} />
+          <Route exact path={applyRecruiterForm} component={OrganizationMultiStep } />
         </Switch>
       </Router>
     </div>

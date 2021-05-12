@@ -144,7 +144,7 @@ const TagsIcons =({list})=>{
     )
 }
 
-function AboutCmp (props){    
+function InternshipDetailPage (props){    
     const [data, setData] = useState([]);
     const history = useHistory();
     console.log(props);
@@ -219,4 +219,4 @@ function AboutCmp (props){
     );
 }
 
-export default AboutCmp;
+export default InternshipDetailPage;
